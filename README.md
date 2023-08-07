@@ -5,8 +5,11 @@ DevQuest is a game about being a full-stack software developer. The game takes p
 ============ PROJECT LINKS ============
 
 User Story: https://github.com/nathanrobertbaldwin/devquest/wiki/User-Story
+
 MVP Feature List: https://github.com/nathanrobertbaldwin/devquest/wiki/MVP-Feature-List
+
 Database: https://github.com/nathanrobertbaldwin/devquest/wiki/Database-and-Routes
+
 Wireframe and Styling: https://github.com/nathanrobertbaldwin/devquest/wiki/Wireframes-and-Styling
 
 ============= TECHNOLOGY STACK =============
