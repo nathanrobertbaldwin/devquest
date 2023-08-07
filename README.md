@@ -8,7 +8,7 @@ User Story: https://github.com/nathanrobertbaldwin/devquest/wiki/User-Story
 
 MVP Feature List: https://github.com/nathanrobertbaldwin/devquest/wiki/MVP-Feature-List
 
-Database: https://github.com/nathanrobertbaldwin/devquest/wiki/Database-and-Routes
+Database and Routes: https://github.com/nathanrobertbaldwin/devquest/wiki/Database-and-Routes
 
 Wireframe and Styling: https://github.com/nathanrobertbaldwin/devquest/wiki/Wireframes-and-Styling
 
