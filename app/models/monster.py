@@ -1,6 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
-primary_stat = ["algorithms", "databases", "css", "debugging", "energy"]
+primary_stat = ["backend", "frontend", "debugging", "css", "algorithms", "energy"]
 
 
 class Monster(db.Model):
