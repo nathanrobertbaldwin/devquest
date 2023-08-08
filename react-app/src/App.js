@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import GameWin from "./components/GameWin";
 import GameLoss from "./components/GameLoss";
 import Footer from "./components/Footer";
+import Error from "./components/Error";
 
 function App() {
   const dispatch = useDispatch();
