@@ -10,6 +10,7 @@ def seed_equipments():
             name=equipment["name"],
             backend_boost=equipment["backend_boost"],
             frontend_boost=equipment["frontend_boost"],
+            algorithms_boost=equipment["algorithms_boost"],
             css_boost=equipment["css_boost"],
             debugging_boost=equipment["debugging_boost"],
             energy_boost=equipment["energy_boost"],
