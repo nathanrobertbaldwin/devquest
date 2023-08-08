@@ -14,6 +14,7 @@ class Inventory(db.Model):
     equipment_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("equipments.id"))
     )
+    equipped = db.Column(db.Boolean, nullable=False)
 
     def to_dict(self):
         return {
