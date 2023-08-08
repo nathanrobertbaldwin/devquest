@@ -16,7 +16,7 @@ class Equipment(db.Model):
     css_boost = db.Column(db.Integer, nullable=False)
     debugging_boost = db.Column(db.Integer, nullable=False)
     energy_boost = db.Column(db.Integer, nullable=False)
-    slot = db.Column(db.ENUM(*slots, name="slot_enum"), nullable=False)
+    slot = db.Column(db.Enum(*slots, name="slot_enum"), nullable=False)
 
     def to_dict(self):
         return {

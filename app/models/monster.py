@@ -12,7 +12,7 @@ class Monster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     hp = db.Column(db.Integer, nullable=False)
-    weakness = db.Column(db.ENUM(*primary_stat, name="weakness_enum"), nullable=False)
+    weakness = db.Column(db.Enum(*primary_stat, name="weakness_enum"), nullable=False)
 
     attacks = db.relationship(
         "Attack", secondary="monster_attacks", back_populates="monsters"
