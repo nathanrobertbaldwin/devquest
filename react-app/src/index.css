@@ -1,1 +1,29 @@
 /* TODO Add site wide styles */
+
+html {
+    background-color: white;
+    margin: 0px !important;
+    padding: 0px !important;
+    font-family: "Gordita", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+body {
+    color: white;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+div {
+    margin: 0px;
+    padding: 0px;
+}
+
+ul{
+    list-style: none;
+    padding: none !important;
+    margin: none !important;
+}

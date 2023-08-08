@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: ca9f0327681d
+Revision ID: 6672f90ae4b6
 Revises: 
-Create Date: 2023-08-08 15:49:42.219608
+Create Date: 2023-08-08 16:36:21.902176
 
 """
 from alembic import op
@@ -13,8 +13,9 @@ import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
+
 # revision identifiers, used by Alembic.
-revision = "ca9f0327681d"
+revision = "6672f90ae4b6"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,10 +35,11 @@ def upgrade():
         sa.Column(
             "primary_stat",
             sa.Enum(
-                "algorithms",
-                "databases",
-                "css",
+                "backend",
+                "frontend",
                 "debugging",
+                "css",
+                "algorithms",
                 "energy",
                 name="primary_stat_enum",
             ),
@@ -47,6 +49,10 @@ def upgrade():
         sa.Column("energy_cost", sa.Integer(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE attacks SET SCHEMA {SCHEMA};")
+
     op.create_table(
         "equipments",
         sa.Column("id", sa.Integer(), nullable=False),
