@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c6b970e55e86
+Revision ID: ca9f0327681d
 Revises: 
-Create Date: 2023-08-08 15:19:27.409346
+Create Date: 2023-08-08 15:49:42.219608
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c6b970e55e86'
+revision = 'ca9f0327681d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,8 @@ def upgrade():
     op.create_table('attacks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=40), nullable=False),
-    sa.Column('primary_stat', sa.Enum('backend', 'frontend', 'algorithms', 'css', 'debugging', 'energy', name='primary_stat_enum'), nullable=True),
+    sa.Column('owner_type', sa.Enum('monster', 'character', name='owner_type_enum'), nullable=False),
+    sa.Column('primary_stat', sa.Enum('algorithms', 'databases', 'css', 'debugging', 'energy', name='primary_stat_enum'), nullable=True),
     sa.Column('power', sa.Integer(), nullable=True),
     sa.Column('energy_cost', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -43,7 +44,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('hp', sa.Integer(), nullable=False),
-    sa.Column('weakness', sa.Enum('backend', 'frontend', 'algorithms', 'css', 'debugging', 'energy', name='weakness_enum'), nullable=True),
+    sa.Column('weakness', sa.Enum('algorithms', 'databases', 'css', 'debugging', 'energy', name='weakness_enum'), nullable=True),
     sa.Column('image_url', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -60,9 +61,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(length=40), nullable=False),
-    sa.Column('backend', sa.Integer(), nullable=False),
-    sa.Column('frontend', sa.Integer(), nullable=False),
     sa.Column('algorithms', sa.Integer(), nullable=False),
+    sa.Column('databases', sa.Integer(), nullable=False),
     sa.Column('css', sa.Integer(), nullable=False),
     sa.Column('debugging', sa.Integer(), nullable=False),
     sa.Column('energy', sa.Integer(), nullable=False),
