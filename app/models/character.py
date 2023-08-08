@@ -15,15 +15,6 @@ class Character(db.Model):
     css = db.Column(db.Integer, nullable=False)
     debugging = db.Column(db.Integer, nullable=False)
     energy = db.Column(db.Integer, nullable=False)
-    hat = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("inventories.id")), nullable=True
-    )
-    food = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("inventories.id")), nullable=True
-    )
-    reference = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("inventories.id")), nullable=True
-    )
 
     attacks = db.relationship(
         "Attack", secondary="character_attacks", back_populates="characters"
