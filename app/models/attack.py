@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
 owner_types = ["monster", "character"]
-primary_stats = ["algorithms", "databases", "css", "debugging", "energy"]
+primary_stats = ["backend", "frontend", "debugging", "css", "algorithms", "energy"]
 
 
 class Attack(db.Model):
