@@ -83,10 +83,11 @@ def upgrade():
         sa.Column(
             "weakness",
             sa.Enum(
-                "algorithms",
-                "databases",
-                "css",
+                "backend",
+                "frontend",
                 "debugging",
+                "css",
+                "algorithms",
                 "energy",
                 name="weakness_enum",
             ),
