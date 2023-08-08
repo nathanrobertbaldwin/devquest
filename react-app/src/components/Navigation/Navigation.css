@@ -5,3 +5,17 @@
 .hidden {
   display: none;
 }
+
+#navigation_component_container{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 75px;
+  background-color: black;
+}
+
+#navigation_container{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
