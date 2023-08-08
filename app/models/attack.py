@@ -17,9 +17,6 @@ class Attack(db.Model):
     characters = db.relationship(
         "Character", secondary="character_attacks", back_populates="attacks"
     )
-    monsters = db.relationship(
-        "Monster", secondary="monster_attacks", back_populates="attacks"
-    )
 
     def to_dict(self):
         return {
