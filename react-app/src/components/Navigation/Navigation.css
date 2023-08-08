@@ -10,12 +10,15 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 75px;
-  background-color: black;
+  height: 40px;
+  background-color: rgb(167, 167, 167);
 }
 
-#navigation_container{
+#nav_links_container{
   display: flex;
   align-items: center;
   width: 100%;
+  height: 50px;
+  margin: 0px;
+  padding: 0px;
 }

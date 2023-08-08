@@ -9,8 +9,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <div id="navigation_component_container">
-      <div id="navigation_container">
-        <ul>
+        <ul id="nav_links_container">
           <li>
             <NavLink exact to="/">
               Home
@@ -22,7 +21,6 @@ function Navigation({ isLoaded }) {
             </li>
           )}
         </ul>
-      </div>
     </div>
   );
 }

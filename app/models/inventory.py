@@ -21,4 +21,5 @@ class Inventory(db.Model):
             "id": self.id,
             "character_id": self.character_id,
             "equipment_id": self.equipment_id,
+            "equipped": self.equipped,
         }
