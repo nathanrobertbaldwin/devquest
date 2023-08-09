@@ -1,0 +1,28 @@
+#saves-panel{
+    border-radius: 10px;
+}
+
+
+#saves-component-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+    height: 400px;
+    background-color: #F8A557;
+    border: 10px solid #494991;
+    gap: 2em;
+    border-radius: 10px;
+}
+
+#saved-game-container{
+    display: flex;
+    width: 75%;
+    justify-content: left;
+    align-items: center;
+    gap: 1em;
+} 
+
+#save-name-span-container{
+    width: 150px;
+}
