@@ -12,7 +12,7 @@ equipments = [
     },
     # Equipment 2
     {
-        "name": "gear swag",
+        "name": "company swag",
         "backend_boost": 5,
         "frontend_boost": 4,
         "algorithms_boost": 2,
@@ -56,7 +56,7 @@ equipments = [
     },
     # Equipment 6
     {
-        "name": "jimmy johns",
+        "name": "jimmy johns sub",
         "backend_boost": 1,
         "frontend_boost": 1,
         "algorithms_boost": 5,
@@ -67,7 +67,7 @@ equipments = [
     },
     # Equipment 7
     {
-        "name": "CgearGPT",
+        "name": "ChatGPT",
         "backend_boost": 5,
         "frontend_boost": 5,
         "algorithms_boost": 5,
