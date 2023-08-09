@@ -10,6 +10,7 @@ from .api.auth_routes import auth_routes
 from .api.character_routes import character_routes
 from .api.equipment_routes import equipment_routes
 from .api.inventory_routes import inventory_routes
+from .api.game_data_routes import game_data_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -34,6 +35,7 @@ app.register_blueprint(auth_routes, url_prefix="/api/auth")
 app.register_blueprint(character_routes, url_prefix="/api/characters")
 app.register_blueprint(equipment_routes, url_prefix="/api/equipment")
 app.register_blueprint(inventory_routes, url_prefix="/api/inventory")
+app.register_blueprint(game_data_routes, url_prefix="/api/gamedata")
 db.init_app(app)
 Migrate(app, db)
 
