@@ -6,7 +6,7 @@ from .data.characters_data import characters
 # Adds a demo user, you can add other users here if you want
 def seed_characters():
     for character in characters:
-        new_character = character(
+        new_character = Character(
             user_id=character["user_id"],
             name=character["name"],
             algorithms=character["algorithms"],
