@@ -33,10 +33,10 @@ export default function reducer(state = initialState, action) {
     case GET_GAME_DATA: {
       const allGameData = action.data;
       // build backend for game data mega thunk and then return there.
-      const normalizedAllCategories = dataNormalizer(allCategories);
+    //   const normalizedAllCategories = dataNormalizer(allCategories);
       return {
         ...state,
-        ...normalizedAllCategories,
+        ...allGameData,
       };
     }
     default: {
