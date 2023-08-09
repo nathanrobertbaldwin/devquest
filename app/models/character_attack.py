@@ -20,3 +20,4 @@ character_attacks = db.Table(
 
 if environment == "production":
     character_attacks.schema = SCHEMA
+ 

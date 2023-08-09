@@ -32,6 +32,6 @@ class Character(db.Model):
             "css": self.css,
             "debugging": self.debugging,
             "energy": self.energy,
-            "attacks": self.attacks,
-            "inventory": self.inventory,
+            "attacks": [attack.to_dict() for attack in self.attacks],
+            "inventory": [inventory_item.to_dict() for inventory_item in self.inventory],
         }

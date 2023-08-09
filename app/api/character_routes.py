@@ -6,7 +6,7 @@ character_routes = Blueprint("character_routes", __name__)
 
 
 @character_routes.route("/")
-@login_required
+# @login_required
 def characters():
     """
     Query for all users and returns them in a list of user dictionaries
