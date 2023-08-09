@@ -14,12 +14,11 @@ class Inventory(db.Model):
     equipment_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("equipments.id"))
     )
+    item = db.relationship("Equipment")
     equipped = db.Column(db.Boolean, nullable=False)
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "character_id": self.character_id,
-            "equipment_id": self.equipment_id,
+            "item": self.item.to_dict(),
             "equipped": self.equipped,
         }
