@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { getUserSavesThunk } from "../../store/saves";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -17,7 +18,8 @@ function LoginFormModal() {
     if (data) {
       setErrors(data);
     } else {
-        closeModal()
+      await dispatch(getUserSavesThunk());
+      closeModal();
     }
   };
 

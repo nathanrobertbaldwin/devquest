@@ -9,15 +9,15 @@ class Save(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
-    slot_one = db.Column(db.JSON, nullable=True)
-    slot_two = db.Column(db.JSON, nullable=True)
-    slot_three = db.Column(db.JSON, nullable=True)
+    slot_one = db.Column(db.Integer, nullable=True)
+    slot_two = db.Column(db.Integer, nullable=True)
+    slot_three = db.Column(db.Integer, nullable=True)
 
     def to_dict(self):
         return {
             "id": self.id,
             "user_id": self.id,
-            "slot_one": self.id,
-            "slot_two": self.id,
-            "slot_three": self.id,
+            "slot_one": self.slot_one,
+            "slot_two": self.slot_two,
+            "slot_three": self.slot_three,
         }

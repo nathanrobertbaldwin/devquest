@@ -7,8 +7,10 @@ body {
 #root {
     font-family: "Gordita", Helvetica, Arial, Verdana, sans-serif;
     min-height: inherit;
+    margin: 0px !important;
+    padding: 0px !important;
     display: grid;
-    grid-template-rows: 50px 1fr 50px;
+    grid-template-rows: 40px 1fr 40px;
     grid-template-areas:
     "header"
     "main-content"
@@ -17,9 +19,11 @@ body {
 
 ul{
     list-style: none;
+    margin: 0px;
+    padding: 0px;
 }
 
-#navigation_component_container{
+#navigation-component-container{
     display: flex;
     align-items: center;
     width: 100%;
@@ -28,13 +32,21 @@ ul{
     grid-area: header;
 }
 
-#nav_links_container{
+#navigation-container{
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 50px;
-    margin: 0px;
-    padding: 0px;
+    justify-content: space-between;
+    width: 80%;
+    height: 100%;
+    margin: auto;
+}
+
+#navigation-links-container{
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    margin-right: 2em;
+    margin-left: 2em;
 }
 
 .profile-dropdown {
@@ -48,8 +60,6 @@ ul{
 #main-content{
     grid-area: main-content;
     display: flex;
-    height: 100%;
-    min-height: 100%;
 }
 
 #footer-component-container{
