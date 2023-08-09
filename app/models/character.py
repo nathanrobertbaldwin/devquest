@@ -25,4 +25,13 @@ class Character(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "user_id": self.user_id,
+            "name": self.name,
+            "algorithms": self.algorithms,
+            "databases": self.databases,
+            "css": self.css,
+            "debugging": self.debugging,
+            "energy": self.energy,
+            "attacks": [attack.to_dict() for attack in self.attacks],
+            "inventory": [inventory_item.to_dict() for inventory_item in self.inventory],
         }

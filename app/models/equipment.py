@@ -23,4 +23,13 @@ class Equipment(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "name": self.name,
+            "backend_boost": self.backend_boost,
+            "frontend_boost": self.frontend_boost,
+            "algorithms_boost": self.algorithms_boost,
+            "css_boost": self.css_boost,
+            "debugging_boost": self.debugging_boost,
+            "energy_boost": self.energy_boost,
+            "slot": self.slot,
+            "image_url": self.image_url,
         }

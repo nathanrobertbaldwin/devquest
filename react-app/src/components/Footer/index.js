@@ -1,3 +1,13 @@
+import "./Footer.css";
+
 export default function Footer() {
-  return <>Footer Will Go Here</>;
+  return (
+    <div id="footer-component-container">
+      <ul id="footer-links">
+        <li>About Rignite</li>
+        <li>Contacts</li>
+        <li>Careers</li>
+      </ul>
+    </div>
+  );
 }

@@ -19,22 +19,24 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
-          <Route path="/">
-            <Home />
-          </Route>
-          <Route path="/win">
-            <GameWin />
-          </Route>
-          <Route path="/loss">
-            <GameLoss />
-          </Route>
-          <Route path="*">
-            <Error />
-          </Route>
-        </Switch>
-      )}
+      <div id="main-content">
+        {isLoaded && (
+          <Switch>
+            <Route path="/">
+              <Home />
+            </Route>
+            <Route path="/win">
+              <GameWin />
+            </Route>
+            <Route path="/loss">
+              <GameLoss />
+            </Route>
+            <Route path="*">
+              <Error />
+            </Route>
+          </Switch>
+        )}
+      </div>
       <Footer />
     </>
   );
