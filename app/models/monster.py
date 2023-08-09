@@ -18,4 +18,8 @@ class Monster(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "name": self.name,
+            "hp": self.hp,
+            "weakness": self.weakness,
+            "image_url": self.image_url,
         }

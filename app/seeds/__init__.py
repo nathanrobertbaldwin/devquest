@@ -3,7 +3,7 @@ from .attacks import seed_attacks, undo_attacks
 from .equipments import seed_equipments, undo_equipments
 from .users import seed_users, undo_users
 from .monsters import seed_monsters, undo_monsters
-
+from .characters import seed_characters, undo_characters
 
 from app.models.db import db, environment, SCHEMA
 
@@ -23,9 +23,10 @@ def seed():
         undo_monsters()
         undo_equipments()
         undo_attacks()
-        # chars here if you want to seed it.
+        undo_characters()
         undo_users()
     seed_users()
+    seed_characters()
     seed_attacks()
     seed_equipments()
     seed_monsters()
@@ -36,7 +37,7 @@ def seed():
 @seed_commands.command("undo")
 def undo():
     undo_users()
+    undo_characters()
     undo_monsters()
     undo_equipments()
     undo_attacks()
-
