@@ -2,12 +2,14 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import session from "./session";
 import gamedata from "./gamedata";
-import userdata from "./userdata";
+import saves from "./saves";
+import character from "./character";
 
 const rootReducer = combineReducers({
   session,
   gamedata,
-  userdata,
+  saves,
+  character,
 });
 
 let enhancer;

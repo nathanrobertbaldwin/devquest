@@ -1,29 +1,43 @@
 from flask import Blueprint, jsonify
-from app.models import Character, Save
+from app.models import Save, Character
 from .utilities import normalizer
 from flask_login import login_required, current_user
 
 user_data_routes = Blueprint("user_data_routes", __name__)
 
 
-@user_data_routes.route("/")
+@user_data_routes.route("/saves")
 @login_required
-def user_data():
+def saves_data():
     """
-    Query for all user data. REMINDER TO UPDATE THIS.
+    Query to load all the saves for a user.
     """
-    characters_data = Character.query.filter(Character.user_id == current_user.id)
-    saves_data = Save.query.filter(Save.user_id == current_user.id)
+    user_saves_data = Save.query.filter(Save.user_id == current_user.id)
+    user_saves = [save.to_dict() for save in user_saves_data][0]
 
-    characters_array = [character.to_dict() for character in characters_data]
-    saves_array = [save.to_dict() for save in saves_data]
+    characters = [{}] * 3
 
-    characters = normalizer(characters_array)
-    saves = normalizer(saves_array)
+    if user_saves["slot_one"]:
+        character_one_data = Character.query.get(user_saves["slot_one"])
+        character_one = character_one_data.to_dict()
+        characters[0] = {
+            "name": character_one["name"],
+            "id": character_one["id"],
+        }
+    if user_saves["slot_two"]:
+        character_two_data = Character.query.get(user_saves["slot_three"])
+        character_two = character_two_data.to_dict()
+        characters[1] = {
+            "name": character_two["name"],
+            "id": character_two["id"],
+        }
+    if user_saves["slot_three"]:
+        character_three_data = Character.query.get(user_saves["slot_three"]).to_dict()
+        character_three = character_three_data.to_dict()
+        characters[2] = {
+            "name": character_three["name"],
+            "id": character_three["id"],
+        }
 
-    return {
-        "characters": characters,
-        "charactersArr": characters_array,
-        "saves": saves,
-        "savesArr": saves_array,
-    }
+
+    return characters

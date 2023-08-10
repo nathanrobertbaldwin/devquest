@@ -5,6 +5,7 @@ from .users import seed_users, undo_users
 from .monsters import seed_monsters, undo_monsters
 from .characters import seed_characters, undo_characters
 from .inventory import seed_inventory, undo_inventory
+from .saves import seed_saves, undo_saves
 
 from app.models.db import db, environment, SCHEMA
 
@@ -25,10 +26,12 @@ def seed():
         undo_inventory()
         undo_equipments()
         undo_attacks()
+        undo_saves()
         undo_characters()
         undo_users()
     seed_users()
     seed_characters()
+    seed_saves()
     seed_attacks()
     seed_equipments()
     seed_inventory()

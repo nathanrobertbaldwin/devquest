@@ -8,10 +8,11 @@ class Character(db.Model):
         __table_args__ = {"schema": SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     name = db.Column(db.String(40), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    backend = db.Column(db.Integer, nullable=False)
+    frontend = db.Column(db.Integer, nullable=False)
     algorithms = db.Column(db.Integer, nullable=False)
-    databases = db.Column(db.Integer, nullable=False)
     css = db.Column(db.Integer, nullable=False)
     debugging = db.Column(db.Integer, nullable=False)
     energy = db.Column(db.Integer, nullable=False)
@@ -25,13 +26,16 @@ class Character(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "user_id": self.user_id,
             "name": self.name,
+            "user_id": self.user_id,
+            "backend": self.backend,
+            "frontend": self.frontend,
             "algorithms": self.algorithms,
-            "databases": self.databases,
             "css": self.css,
             "debugging": self.debugging,
             "energy": self.energy,
             "attacks": [attack.to_dict() for attack in self.attacks],
-            "inventory": [inventory_item.to_dict() for inventory_item in self.inventory],
+            "inventory": [
+                inventory_item.to_dict() for inventory_item in self.inventory
+            ],
         }

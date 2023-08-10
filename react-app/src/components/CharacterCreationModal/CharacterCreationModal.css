@@ -1,0 +1,104 @@
+#character-creation-component-container{
+    display: grid;
+    gap: .5em;
+    width: 600px;
+    height: 400px;
+    background-color: #F8A557;
+    border: 10px solid #494991;
+    border-radius: 10px;
+    padding: 1em;
+    grid-template-columns: 2fr 3fr 3fr;
+    grid-template-rows: 2fr 1fr 1fr 5fr;
+    grid-template-areas: 
+    "header header header"
+    "attributesheader chosenattacksheader availableattacksheader"
+    "attributestext chosenattackstext availableattackstext"
+    "attributes chosenattacks availableattacks";
+}
+
+#character-creation-h3{
+    grid-area: header;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+#character-creation-attributes-header{
+    grid-area: attributesheader;
+    text-align: center;
+}
+
+#character-creation-attacks-header{
+    grid-area: chosenattacksheader;
+    text-align: center;
+}
+
+#character-creation-choose-attacks-header{
+    grid-area: availableattacksheader;
+    text-align: center;
+}
+
+#character-creation-choose-more-attacks-text{
+    grid-area: chosenattackstext;
+    text-align: center;
+}
+
+#character-creation-points-remaining{
+    grid-area: attributestext;
+    text-align: center;
+}
+
+#character-creation-attack-text{
+    grid-area: chosenattacksheader;
+    text-align: center;
+}
+
+#character-creation-chosen-attacks{
+    grid-area: chosenattacks;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+
+#character-creation-available-attacks{
+    grid-area: availableattacks;
+}
+
+#character-creation-attributes-container{
+    grid-area: attributes;
+    display: flex;
+    flex-direction: column;
+    height: 325px;
+    gap: 1em;
+    padding-top: .5em;
+    padding-left: .5em;
+    padding-right: .5em;
+    background-color: #494991;
+}
+
+.attribute-button-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#character-attack-cards-container{
+    display: flex;
+    flex-direction: column;
+    height: 325px;
+    gap: .5em;
+    overflow-y: scroll;
+}
+
+.character-creation-attack-card{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    border-radius: .5em;
+    padding: .25em;
+}
+
+span{
+    font-size: 12px;
+}
+
