@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getGameDataThunk } from "../../store/gamedata";
 import "./Home.css";
+const _ = require("lodash");
 
 export default function Home() {
   const gameData = useSelector((store) => store.gamedata);
@@ -9,14 +10,14 @@ export default function Home() {
   const [isGameDataLoaded, setIsGameDataLoaded] = useState(false);
 
   useEffect(() => {
-    if (!Object.values(gameData).length) {
+    if (_.isEmpty(gameData)) {
       dispatch(getGameDataThunk()).then(() => {
         setIsGameDataLoaded(true);
       });
     }
   }, [dispatch, gameData]);
 
-  if (!isGameDataLoaded) return <></>
+  if (!isGameDataLoaded) return <></>;
 
   return <div id="game-component">Testing</div>;
 }

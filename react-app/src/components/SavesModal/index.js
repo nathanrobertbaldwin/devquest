@@ -6,20 +6,21 @@ import { getCharacterDataThunk } from "../../store/character";
 import OpenModalButton from "../OpenModalButton";
 import CharacterCreationModal from "../CharacterCreationModal";
 import "./SavesModal.css";
+const _ = require("lodash");
 
 function SavesModal() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const saves_data = useSelector((store) => store.saves);
+  const savesData = useSelector((store) => store.saves);
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
   useEffect(() => {
-    if (!Object.values(saves_data).length) {
+    if (_.savesData) {
       dispatch(getUserSavesThunk()).then(() => {
         setIsLoaded(true);
       });
     } else {
-      setIsLoaded(true);
+      setIsLoaded(true)
     }
   }, [dispatch]);
 
@@ -31,7 +32,7 @@ function SavesModal() {
 
   if (!isLoaded) return <></>;
 
-  const savesArr = Object.values(saves_data);
+  const savesArr = Object.values(savesData);
 
   return (
     <div id="saves-panel">
