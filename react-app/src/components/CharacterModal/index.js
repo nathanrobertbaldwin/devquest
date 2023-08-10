@@ -96,7 +96,7 @@ function CharacterModal() {
 
   return (
     <div id="container">
-      <h3 id="header">Inventory</h3>
+      <h3 id="header">{character.name}</h3>
       <div id="avatar">
         <div id="avatar-image-container"></div>
         <div id="attributes-container">
