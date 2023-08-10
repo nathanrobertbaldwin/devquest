@@ -15,12 +15,12 @@ function SavesModal() {
   const { closeModal } = useModal();
 
   useEffect(() => {
-    if (_.savesData) {
+    if (_.isEmpty(savesData)) {
       dispatch(getUserSavesThunk()).then(() => {
         setIsLoaded(true);
       });
     } else {
-      setIsLoaded(true)
+      setIsLoaded(true);
     }
   }, [dispatch]);
 
