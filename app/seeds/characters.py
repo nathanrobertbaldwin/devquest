@@ -7,10 +7,11 @@ from .data.characters_data import characters
 def seed_characters():
     for character in characters:
         new_character = Character(
-            user_id=character["user_id"],
             name=character["name"],
+            user_id=character["user_id"],
+            backend=character["backend"],
+            frontend=character["frontend"],
             algorithms=character["algorithms"],
-            databases=character["databases"],
             css=character["css"],
             debugging=character["debugging"],
             energy=character["energy"],

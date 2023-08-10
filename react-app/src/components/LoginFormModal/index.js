@@ -23,8 +23,14 @@ function LoginFormModal() {
     }
   };
 
+  const demoLogin = async (user) => {
+    await dispatch(login("demo@aa.io", "password"));
+    await dispatch(getUserSavesThunk());
+    closeModal();
+  };
+
   return (
-    <>
+    <div id="login-form-container">
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <ul>
@@ -51,8 +57,15 @@ function LoginFormModal() {
           />
         </label>
         <button type="submit">Log In</button>
+        <button
+          onClick={() => {
+            demoLogin();
+          }}
+        >
+          Demo User
+        </button>
       </form>
-    </>
+    </div>
   );
 }
 

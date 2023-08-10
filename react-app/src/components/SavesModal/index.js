@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { getUserSavesThunk } from "../../store/saves";
 import { getCharacterDataThunk } from "../../store/character";
+import OpenModalButton from "../OpenModalButton";
+import CharacterCreationModal from "../CharacterCreationModal";
 import "./SavesModal.css";
 
 function SavesModal() {
@@ -17,7 +19,7 @@ function SavesModal() {
         setIsLoaded(true);
       });
     }
-  }, dispatch);
+  }, [dispatch]);
 
   const handleLoadSave = async (charId) => {
     await dispatch(getCharacterDataThunk(charId)).then(() => {
@@ -37,11 +39,23 @@ function SavesModal() {
           return (
             <div id="saved-game-container" key={idx}>
               <span>Save Slot {idx + 1}</span>
-              <button onClick={() => handleLoadSave(save.id)}>Load Save</button>
-              <div id="save-name-span-container">
-                {save.name ? <span>{save.name}</span> : <span>Empty</span>}
-              </div>
-              <button>Delete Save</button>
+              {save.name ? (
+                <>
+                  <button onClick={() => handleLoadSave(save.id)}>
+                    Load Save
+                  </button>
+                  <div id="save-name-span-container">
+                    {save.name ? <span>{save.name}</span> : <span>Empty</span>}
+                  </div>
+                  <button>Delete Save</button>
+                </>
+              ) : (
+                <OpenModalButton
+                  className="modal_button"
+                  buttonText="Character"
+                  modalComponent={<CharacterCreationModal />}
+                />
+              )}
             </div>
           );
         })}

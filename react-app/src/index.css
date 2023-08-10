@@ -17,12 +17,6 @@ body {
     "footer";
 }
 
-ul{
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-}
-
 #navigation-component-container{
     display: flex;
     align-items: center;
@@ -77,4 +71,35 @@ ul{
     gap: 2em;
     margin: 0px;
     padding: 0px;
+}
+
+ul{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h1{
+    font-size: 30px;
+}
+
+h2{
+    font-size: 26px;
+}
+
+h3{
+    font-size: 22px;
+}
+
+h4{
+    font-size: 18px;
+}
+
+h5{
+    font-size: 14px;
 }

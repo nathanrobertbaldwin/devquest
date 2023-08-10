@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f410ccc022c2
+Revision ID: 15786cedc319
 Revises: 
-Create Date: 2023-08-08 19:36:53.958611
+Create Date: 2023-08-09 21:59:15.077543
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f410ccc022c2'
+revision = '15786cedc319'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -59,10 +59,11 @@ def upgrade():
     )
     op.create_table('characters',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(length=40), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('backend', sa.Integer(), nullable=False),
+    sa.Column('frontend', sa.Integer(), nullable=False),
     sa.Column('algorithms', sa.Integer(), nullable=False),
-    sa.Column('databases', sa.Integer(), nullable=False),
     sa.Column('css', sa.Integer(), nullable=False),
     sa.Column('debugging', sa.Integer(), nullable=False),
     sa.Column('energy', sa.Integer(), nullable=False),
@@ -72,9 +73,9 @@ def upgrade():
     op.create_table('saves',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('slot_one', sa.JSON(), nullable=True),
-    sa.Column('slot_two', sa.JSON(), nullable=True),
-    sa.Column('slot_three', sa.JSON(), nullable=True),
+    sa.Column('slot_one', sa.Integer(), nullable=True),
+    sa.Column('slot_two', sa.Integer(), nullable=True),
+    sa.Column('slot_three', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

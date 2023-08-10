@@ -11,20 +11,26 @@ def game_data():
     Query for all game data. Returns game data somehow. UPDATE THIS.
     """
     equipment_data = Equipment.query.all()
-    monster_data = Monster.query.all()
-    monster_attacks_data = Attack.query.filter(Attack.owner_type == "monster")
-
     equipment_array = [item.to_dict() for item in equipment_data]
-    monsters_array = [monster.to_dict() for monster in monster_data]
-    monster_attacks_array = [attack.to_dict() for attack in monster_attacks_data]
-
     equipment = normalizer(equipment_array)
+
+    character_attacks_data = Attack.query.filter(Attack.owner_type == "character")
+    character_attacks_array = [attack.to_dict() for attack in character_attacks_data]
+    character_attacks = normalizer(character_attacks_array)
+
+    monster_data = Monster.query.all()
+    monsters_array = [monster.to_dict() for monster in monster_data]
     monsters = normalizer(monsters_array)
+
+    monster_attacks_data = Attack.query.filter(Attack.owner_type == "monster")
+    monster_attacks_array = [attack.to_dict() for attack in monster_attacks_data]
     monster_attacks = normalizer(monster_attacks_array)
 
     return {
         "equipment": equipment,
         "equipmentArr": equipment_array,
+        "characterAttacks": character_attacks,
+        "characterAttacksArr": character_attacks_array,
         "monsters": monsters,
         "monsterArr": monsters_array,
         "monsterAttacks": monster_attacks,

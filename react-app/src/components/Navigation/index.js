@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import ProfileButton from "./ProfileButton";
-import LoginFormModal from "../LoginFormModal";
 import SavesModal from "../SavesModal";
 import CharacterModal from "../CharacterModal";
 
@@ -18,7 +17,7 @@ function Navigation({ isLoaded }) {
           Home
         </NavLink>
         <ul id="navigation-links-container">
-          {saveData && (
+          {saveData && sessionUser && (
             <OpenModalButton
               className="modal_button"
               buttonText="Character"
