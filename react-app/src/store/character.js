@@ -1,3 +1,7 @@
+// ============================== IMPORTS ================================ //
+
+import { flattenInventory } from "./utilities";
+
 // =========================== ACTION STRINGS ============================ //
 
 const GET_CHARACTER_DATA = "character_data/GET";
@@ -5,7 +9,7 @@ const RESET_CHARACTER_DATA = "character_data/reset";
 
 // ============================== ACTIONS ============================== //
 
-const getUserSaves = (data) => ({
+const getCharacterData = (data) => ({
   type: GET_CHARACTER_DATA,
   data: data,
 });
@@ -21,8 +25,12 @@ export const getCharacterDataThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/characters/${id}`);
 
   if (response.ok) {
-    const data = await response.json();
-    dispatch(getUserSaves(data));
+    const character = await response.json();
+    const inventory_data = character.inventory;
+    const inventory = flattenInventory(inventory_data);
+    character.inventory = inventory;
+    dispatch(getCharacterData(character));
+    return character;
   }
 };
 
@@ -38,7 +46,7 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_CHARACTER_DATA: {
       const character = action.data;
-      return character;
+      return { ...state, ...character };
     }
     case RESET_CHARACTER_DATA: {
       const data = action.data;

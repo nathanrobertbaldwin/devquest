@@ -18,6 +18,8 @@ function SavesModal() {
       dispatch(getUserSavesThunk()).then(() => {
         setIsLoaded(true);
       });
+    } else {
+      setIsLoaded(true);
     }
   }, [dispatch]);
 

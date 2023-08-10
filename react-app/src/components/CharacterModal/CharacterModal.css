@@ -64,16 +64,34 @@
     padding: .25em;
 }
 
+#equipped-gear-container{
+    height: 33%;
+}
+
 #equipped-gear{
+    height: 100%;
+    width: 100%;
+    background-color: red;
+}
+
+#equipped-food-container{
     height: 33%;
 }
 
 #equipped-food{
-    height: 33%;
+    height: 100%;
+    width: 100%;
+    background-color: blue
+}
+
+#equipped-reference-container{
+    height: 34%;
 }
 
 #equipped-reference{
-    height: 34%;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(255, 14, 231)
 }
 
 #attacks{

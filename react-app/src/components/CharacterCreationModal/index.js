@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+
 import "./CharacterCreationModal.css";
 
 function CharacterCreationModal() {
-  const dispatch = useDispatch();
-  const { closeModal } = useModal();
-
   const [algorithms, setAlgorithms] = useState(5);
   const [CSS, setCSS] = useState(5);
   const [databases, setDatabases] = useState(5);
   const [debugging, setDebugging] = useState(5);
   const [energy, setEnergy] = useState(50);
   const [points, setPoints] = useState(10);
-
+  
   const [attacksRemaining, setAttacksRemaining] = useState(4);
   const [chosenAttacks, setChosenAttacks] = useState({});
 

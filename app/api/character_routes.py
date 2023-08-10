@@ -13,4 +13,4 @@ def load_character(charId):
     """
     character_data = Character.query.get(charId)
     character = character_data.to_dict()
-    return [character]
+    return character
