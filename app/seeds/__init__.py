@@ -46,5 +46,6 @@ def undo():
     undo_inventory()
     undo_equipments()
     undo_attacks()
+    undo_saves()
     undo_characters()
     undo_users()
