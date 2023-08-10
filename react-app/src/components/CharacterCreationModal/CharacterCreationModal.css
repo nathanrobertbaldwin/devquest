@@ -67,16 +67,16 @@
     grid-area: availableattacks;
 }
 
-#attributes-container{
+#cc-attributes-container{
     grid-area: attributes;
     display: flex;
     flex-direction: column;
-    height: 325px;
+    height: 310px;
+    width: 90%;
     gap: 1em;
-    padding-top: .5em;
-    padding-left: .5em;
-    padding-right: .5em;
-    background-color: #494991;
+    background-color: rgb(60, 60, 60);
+    border-radius: .5em;
+    padding: .5em;
 }
 
 .attribute-button-container{

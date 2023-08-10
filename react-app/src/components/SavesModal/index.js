@@ -22,7 +22,7 @@ function SavesModal() {
     } else {
       setIsLoaded(true);
     }
-  }, [dispatch]);
+  }, [dispatch, savesData]);
 
   const handleLoadSave = async (charId) => {
     await dispatch(getCharacterDataThunk(charId)).then(() => {

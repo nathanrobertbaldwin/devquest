@@ -15,11 +15,30 @@ function CharacterModal() {
   const [equippedFood, setEquippedFood] = useState(null);
   const [equippedReference, setEquippedReference] = useState(null);
 
-  useEffect(async () => {
-    if (_.isEmpty(character)) {
-      await dispatch(getCharacterDataThunk(1)).then((character) => {
-        setIsLoaded(true);
+  useEffect(() => {
+    async function asyncWrapper() {
+      if (_.isEmpty(character)) {
+        await dispatch(getCharacterDataThunk(1)).then((character) => {
+          setIsLoaded(true);
 
+          const gear = character.inventory.find(
+            (item) => item.equipped === true && item.slot === "gear"
+          );
+
+          const food = character.inventory.find(
+            (item) => item.equipped === true && item.slot === "food"
+          );
+
+          const reference = character.inventory.find(
+            (item) => item.equipped === true && item.slot === "reference"
+          );
+
+          if (gear) setEquippedGear(gear);
+          if (food) setEquippedFood(food);
+          if (reference) setEquippedGear(reference);
+        });
+      } else {
+        setIsLoaded(true);
         const gear = character.inventory.find(
           (item) => item.equipped === true && item.slot === "gear"
         );
@@ -33,28 +52,12 @@ function CharacterModal() {
         );
 
         if (gear) setEquippedGear(gear);
-        if (food) setEquippedFood(food);
+        if (food) setEquippedGear(food);
         if (reference) setEquippedGear(reference);
-      });
-    } else {
-      setIsLoaded(true);
-      const gear = character.inventory.find(
-        (item) => item.equipped === true && item.slot === "gear"
-      );
-
-      const food = character.inventory.find(
-        (item) => item.equipped === true && item.slot === "food"
-      );
-
-      const reference = character.inventory.find(
-        (item) => item.equipped === true && item.slot === "reference"
-      );
-
-      if (gear) setEquippedGear(gear);
-      if (food) setEquippedGear(food);
-      if (reference) setEquippedGear(reference);
+      }
     }
-  }, [dispatch]);
+    asyncWrapper();
+  }, [dispatch, character]);
 
   if (!isLoaded) return <></>;
 
@@ -118,7 +121,7 @@ function CharacterModal() {
                 setEquippedGear(null);
               }}
             >
-              <img src={equippedGear.image_url} />
+              <img alt="" src={equippedGear.image_url} />
             </div>
           ) : (
             <span>Gear</span>
@@ -132,7 +135,7 @@ function CharacterModal() {
                 setEquippedFood(null);
               }}
             >
-              <img src={equippedFood.image_url} />
+              <img alt="" src={equippedFood.image_url} />
             </div>
           ) : (
             <span>Food</span>
@@ -146,7 +149,7 @@ function CharacterModal() {
                 setEquippedReference(null);
               }}
             >
-              <img src={equippedReference.image_url} />
+              <img alt="" src={equippedReference.image_url} />
             </div>
           ) : (
             <span>Reference</span>
@@ -182,6 +185,7 @@ function CharacterModal() {
                 </div>
               );
             }
+            return undefined;
           })}
         </div>
         <h5>Food</h5>
@@ -200,6 +204,7 @@ function CharacterModal() {
                 </div>
               );
             }
+            return undefined;
           })}
         </div>
         <h5>Reference</h5>
@@ -221,6 +226,7 @@ function CharacterModal() {
                 </div>
               );
             }
+            return undefined;
           })}
         </div>
       </div>

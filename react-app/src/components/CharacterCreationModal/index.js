@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import "./CharacterCreationModal.css";
 
@@ -18,17 +18,30 @@ function CharacterCreationModal() {
     return store.gamedata.characterAttacks;
   });
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    const newCharacter = {
+      algorithms,
+      CSS,
+      databases,
+      debugging,
+      energy,
+      attacks: { ...chosenAttacks },
+    };
+    console.log(newCharacter);
+  }
+
   return (
     <div id="component-container">
       <div id="header">
         <h4>Create A New Character</h4>
         {points === 0 && attacksRemaining === 0 && (
-          <button onClick="">Begin Adventure!</button>
+          <button onClick={() => handleSubmit}>Begin Adventure!</button>
         )}
       </div>
       <h5 id="attributes-header">Attributes</h5>
       <span id="points-remaining">{points} points remaining</span>
-      <div id="attributes-container">
+      <div id="cc-attributes-container">
         <div className="attribute-button-container">
           <span>Algorithms: {algorithms}</span>
           <div className="button-container">
@@ -207,6 +220,7 @@ function CharacterCreationModal() {
                 </div>
               );
             }
+            return null;
           })}
         </div>
       </div>
