@@ -54,9 +54,9 @@ function CharacterCreationModal() {
             </button>
           </div>
         </div>
-        <div class="attribute-button-container">
+        <div className="attribute-button-container">
           <span>CSS: {CSS}</span>
-          <div class="button-container">
+          <div className="button-container">
             <button
               onClick={() => {
                 if (points > 0) {
@@ -79,9 +79,9 @@ function CharacterCreationModal() {
             </button>
           </div>
         </div>
-        <div class="attribute-button-container">
+        <div className="attribute-button-container">
           <span>Databases: {databases}</span>
-          <div class="button-container">
+          <div className="button-container">
             <button
               onClick={() => {
                 if (points > 0) {
@@ -104,9 +104,9 @@ function CharacterCreationModal() {
             </button>
           </div>
         </div>
-        <div class="attribute-button-container">
+        <div className="attribute-button-container">
           <span>Debugging: {debugging}</span>
-          <div class="button-container">
+          <div className="button-container">
             <button
               onClick={() => {
                 if (points > 0) {
@@ -129,9 +129,9 @@ function CharacterCreationModal() {
             </button>
           </div>
         </div>
-        <div class="attribute-button-container">
+        <div className="attribute-button-container">
           <span>Energy: {energy}</span>
-          <div class="button-container">
+          <div className="button-container">
             <button
               onClick={() => {
                 if (points > 0) {

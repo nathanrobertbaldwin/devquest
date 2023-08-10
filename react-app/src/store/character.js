@@ -37,11 +37,8 @@ const initialState = {};
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_CHARACTER_DATA: {
-      const characterData = action.data;
-      return {
-        ...state,
-        ...characterData,
-      };
+      const character = action.data;
+      return character;
     }
     case RESET_CHARACTER_DATA: {
       const data = action.data;

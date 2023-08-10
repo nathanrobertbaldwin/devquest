@@ -16,5 +16,7 @@ export default function Home() {
     }
   }, [dispatch, gameData]);
 
+  if (!isGameDataLoaded) return <></>
+
   return <div id="game-component">Testing</div>;
 }
