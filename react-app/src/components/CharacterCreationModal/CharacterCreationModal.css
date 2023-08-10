@@ -4,7 +4,8 @@
     width: 600px;
     height: 400px;
     background-color: #F8A557;
-    border: 10px solid #494991;
+    border: 5px solid #C44300;
+    box-shadow: 10px 10px 10px #494991;
     border-radius: 10px;
     padding: 1em;
     grid-template-columns: 2fr 3fr 3fr;

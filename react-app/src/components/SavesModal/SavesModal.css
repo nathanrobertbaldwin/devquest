@@ -10,7 +10,8 @@
     width: 600px;
     height: 400px;
     background-color: #F8A557;
-    border: 10px solid #494991;
+    border: 5px solid #C44300;
+    box-shadow: 10px 10px 10px #494991;
     gap: 2em;
     border-radius: 10px;
 }

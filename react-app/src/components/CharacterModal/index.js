@@ -49,25 +49,54 @@ function CharacterModal() {
         <div id="equipped-food">Food</div>
         <div id="equipped-reference">Reference</div>
       </div>
-      <div id="attacks"></div>
+      <div id="attacks">
+        {Object.entries(attacks).map(([key, value]) => {
+          return (
+            <div key={key} className="item-card">
+              <span>Name: {value["name"]}</span>
+              <span>Power: {value["power"]}</span>
+              <span>Energy Cost: {value["energy_cost"]}</span>
+              <span>Primary Stat: {value["primary_stat"]}</span>
+            </div>
+          );
+        })}
+      </div>
       <div id="inventory">
+        <h5>Gear</h5>
         <div id="inventory-gear">
-          <div className="equipment-card">gear</div>
-          <div className="equipment-card">gear</div>
-          <div className="equipment-card">gear</div>
-          <div className="equipment-card">gear</div>
+          {Object.values(inventory).map((item, idx) => {
+            if (item.item.slot === "gear") {
+              return (
+                <div key={idx} className="equipment-card">
+                  <span>Name: {item.item.name}</span>
+                </div>
+              );
+            }
+          })}
         </div>
+        <h5>Food</h5>
         <div id="inventory-food">
-          <div className="equipment-card">food</div>
-          <div className="equipment-card">food</div>
-          <div className="equipment-card">food</div>
-          <div className="equipment-card">food</div>
+          {Object.values(inventory).map((item, idx) => {
+            if (item.item.slot === "food") {
+              return (
+                <div key={idx} className="equipment-card">
+                  <span>Name: {item.item.name}</span>
+                </div>
+              );
+            }
+          })}
         </div>
+        <h5>Reference</h5>
         <div id="inventory-reference">
-          <div className="equipment-card">reference</div>
-          <div className="equipment-card">reference</div>
-          <div className="equipment-card">reference</div>
-          <div className="equipment-card">reference</div>
+          {Object.values(inventory).map((item, idx) => {
+            if (item.item.slot === "reference") {
+              return (
+                <div key={idx} className="equipment-card">
+                  <span>Name: {item.item.name}</span>
+                </div>
+              );
+            }
+          })}
         </div>
       </div>
     </div>
