@@ -21,8 +21,11 @@ function CharacterCreationModal() {
     return store.gamedata.characterAttacks;
   });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+
+    const attacks = [...Object.values(chosenAttacks)];
+
     const newCharacter = {
       name,
       user_id: sessionUser.id,
@@ -32,9 +35,14 @@ function CharacterCreationModal() {
       CSS,
       debugging,
       energy,
-      attacks: [...Object.values(chosenAttacks)],
+      attack_1: attacks[0],
+      attack_2: attacks[1],
+      attack_3: attacks[2],
+      attack_4: attacks[3],
     };
-    console.log(newCharacter);
+
+    const saveData = await dispatch()
+    console.log("This should be the saves data for this User", );
   }
 
   return (

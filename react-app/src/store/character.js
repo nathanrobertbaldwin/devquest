@@ -5,13 +5,19 @@ import { flattenInventory } from "./utilities";
 // =========================== ACTION STRINGS ============================ //
 
 const GET_CHARACTER_DATA = "character_data/GET";
-const RESET_CHARACTER_DATA = "character_data/reset";
+const CREATE_NEW_CHARACTER = "character_data/POST";
+const RESET_CHARACTER_DATA = "character_data/RESET";
 
 // ============================== ACTIONS ============================== //
 
 const getCharacterData = (data) => ({
   type: GET_CHARACTER_DATA,
   data: data,
+});
+
+const createNewCharacter = (newCharacter) => ({
+  type: CREATE_NEW_CHARACTER,
+  data: newCharacter,
 });
 
 const resetCharacterData = () => ({
@@ -31,6 +37,23 @@ export const getCharacterDataThunk = (id) => async (dispatch) => {
     character.inventory = inventory;
     dispatch(getCharacterData(character));
     return character;
+  }
+};
+
+export const createNewCharacterThunk = (character) => async (dispatch) => {
+  const response = await fetch(`/api/characters/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(character),
+  });
+
+  if (response.ok) {
+    const newCharacter = await response.json();
+    const inventory_data = newCharacter.inventory;
+    const inventory = flattenInventory(inventory_data);
+    character.inventory = inventory;
+    dispatch(createNewCharacter(character));
+    return newCharacter;
   }
 };
 

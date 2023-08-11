@@ -45,4 +45,6 @@ def new_character(charId):
         db.session.add(new_character)
         db.session.commit()
 
-    return character
+        users_saves = Save.query.filter_by(user_id=data["user_id"])
+
+    return users_saves.to_dict()
