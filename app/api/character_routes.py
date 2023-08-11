@@ -52,6 +52,8 @@ def new_character():
 
         db.session.add(new_character)
 
+        print(new_character.to_dict())
+
         user_saves = Save.query.filter_by(user_id=data["user_id"]).first()
 
         inspector = inspect(Save)

@@ -17,19 +17,6 @@ def seed_attacks():
         db.session.add(new_character_attack)
     db.session.commit()
 
-    nandalf = Character.query.get(1)
-    build_a_database = Attack.query.get(1)
-    build_a_component = Attack.query.get(4)
-    console_log = Attack.query.get(5)
-    write_code = Attack.query.get(8)
-
-    nandalf.attacks.append(build_a_database)
-    nandalf.attacks.append(build_a_component)
-    nandalf.attacks.append(console_log)
-    nandalf.attacks.append(write_code)
-
-    db.session.commit()
-
     for monster_attack in monster_attacks:
         new_monster_attack = Attack(
             name=monster_attack["name"],

@@ -43,6 +43,8 @@ function CharacterCreationModal() {
       attack_four: attacks[3].id,
     };
 
+    console.log(newCharacter)
+
     const saveData = await dispatch(createNewCharacterThunk(newCharacter));
     console.log("This should be the saves data for this User", saveData);
   }

@@ -6,6 +6,7 @@ from .monsters import seed_monsters, undo_monsters
 from .characters import seed_characters, undo_characters
 from .inventory import seed_inventory, undo_inventory
 from .saves import seed_saves, undo_saves
+from .character_attacks import seed_character_attacks, undo_character_attacks
 
 from app.models.db import db, environment, SCHEMA
 
@@ -25,6 +26,7 @@ def seed():
         undo_monsters()
         undo_inventory()
         undo_equipments()
+        undo_character_attacks()
         undo_attacks()
         undo_saves()
         undo_characters()
@@ -33,6 +35,7 @@ def seed():
     seed_characters()
     seed_saves()
     seed_attacks()
+    seed_character_attacks()
     seed_equipments()
     seed_inventory()
     seed_monsters()
@@ -45,6 +48,7 @@ def undo():
     undo_monsters()
     undo_inventory()
     undo_equipments()
+    undo_character_attacks()
     undo_attacks()
     undo_saves()
     undo_characters()
