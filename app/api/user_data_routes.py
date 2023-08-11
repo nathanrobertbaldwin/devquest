@@ -15,29 +15,28 @@ def saves_data():
     user_saves_data = Save.query.filter(Save.user_id == current_user.id)
     user_saves = [save.to_dict() for save in user_saves_data][0]
 
-    characters = [{}] * 3
+    save_data = dict()
 
     if user_saves["slot_one"]:
         character_one_data = Character.query.get(user_saves["slot_one"])
         character_one = character_one_data.to_dict()
-        characters[0] = {
+        save_data[1] = {
             "name": character_one["name"],
             "id": character_one["id"],
         }
     if user_saves["slot_two"]:
-        character_two_data = Character.query.get(user_saves["slot_three"])
+        character_two_data = Character.query.get(user_saves["slot_two"])
         character_two = character_two_data.to_dict()
-        characters[1] = {
+        save_data[2]: {
             "name": character_two["name"],
             "id": character_two["id"],
         }
     if user_saves["slot_three"]:
         character_three_data = Character.query.get(user_saves["slot_three"]).to_dict()
         character_three = character_three_data.to_dict()
-        characters[2] = {
+        save_data[3] = {
             "name": character_three["name"],
             "id": character_three["id"],
         }
 
-
-    return characters
+    return save_data

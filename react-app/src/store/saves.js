@@ -11,14 +11,14 @@ const getUserSaves = (data) => ({
   data: data,
 });
 
-const getNewCharSave = (data) => ({
+export const getNewCharSave = (data) => ({
   type: GET_NEW_CHAR_SAVE,
   data: data,
 });
 
 const resetSaveData = () => ({
   type: RESET_SAVE_DATA,
-  data: [],
+  data: {},
 });
 
 // ============================== THUNKS =============================== //
@@ -32,31 +32,28 @@ export const getUserSavesThunk = () => async (dispatch) => {
   }
 };
 
-export const getNewCharSaveThunk = (data) => async (dispatch) => {
-  dispatch(getNewCharSave(data));
-};
-
 export const resetSaveDataThunk = () => async (dispatch) => {
   dispatch(resetSaveData());
 };
 
 // ============================== REDUCER ============================== //
 
-const initialState = [];
+const initialState = { 1: {}, 2: {}, 3: {} };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_USER_SAVES: {
       const userSaves = action.data;
-      return [...state, ...userSaves];
+      return { ...state, ...userSaves };
     }
     case RESET_SAVE_DATA: {
-      const data = action.data;
-      return [...data];
+      const emptyData = action.data;
+      return { ...emptyData };
     }
     case GET_NEW_CHAR_SAVE: {
       const newSave = action.data;
-      return [...state, ...newSave];
+      console.log("THIS IS MY NEW CHARACTERS SAVE DATA", newSave);
+      return { ...state, ...newSave };
     }
     default: {
       return state;

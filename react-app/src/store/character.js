@@ -1,7 +1,7 @@
 // ============================== IMPORTS ================================ //
 
 import { flattenInventory } from "./utilities";
-import { getNewCharSaveThunk } from "./saves";
+import { getNewCharSave } from "./saves";
 
 // =========================== ACTION STRINGS ============================ //
 
@@ -49,13 +49,14 @@ export const createNewCharacterThunk = (character) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const newCharacterData = await response.json();
-    console.log(newCharacterData);
-    // const inventory_data = newCharacter.inventory;
-    // const inventory = flattenInventory(inventory_data);
-    // character.inventory = inventory;
-    // dispatch(createNewCharacter(character));
-    // return newCharacter;
+    const newCharacterCreationData = await response.json();
+    const newCharacter = newCharacterCreationData.new_character;
+    const inventory_data = newCharacter.inventory;
+    character.inventory = flattenInventory(inventory_data);
+    dispatch(createNewCharacter(newCharacter));
+    const newSaveData = newCharacterCreationData.new_save;
+    dispatch(getNewCharSave(newSaveData));
+    return newCharacter;
   }
 };
 
@@ -71,6 +72,11 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_CHARACTER_DATA: {
       const character = action.data;
+      return { ...state, ...character };
+    }
+    case CREATE_NEW_CHARACTER: {
+      const character = action.data;
+      console.log("THIS IS FROM THE REDUCER", character);
       return { ...state, ...character };
     }
     case RESET_CHARACTER_DATA: {

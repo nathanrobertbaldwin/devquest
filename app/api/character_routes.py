@@ -40,6 +40,8 @@ def new_character():
             energy=data["energy"],
         )
 
+        db.session.add(new_character)
+
         attack_one = Attack.query.get(data["attack_one"])
         attack_two = Attack.query.get(data["attack_two"])
         attack_three = Attack.query.get(data["attack_three"])
@@ -50,13 +52,11 @@ def new_character():
         new_character.attacks.append(attack_three)
         new_character.attacks.append(attack_four)
 
-        db.session.add(new_character)
-
-        print(new_character.to_dict())
-
         user_saves = Save.query.filter_by(user_id=data["user_id"]).first()
 
         inspector = inspect(Save)
+
+        save_slot = None
 
         for column in inspector.columns:
             column_name = column.name
@@ -64,10 +64,24 @@ def new_character():
 
             if column_value is None:
                 setattr(user_saves, column_name, new_character.id)
+                if column_name == "slot_one":
+                    save_slot = 1
+                if column_name == "slot_two":
+                    save_slot = 2
+                if column_name == "slot_three":
+                    save_slot = 3
                 break
 
         db.session.commit()
 
-        return {"character": new_character.to_dict(), "new_save": user_saves.to_dict()}
+        return {
+            "new_character": new_character.to_dict(),
+            "new_save": {
+                save_slot: {
+                    "id": new_character.id,
+                    "name": new_character.name,
+                }
+            },
+        }
 
     return "form not validating"

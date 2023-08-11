@@ -28,7 +28,7 @@ function CharacterCreationModal() {
 
     const attacks = [...Object.values(chosenAttacks)];
 
-    const newCharacter = {
+    const newCharacterData = {
       name,
       user_id: sessionUser.id,
       backend,
@@ -43,10 +43,9 @@ function CharacterCreationModal() {
       attack_four: attacks[3].id,
     };
 
-    console.log(newCharacter)
-
-    const saveData = await dispatch(createNewCharacterThunk(newCharacter));
-    console.log("This should be the saves data for this User", saveData);
+    const newCharacter = await dispatch(
+      createNewCharacterThunk(newCharacterData)
+    );
   }
 
   return (

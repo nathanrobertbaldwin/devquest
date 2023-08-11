@@ -6,7 +6,6 @@ import { getCharacterDataThunk } from "../../store/character";
 import OpenModalButton from "../OpenModalButton";
 import CharacterCreationModal from "../CharacterCreationModal";
 import "./SavesModal.css";
-const _ = require("lodash");
 
 function SavesModal() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -15,14 +14,12 @@ function SavesModal() {
   const { closeModal } = useModal();
 
   useEffect(() => {
-    if (_.isEmpty(savesData)) {
-      dispatch(getUserSavesThunk()).then(() => {
-        setIsLoaded(true);
-      });
-    } else {
+    dispatch(getUserSavesThunk()).then(() => {
       setIsLoaded(true);
-    }
-  }, [dispatch, savesData]);
+    });
+
+    setIsLoaded(true);
+  }, [dispatch]);
 
   const handleLoadSave = async (charId) => {
     await dispatch(getCharacterDataThunk(charId)).then(() => {
