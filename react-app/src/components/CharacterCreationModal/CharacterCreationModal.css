@@ -24,6 +24,7 @@
     align-items: center;
     margin: 0px;
     padding: 0px;
+    gap: 1em;
 }
 
 #attributes-header{

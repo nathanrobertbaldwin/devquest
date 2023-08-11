@@ -4,9 +4,12 @@ import { useSelector } from "react-redux";
 import "./CharacterCreationModal.css";
 
 function CharacterCreationModal() {
+  const sessionUser = useSelector((store) => store.session.user);
+  const [name, setName] = useState("");
+  const [backend, setBackend] = useState(5);
+  const [frontend, setFrontend] = useState(5);
   const [algorithms, setAlgorithms] = useState(5);
   const [CSS, setCSS] = useState(5);
-  const [databases, setDatabases] = useState(5);
   const [debugging, setDebugging] = useState(5);
   const [energy, setEnergy] = useState(50);
   const [points, setPoints] = useState(10);
@@ -21,31 +24,101 @@ function CharacterCreationModal() {
   function handleSubmit(e) {
     e.preventDefault();
     const newCharacter = {
+      name,
+      user_id: sessionUser.id,
+      backend,
+      frontend,
       algorithms,
       CSS,
-      databases,
       debugging,
       energy,
-      attacks: { ...chosenAttacks },
+      attacks: [...Object.values(chosenAttacks)],
     };
     console.log(newCharacter);
   }
 
   return (
-    <div id="component-container">
+    <form id="component-container">
       <div id="header">
-        <h4>Create A New Character</h4>
+        <h5>Name Your Character</h5>
+        <div className="name-field-container">
+          <input
+            className="name-input"
+            type="text"
+            placeholder="What's your name?"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
         {points === 0 && attacksRemaining === 0 && (
-          <button onClick={() => handleSubmit}>Begin Adventure!</button>
+          <button type="submit" onClick={(e) => handleSubmit(e)}>
+            Begin Adventure!
+          </button>
         )}
       </div>
       <h5 id="attributes-header">Attributes</h5>
       <span id="points-remaining">{points} points remaining</span>
       <div id="cc-attributes-container">
         <div className="attribute-button-container">
+          <span>Backend: {backend}</span>
+          <div className="button-container">
+            <button
+              type="button"
+              onClick={() => {
+                if (points > 0) {
+                  setBackend(backend + 1);
+                  setPoints(points - 1);
+                }
+              }}
+            >
+              +
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (backend > 0) {
+                  setBackend(backend - 1);
+                  setPoints(points + 1);
+                }
+              }}
+            >
+              -
+            </button>
+          </div>
+        </div>
+        <div className="attribute-button-container">
+          <span>Frontend: {frontend}</span>
+          <div className="button-container">
+            <button
+              type="button"
+              onClick={() => {
+                if (points > 0) {
+                  setFrontend(frontend + 1);
+                  setPoints(points - 1);
+                }
+              }}
+            >
+              +
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (frontend > 0) {
+                  setFrontend(frontend - 1);
+                  setPoints(points + 1);
+                }
+              }}
+            >
+              -
+            </button>
+          </div>
+        </div>
+        <div className="attribute-button-container">
           <span>Algorithms: {algorithms}</span>
           <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setAlgorithms(algorithms + 1);
@@ -56,6 +129,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (algorithms > 0) {
                   setAlgorithms(algorithms - 1);
@@ -71,6 +145,7 @@ function CharacterCreationModal() {
           <span>CSS: {CSS}</span>
           <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setCSS(CSS + 1);
@@ -81,6 +156,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (CSS > 0) {
                   setCSS(CSS - 1);
@@ -93,34 +169,10 @@ function CharacterCreationModal() {
           </div>
         </div>
         <div className="attribute-button-container">
-          <span>Databases: {databases}</span>
-          <div className="button-container">
-            <button
-              onClick={() => {
-                if (points > 0) {
-                  setDatabases(databases + 1);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              onClick={() => {
-                if (databases > 0) {
-                  setDatabases(databases - 1);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-        <div className="attribute-button-container">
           <span>Debugging: {debugging}</span>
           <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setDebugging(debugging + 1);
@@ -131,6 +183,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (debugging > 0) {
                   setDebugging(debugging - 1);
@@ -146,6 +199,7 @@ function CharacterCreationModal() {
           <span>Energy: {energy}</span>
           <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setEnergy(energy + 10);
@@ -156,6 +210,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (energy > 0) {
                   setEnergy(energy - 10);
@@ -224,7 +279,7 @@ function CharacterCreationModal() {
           })}
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 
