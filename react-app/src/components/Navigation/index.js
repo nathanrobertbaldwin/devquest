@@ -5,6 +5,7 @@ import OpenModalButton from "../OpenModalButton";
 import ProfileButton from "./ProfileButton";
 import GameMenuModal from "../GameMenuModal";
 import CharacterModal from "../CharacterModal";
+const _ = require("lodash");
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -17,7 +18,7 @@ function Navigation({ isLoaded }) {
           Home
         </NavLink>
         <ul id="navigation-links-container">
-          {character && sessionUser && (
+          {!_.isEmpty(character) && sessionUser && (
             <OpenModalButton
               className="modal_button"
               buttonText="Character"
@@ -27,7 +28,7 @@ function Navigation({ isLoaded }) {
           {sessionUser && (
             <OpenModalButton
               className="modal_button"
-              buttonText="Saves"
+              buttonText="Game Menu"
               modalComponent={<GameMenuModal />}
             />
           )}

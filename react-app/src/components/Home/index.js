@@ -19,5 +19,8 @@ export default function Home() {
 
   if (!isGameDataLoaded) return <></>;
 
-  return <div id="game-component">Testing</div>;
+  return (
+    <div id="game-component">
+    </div>
+  );
 }

@@ -1,65 +1,28 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import "./CharacterModal.css";
-import { getCharacterDataThunk } from "../../store/character";
 const _ = require("lodash");
 
 function CharacterModal() {
-  const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
   const character = useSelector((store) => store.character);
   const inventory = useSelector((store) => store.character.inventory);
   const attacks = useSelector((store) => store.character.attacks);
 
-  const [equippedGear, setEquippedGear] = useState(null);
-  const [equippedFood, setEquippedFood] = useState(null);
-  const [equippedReference, setEquippedReference] = useState(null);
-
-  useEffect(() => {
-    async function asyncWrapper() {
-      if (_.isEmpty(character)) {
-        await dispatch(getCharacterDataThunk(1)).then((character) => {
-          setIsLoaded(true);
-
-          const gear = character.inventory.find(
-            (item) => item.equipped === true && item.slot === "gear"
-          );
-
-          const food = character.inventory.find(
-            (item) => item.equipped === true && item.slot === "food"
-          );
-
-          const reference = character.inventory.find(
-            (item) => item.equipped === true && item.slot === "reference"
-          );
-
-          if (gear) setEquippedGear(gear);
-          if (food) setEquippedFood(food);
-          if (reference) setEquippedGear(reference);
-        });
-      } else {
-        setIsLoaded(true);
-        const gear = character.inventory.find(
-          (item) => item.equipped === true && item.slot === "gear"
-        );
-
-        const food = character.inventory.find(
-          (item) => item.equipped === true && item.slot === "food"
-        );
-
-        const reference = character.inventory.find(
-          (item) => item.equipped === true && item.slot === "reference"
-        );
-
-        if (gear) setEquippedGear(gear);
-        if (food) setEquippedGear(food);
-        if (reference) setEquippedGear(reference);
-      }
-    }
-    asyncWrapper();
-  }, [dispatch, character]);
-
-  if (!isLoaded) return <></>;
+  const [equippedGear, setEquippedGear] = useState(() =>
+    character.inventory.find(
+      (item) => item.equipped === true && item.slot === "gear"
+    )
+  );
+  const [equippedFood, setEquippedFood] = useState(
+    character.inventory.find(
+      (item) => item.equipped === true && item.slot === "food"
+    )
+  );
+  const [equippedReference, setEquippedReference] = useState(
+    character.inventory.find(
+      (item) => item.equipped === true && item.slot === "reference"
+    )
+  );
 
   const algorithmsTotal =
     character.algorithms +
