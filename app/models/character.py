@@ -39,3 +39,9 @@ class Character(db.Model):
                 inventory_item.to_dict() for inventory_item in self.inventory
             ],
         }
+
+    def save_data(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }

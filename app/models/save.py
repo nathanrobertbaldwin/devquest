@@ -21,3 +21,10 @@ class Save(db.Model):
             "slot_two": self.slot_two,
             "slot_three": self.slot_three,
         }
+
+    def save_slots(self):
+        return {
+            "slot_one": self.slot_one,
+            "slot_two": self.slot_two,
+            "slot_three": self.slot_three,
+        }

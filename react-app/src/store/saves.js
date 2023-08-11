@@ -52,7 +52,6 @@ export default function reducer(state = initialState, action) {
     }
     case GET_NEW_CHAR_SAVE: {
       const newSave = action.data;
-      console.log("THIS IS MY NEW CHARACTERS SAVE DATA", newSave);
       return { ...state, ...newSave };
     }
     default: {

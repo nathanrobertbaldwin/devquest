@@ -43,9 +43,7 @@ function CharacterCreationModal() {
       attack_four: attacks[3].id,
     };
 
-    const newCharacter = await dispatch(
-      createNewCharacterThunk(newCharacterData)
-    );
+    await dispatch(createNewCharacterThunk(newCharacterData));
   }
 
   return (
