@@ -22,7 +22,7 @@ def load_character(charId):
 @login_required
 def new_character():
     """
-    Create a new character.
+    Create a new character, apply character attacks, and create character save file.
     """
     form = CharacterForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
@@ -85,3 +85,41 @@ def new_character():
         }
 
     return "form not validating"
+
+
+@character_routes.route("/<int:charId>", methods=["DELETE"])
+@login_required
+def delete_character(charId):
+    """
+    Delete a character and its save file information.
+    """
+
+    character = Character.query.get(charId)
+
+    if character:
+        user_saves = Save.query.filter(Save.user_id == character.user_id).first()
+
+        inspector = inspect(Save)
+
+        save_slot = None
+
+        for column in inspector.columns:
+            column_name = column.name
+            column_value = getattr(user_saves, column_name)
+
+            if column_value is charId:
+                setattr(user_saves, column_name, None)
+                if column_name == "slot_one":
+                    save_slot = 1
+                if column_name == "slot_two":
+                    save_slot = 2
+                if column_name == "slot_three":
+                    save_slot = 3
+                break
+
+        db.session.delete(character)
+        db.session.commit()
+
+        return {"message": "Deleted", "character_id": charId, "save_slot": save_slot}
+
+    return {"message": "Error: Character not found. Save files are corrupted."}

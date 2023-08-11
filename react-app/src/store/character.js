@@ -1,12 +1,13 @@
 // ============================== IMPORTS ================================ //
 
 import { flattenInventory } from "./utilities";
-import { getNewCharSave } from "./saves";
+import { deleteSaveFile, getNewCharSave } from "./saves";
 
 // =========================== ACTION STRINGS ============================ //
 
 const GET_CHARACTER_DATA = "character_data/GET";
 const CREATE_NEW_CHARACTER = "character_data/POST";
+const DELETE_CHARACTER = "character/DELETE";
 const RESET_CHARACTER_DATA = "character_data/RESET";
 
 // ============================== ACTIONS ============================== //
@@ -19,6 +20,11 @@ const getCharacterData = (data) => ({
 const createNewCharacter = (newCharacter) => ({
   type: CREATE_NEW_CHARACTER,
   data: newCharacter,
+});
+
+const deleteCharacter = () => ({
+  type: DELETE_CHARACTER,
+  data: {},
 });
 
 const resetCharacterData = () => ({
@@ -60,6 +66,21 @@ export const createNewCharacterThunk = (character) => async (dispatch) => {
   }
 };
 
+export const deleteCharacterDataThunk = (id) => async (dispatch) => {
+  const response = await fetch(`/api/characters/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(deleteCharacter());
+    dispatch(deleteSaveFile(data.save_slot));
+  }
+};
+
 export const resetCharacterDataThunk = () => async (dispatch) => {
   dispatch(resetCharacterData());
 };
@@ -76,8 +97,11 @@ export default function reducer(state = initialState, action) {
     }
     case CREATE_NEW_CHARACTER: {
       const character = action.data;
-      console.log("THIS IS FROM THE REDUCER", character);
       return { ...state, ...character };
+    }
+    case DELETE_CHARACTER: {
+      const data = action.data;
+      return { ...data };
     }
     case RESET_CHARACTER_DATA: {
       const data = action.data;

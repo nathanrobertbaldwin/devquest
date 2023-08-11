@@ -1,19 +1,20 @@
-#saves-panel{
+#game-menu-panel{
     border-radius: 10px;
-}
-
-
-#saves-component-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 600px;
-    height: 400px;
     background-color: #F8A557;
     border: 5px solid #C44300;
     box-shadow: 10px 10px 10px #494991;
-    gap: 2em;
+    width: 600px;
+    height: 300px;
     border-radius: 10px;
+    padding: 1em;
+}
+
+
+#game-menu-component-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
 }
 
 #saved-game-container{
