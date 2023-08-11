@@ -1,6 +1,7 @@
 // ============================== IMPORTS ================================ //
 
 import { flattenInventory } from "./utilities";
+import { getNewCharSaveThunk } from "./saves";
 
 // =========================== ACTION STRINGS ============================ //
 
@@ -48,12 +49,13 @@ export const createNewCharacterThunk = (character) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const newCharacter = await response.json();
-    const inventory_data = newCharacter.inventory;
-    const inventory = flattenInventory(inventory_data);
-    character.inventory = inventory;
-    dispatch(createNewCharacter(character));
-    return newCharacter;
+    const newCharacterData = await response.json();
+    console.log(newCharacterData);
+    // const inventory_data = newCharacter.inventory;
+    // const inventory = flattenInventory(inventory_data);
+    // character.inventory = inventory;
+    // dispatch(createNewCharacter(character));
+    // return newCharacter;
   }
 };
 

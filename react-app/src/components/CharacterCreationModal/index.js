@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./CharacterCreationModal.css";
+import { createNewCharacterThunk } from "../../store/character";
 
 function CharacterCreationModal() {
+  const dispatch = useDispatch();
   const sessionUser = useSelector((store) => store.session.user);
   const [name, setName] = useState("");
   const [backend, setBackend] = useState(5);
@@ -32,17 +34,17 @@ function CharacterCreationModal() {
       backend,
       frontend,
       algorithms,
-      CSS,
+      css: CSS,
       debugging,
       energy,
-      attack_1: attacks[0],
-      attack_2: attacks[1],
-      attack_3: attacks[2],
-      attack_4: attacks[3],
+      attack_one: attacks[0].id,
+      attack_two: attacks[1].id,
+      attack_three: attacks[2].id,
+      attack_four: attacks[3].id,
     };
 
-    const saveData = await dispatch()
-    console.log("This should be the saves data for this User", );
+    const saveData = await dispatch(createNewCharacterThunk(newCharacter));
+    console.log("This should be the saves data for this User", saveData);
   }
 
   return (

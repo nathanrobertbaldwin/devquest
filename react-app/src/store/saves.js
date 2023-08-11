@@ -1,12 +1,18 @@
 // =========================== ACTION STRINGS ============================ //
 
 const GET_USER_SAVES = "user_saves/GET";
-const RESET_SAVE_DATA = "save_data/reset";
+const GET_NEW_CHAR_SAVE = "new_character/SAVE";
+const RESET_SAVE_DATA = "save_data/RESET";
 
 // ============================== ACTIONS ============================== //
 
 const getUserSaves = (data) => ({
   type: GET_USER_SAVES,
+  data: data,
+});
+
+const getNewCharSave = (data) => ({
+  type: GET_NEW_CHAR_SAVE,
   data: data,
 });
 
@@ -26,6 +32,10 @@ export const getUserSavesThunk = () => async (dispatch) => {
   }
 };
 
+export const getNewCharSaveThunk = (data) => async (dispatch) => {
+  dispatch(getNewCharSave(data));
+};
+
 export const resetSaveDataThunk = () => async (dispatch) => {
   dispatch(resetSaveData());
 };
@@ -43,6 +53,10 @@ export default function reducer(state = initialState, action) {
     case RESET_SAVE_DATA: {
       const data = action.data;
       return [...data];
+    }
+    case GET_NEW_CHAR_SAVE: {
+      const newSave = action.data;
+      return [...state, ...newSave];
     }
     default: {
       return state;
