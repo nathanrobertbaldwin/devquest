@@ -21,5 +21,5 @@ class Monster(db.Model):
             "name": self.name,
             "hp": self.hp,
             "weakness": self.weakness,
-            "image_url": self.image_url,
+            "imageUrl": self.image_url,
         }

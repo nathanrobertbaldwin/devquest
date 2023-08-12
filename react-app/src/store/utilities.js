@@ -4,15 +4,15 @@ function flattenInventory(arr) {
     inventory.push({
       id: item.item.id,
       equipped: item.equipped,
-      image_url: item.item.image_url,
+      imageUrl: item.item.imageUrl,
       name: item.item.name,
       slot: item.item.slot,
-      algorithms_boost: item.item.algorithms_boost,
-      backend_boost: item.item.backend_boost,
-      frontend_boost: item.item.frontend_boost,
-      css_boost: item.item.css_boost,
-      debugging_boost: item.item.debugging_boost,
-      energy_boost: item.item.energy_boost,
+      algorithmsBoost: item.item.algorithmsBoost,
+      backendBoost: item.item.backendBoost,
+      frontendBoost: item.item.frontendBoost,
+      cssBoost: item.item.cssBoost,
+      debuggingBoost: item.item.debuggingBoost,
+      energyBoost: item.item.energyBoost,
     });
   });
   return inventory;

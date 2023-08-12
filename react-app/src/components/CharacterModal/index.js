@@ -26,39 +26,39 @@ function CharacterModal() {
 
   const algorithmsTotal =
     character.algorithms +
-    (equippedGear ? equippedGear.algorithms_boost : 0) +
-    (equippedFood ? equippedFood.algorithms_boost : 0) +
-    (equippedReference ? equippedReference.algorithms_boost : 0);
+    (equippedGear ? equippedGear.algorithmsBoost : 0) +
+    (equippedFood ? equippedFood.algorithmsBoost : 0) +
+    (equippedReference ? equippedReference.algorithmsBoost : 0);
 
   const backendTotal =
     character.backend +
-    (equippedGear ? equippedGear.backend_boost : 0) +
-    (equippedFood ? equippedFood.backend_boost : 0) +
-    (equippedReference ? equippedReference.backend_boost : 0);
+    (equippedGear ? equippedGear.backendBoost : 0) +
+    (equippedFood ? equippedFood.backendBoost : 0) +
+    (equippedReference ? equippedReference.backendBoost : 0);
 
   const frontendTotal =
     character.frontend +
-    (equippedGear ? equippedGear.frontend_boost : 0) +
-    (equippedFood ? equippedFood.frontend_boost : 0) +
-    (equippedReference ? equippedReference.frontend_boost : 0);
+    (equippedGear ? equippedGear.frontendBoost : 0) +
+    (equippedFood ? equippedFood.frontendBoost : 0) +
+    (equippedReference ? equippedReference.frontendBoost : 0);
 
   const cssTotal =
     character.css +
-    (equippedGear ? equippedGear.css_boost : 0) +
-    (equippedFood ? equippedFood.css_boost : 0) +
-    (equippedReference ? equippedReference.css_boost : 0);
+    (equippedGear ? equippedGear.cssBoost : 0) +
+    (equippedFood ? equippedFood.cssBoost : 0) +
+    (equippedReference ? equippedReference.cssBoost : 0);
 
   const debuggingTotal =
     character.debugging +
-    (equippedGear ? equippedGear.debugging_boost : 0) +
-    (equippedFood ? equippedFood.debugging_boost : 0) +
-    (equippedReference ? equippedReference.debugging_boost : 0);
+    (equippedGear ? equippedGear.debuggingBoost : 0) +
+    (equippedFood ? equippedFood.debuggingBoost : 0) +
+    (equippedReference ? equippedReference.debuggingBoost : 0);
 
   const energyTotal =
-    character.energy +
-    (equippedGear ? equippedGear.energy_boost : 0) +
-    (equippedFood ? equippedFood.energy_boost : 0) +
-    (equippedReference ? equippedReference.energy_boost : 0);
+    character.maxEnergy +
+    (equippedGear ? equippedGear.energyBoost : 0) +
+    (equippedFood ? equippedFood.energyBoost : 0) +
+    (equippedReference ? equippedReference.energyBoost : 0);
 
   return (
     <div id="container">
@@ -73,6 +73,9 @@ function CharacterModal() {
           <span className="attribute">CSS: {cssTotal}</span>
           <span className="attribute">Debugging: {debuggingTotal}</span>
           <span className="attribute">Energy: {energyTotal}</span>
+          <span className="attribute">Max Energy: {energyTotal}</span>
+          <span className="attribute">Sanity: {character.currSanity}</span>
+          <span className="attribute">Max Sanity: {character.maxSanity}</span>
         </div>
       </div>
       <div id="equipped-items">
@@ -84,7 +87,7 @@ function CharacterModal() {
                 setEquippedGear(null);
               }}
             >
-              <img alt="" src={equippedGear.image_url} />
+              <img alt="" src={equippedGear.imageUrl} />
             </div>
           ) : (
             <span>Gear</span>
@@ -98,7 +101,7 @@ function CharacterModal() {
                 setEquippedFood(null);
               }}
             >
-              <img alt="" src={equippedFood.image_url} />
+              <img alt="" src={equippedFood.imageUrl} />
             </div>
           ) : (
             <span>Food</span>
@@ -112,7 +115,7 @@ function CharacterModal() {
                 setEquippedReference(null);
               }}
             >
-              <img alt="" src={equippedReference.image_url} />
+              <img alt="" src={equippedReference.imageUrl} />
             </div>
           ) : (
             <span>Reference</span>
@@ -125,8 +128,8 @@ function CharacterModal() {
             <div key={key} className="item-card">
               <span>Name: {value["name"]}</span>
               <span>Power: {value["power"]}</span>
-              <span>Energy Cost: {value["energy_cost"]}</span>
-              <span>Primary Stat: {value["primary_stat"]}</span>
+              <span>Energy Cost: {value["energyCost"]}</span>
+              <span>Primary Stat: {value["primaryStat"]}</span>
             </div>
           );
         })}

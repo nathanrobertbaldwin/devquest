@@ -36,10 +36,10 @@ class Character(db.Model):
             "algorithms": self.algorithms,
             "css": self.css,
             "debugging": self.debugging,
-            "curr_energy": self.curr_energy,
-            "max_energy": self.max_energy,
-            "curr_sanity": self.curr_sanity,
-            "max_sanity": self.max_sanity,
+            "currEnergy": self.curr_energy,
+            "maxEnergy": self.max_energy,
+            "currSanity": self.curr_sanity,
+            "maxSanity": self.max_sanity,
             "attacks": [attack.to_dict() for attack in self.attacks],
             "inventory": [
                 inventory_item.to_dict() for inventory_item in self.inventory

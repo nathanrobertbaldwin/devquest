@@ -58,7 +58,7 @@ export default function GameStateCombat() {
   function handleCharAttack(attack) {
     if (turnCounter % 2 === 1) {
       const damage = calculateDamage(attack);
-      dispatch(spendCharacterEnergyThunk(attack.energy_cost));
+      dispatch(spendCharacterEnergyThunk(attack.energyCost));
       dispatch(updateMonsterHpThunk(damage));
       if (monster.currHp <= damage) {
         setCombatLog([...combatLog, `You defeated the ${monster.name}!`]);
@@ -73,7 +73,7 @@ export default function GameStateCombat() {
 
   function calculateDamage(attack) {
     const randomizer = Math.random() + 1;
-    if (attack.primary_stat === monster.weakness) {
+    if (attack.primaryStat === monster.weakness) {
       const damage = Math.floor(attack.power * randomizer * 2);
       setCombatLog([
         ...combatLog,
@@ -111,8 +111,12 @@ export default function GameStateCombat() {
       <div id="character-container">
         <div id="character-resources-image-container">
           <div id="character-resources-container">
-            <span className="character-resources-span">{char.energy}</span>
-            <span className="character-resources-span">{char.sanity}</span>
+            <span className="character-resources-span">
+              Energy: {char.currEnergy}/{char.maxEnergy}
+            </span>
+            <span className="character-resources-span">
+              Sanity: {char.currSanity}/{char.maxSanity}
+            </span>
           </div>
           <div id="character-image-container">
             <img alt="character" src="" />

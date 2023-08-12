@@ -32,8 +32,8 @@ class Attack(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "owner_type": self.owner_type,
-            "primary_stat": self.primary_stat,
+            "ownerType": self.owner_type,
+            "primaryStat": self.primary_stat,
             "power": self.power,
-            "energy_cost": self.energy_cost,
+            "energyCost": self.energy_cost,
         }

@@ -63,8 +63,8 @@ export const createNewCharacterThunk = (character) => async (dispatch) => {
   if (response.ok) {
     const newCharacterCreationData = await response.json();
     const newCharacter = newCharacterCreationData.new_character;
-    const inventory_data = newCharacter.inventory;
-    character.inventory = flattenInventory(inventory_data);
+    const inventoryData = newCharacter.inventory;
+    character.inventory = flattenInventory(inventoryData);
     dispatch(createNewCharacter(newCharacter));
     const newSaveData = newCharacterCreationData.new_save;
     dispatch(getNewCharSave(newSaveData));
@@ -112,8 +112,7 @@ export default function reducer(state = initialState, action) {
     case SPEND_CHARACTER_ENERGY: {
       const cost = action.data;
       const newState = { ...state };
-      const newEnergy = newState.energy - cost;
-      newState.energy = newEnergy;
+      newState.currEnergy -= cost;
       return newState;
     }
     case DELETE_CHARACTER: {
