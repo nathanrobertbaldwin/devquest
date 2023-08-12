@@ -1,3 +1,3 @@
 export default function GameStateEvent() {
-  return <>GameStateEvent Screen Will Go Here</>;
+  return <>Event screen will go here</>;
 }

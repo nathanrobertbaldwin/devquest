@@ -1,3 +1,3 @@
 export default function GameStateIntro() {
-  return <>GameStateIntro Screen Will Go Here</>;
+  return <>Intro screen will go here.</>;
 }

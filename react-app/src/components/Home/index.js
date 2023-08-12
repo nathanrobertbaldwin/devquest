@@ -14,6 +14,7 @@ export default function Home() {
   const gameData = useSelector((store) => store.gamedata);
   const dispatch = useDispatch();
   const [isGameDataLoaded, setIsGameDataLoaded] = useState(false);
+  const [gameState, setGameState] = useState("intro");
 
   useEffect(() => {
     if (_.isEmpty(gameData)) {
@@ -25,42 +26,42 @@ export default function Home() {
 
   if (!isGameDataLoaded) return <></>;
 
-  if ("GameStateIntro") {
+  if (gameState === "intro") {
     return (
       <div id="game-component">
-        <GameStateIntro>"GameStateIntro"</GameStateIntro>
+        <GameStateIntro />
       </div>
     );
   }
 
-  if ("GameStateCombat") {
+  if (gameState === "combat") {
     return (
       <div id="game-component">
-        <GameStateCombat>"GameStateCombat"</GameStateCombat>
+        <GameStateCombat />
       </div>
     );
   }
 
-  if ("GameStateEvent") {
+  if (gameState === "event") {
     return (
       <div id="game-component">
-        <GameStateEvent>"GameStateEvent"</GameStateEvent>
+        <GameStateEvent />
       </div>
     );
   }
 
-  if ("GameStateLoss") {
+  if (gameState === "loss") {
     return (
       <div id="game-component">
-        <GameStateLoss>"GameStateLoss"</GameStateLoss>
+        <GameStateLoss />
       </div>
     );
   }
 
-  if ("GameStateWin") {
+  if (gameState === "win") {
     return (
       <div id="game-component">
-        <GameStateWin>"GameStateWin"</GameStateWin>
+        <GameStateWin />
       </div>
     );
   }

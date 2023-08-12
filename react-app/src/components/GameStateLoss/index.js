@@ -1,3 +1,3 @@
 export default function GameStateLoss() {
-  return <>GameStateLoss Screen Will Go Here</>;
+  return <>Loss screen will go here</>;
 }
