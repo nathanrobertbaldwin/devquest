@@ -14,7 +14,7 @@ export default function Home() {
   const gameData = useSelector((store) => store.gamedata);
   const dispatch = useDispatch();
   const [isGameDataLoaded, setIsGameDataLoaded] = useState(false);
-  const [gameState, setGameState] = useState("intro");
+  const [gameState, setGameState] = useState("combat");
 
   useEffect(() => {
     if (_.isEmpty(gameData)) {

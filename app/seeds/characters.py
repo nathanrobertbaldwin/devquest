@@ -14,7 +14,10 @@ def seed_characters():
             algorithms=character["algorithms"],
             css=character["css"],
             debugging=character["debugging"],
-            energy=character["energy"],
+            curr_energy=100,
+            max_energy=100,
+            curr_sanity=100,
+            max_sanity=100,
         )
 
         db.session.add(new_character)

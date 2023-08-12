@@ -4,12 +4,14 @@ import session from "./session";
 import gamedata from "./gamedata";
 import saves from "./saves";
 import character from "./character";
+import monster from "./monster";
 
 const rootReducer = combineReducers({
   session,
   gamedata,
   saves,
   character,
+  monster,
 });
 
 let enhancer;

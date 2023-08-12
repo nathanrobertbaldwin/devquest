@@ -37,7 +37,10 @@ def new_character():
             algorithms=data["algorithms"],
             css=data["css"],
             debugging=data["debugging"],
-            energy=data["energy"],
+            curr_energy=data["energy"],
+            max_energy=data["energy"],
+            curr_sanity=100,
+            max_sanity=100,
         )
 
         db.session.add(new_character)
