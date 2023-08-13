@@ -24,11 +24,16 @@ export default function Home() {
     }
   }, [dispatch, gameData]);
 
+  function changeGameState(state) {
+    setGameState(state);
+  }
+
   if (!isGameDataLoaded) return <></>;
 
   if (gameState === "intro") {
     return (
       <div id="game-component">
+        <button onClick={() => changeGameState("combat")}>Intro</button>
         <GameStateIntro />
       </div>
     );
@@ -37,6 +42,7 @@ export default function Home() {
   if (gameState === "combat") {
     return (
       <div id="game-component">
+        <button onClick={() => changeGameState("intro")}>Intro</button>
         <GameStateCombat />
       </div>
     );

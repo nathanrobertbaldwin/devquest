@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from app.models import Equipment, Monster, Attack
+from app.models import Equipment, MonsterTemplate, Attack
 from .utilities import normalizer
 
 game_data_routes = Blueprint("game_data_routes", __name__)
@@ -18,7 +18,7 @@ def game_data():
     character_attacks_array = [attack.to_dict() for attack in character_attacks_data]
     character_attacks = normalizer(character_attacks_array)
 
-    monster_data = Monster.query.all()
+    monster_data = MonsterTemplate.query.all()
     monsters_array = [monster.to_dict() for monster in monster_data]
     monsters = normalizer(monsters_array)
 
