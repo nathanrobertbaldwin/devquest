@@ -4,6 +4,10 @@ body {
     min-height: 100vh;
 }
 
+canvas {
+    display:block;
+}
+
 #root {
     font-family: "Gordita", Helvetica, Arial, Verdana, sans-serif;
     min-height: inherit;

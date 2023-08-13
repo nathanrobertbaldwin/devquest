@@ -15,7 +15,10 @@ class Character(db.Model):
     algorithms = db.Column(db.Integer, nullable=False)
     css = db.Column(db.Integer, nullable=False)
     debugging = db.Column(db.Integer, nullable=False)
-    energy = db.Column(db.Integer, nullable=False)
+    curr_energy = db.Column(db.Integer, nullable=False)
+    max_energy = db.Column(db.Integer, nullable=False)
+    curr_sanity = db.Column(db.Integer, nullable=False)
+    max_sanity = db.Column(db.Integer, nullable=False)
 
     attacks = db.relationship(
         "Attack", secondary="character_attacks", back_populates="characters"
@@ -33,9 +36,19 @@ class Character(db.Model):
             "algorithms": self.algorithms,
             "css": self.css,
             "debugging": self.debugging,
-            "energy": self.energy,
+            "currEnergy": self.curr_energy,
+            "maxEnergy": self.max_energy,
+            "currSanity": self.curr_sanity,
+            "maxSanity": self.max_sanity,
             "attacks": [attack.to_dict() for attack in self.attacks],
-            "inventory": [
-                inventory_item.to_dict() for inventory_item in self.inventory
-            ],
+            "inventory": {
+                inventory_item.id: inventory_item.to_dict()
+                for inventory_item in self.inventory
+            },
+        }
+
+    def save_data(self):
+        return {
+            "id": self.id,
+            "name": self.name,
         }

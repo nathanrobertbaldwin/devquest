@@ -1,0 +1,19 @@
+#attack-card-container{
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    padding-top: .25em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border: 3px solid black;
+    border-radius: 1em;
+    gap: .25em;
+}
+
+#attack-card-container :hover{
+    cursor: pointer;
+}
+
+.attack-card-span{
+    font-size: x-small;
+}

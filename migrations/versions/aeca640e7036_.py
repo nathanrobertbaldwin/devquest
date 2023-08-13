@@ -1,12 +1,13 @@
 """empty message
 
-Revision ID: c8aaae3be226
+Revision ID: aeca640e7036
 Revises: 
-Create Date: 2023-08-09 22:26:48.267842
+Create Date: 2023-08-13 14:33:02.485562
 
 """
 from alembic import op
 import sqlalchemy as sa
+
 
 import os
 
@@ -15,7 +16,7 @@ SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
-revision = "c8aaae3be226"
+revision = "aeca640e7036"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -49,10 +50,6 @@ def upgrade():
         sa.Column("energy_cost", sa.Integer(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE attacks SET SCHEMA {SCHEMA};")
-
     op.create_table(
         "equipments",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -71,10 +68,27 @@ def upgrade():
         sa.Column("image_url", sa.String(length=255), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE equipments SET SCHEMA {SCHEMA};")
-
+    op.create_table(
+        "monster_templates",
+        sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("name", sa.String(length=50), nullable=False),
+        sa.Column("hp", sa.Integer(), nullable=False),
+        sa.Column(
+            "weakness",
+            sa.Enum(
+                "backend",
+                "frontend",
+                "debugging",
+                "css",
+                "algorithms",
+                "energy",
+                name="weakness_enum",
+            ),
+            nullable=True,
+        ),
+        sa.Column("image_url", sa.String(length=255), nullable=True),
+        sa.PrimaryKeyConstraint("id"),
+    )
     op.create_table(
         "monsters",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -96,10 +110,6 @@ def upgrade():
         sa.Column("image_url", sa.String(length=255), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE monsters SET SCHEMA {SCHEMA};")
-
     op.create_table(
         "users",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -110,10 +120,6 @@ def upgrade():
         sa.UniqueConstraint("email"),
         sa.UniqueConstraint("username"),
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-
     op.create_table(
         "characters",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -124,17 +130,16 @@ def upgrade():
         sa.Column("algorithms", sa.Integer(), nullable=False),
         sa.Column("css", sa.Integer(), nullable=False),
         sa.Column("debugging", sa.Integer(), nullable=False),
-        sa.Column("energy", sa.Integer(), nullable=False),
+        sa.Column("curr_energy", sa.Integer(), nullable=False),
+        sa.Column("max_energy", sa.Integer(), nullable=False),
+        sa.Column("curr_sanity", sa.Integer(), nullable=False),
+        sa.Column("max_sanity", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(
             ["user_id"],
             ["users.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE characters SET SCHEMA {SCHEMA};")
-
     op.create_table(
         "saves",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -148,10 +153,6 @@ def upgrade():
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE saves SET SCHEMA {SCHEMA};")
-
     op.create_table(
         "character_attacks",
         sa.Column("character_id", sa.Integer(), nullable=False),
@@ -166,10 +167,6 @@ def upgrade():
         ),
         sa.PrimaryKeyConstraint("character_id", "attack_id"),
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE character_attacks SET SCHEMA {SCHEMA};")
-
     op.create_table(
         "inventories",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -188,6 +185,14 @@ def upgrade():
     )
 
     if environment == "production":
+        op.execute(f"ALTER TABLE attacks SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE equipments SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE monster_templates SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE monsters SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE characters SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE saves SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE character_attacks SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE inventories SET SCHEMA {SCHEMA};")
 
     # ### end Alembic commands ###
@@ -201,6 +206,7 @@ def downgrade():
     op.drop_table("characters")
     op.drop_table("users")
     op.drop_table("monsters")
+    op.drop_table("monster_templates")
     op.drop_table("equipments")
     op.drop_table("attacks")
     # ### end Alembic commands ###

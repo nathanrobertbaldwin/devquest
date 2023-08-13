@@ -1,0 +1,12 @@
+#monster-card-container{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+    padding: 1em;
+    align-items: center;
+}
+
+#monster-image-container{
+    height: 100%;
+}
