@@ -1,68 +1,70 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleInventoryItemEquipThunk } from "../../store/character";
 import "./CharacterModal.css";
 const _ = require("lodash");
 
 function CharacterModal() {
-  const character = useSelector((store) => store.character);
+  const dispatch = useDispatch();
+  const char = useSelector((store) => store.character);
   const inventory = useSelector((store) => store.character.inventory);
   const attacks = useSelector((store) => store.character.attacks);
 
   const [equippedGear, setEquippedGear] = useState(() =>
-    character.inventory.find(
+    Object.values(inventory).find(
       (item) => item.equipped === true && item.slot === "gear"
     )
   );
   const [equippedFood, setEquippedFood] = useState(
-    character.inventory.find(
+    Object.values(inventory).find(
       (item) => item.equipped === true && item.slot === "food"
     )
   );
   const [equippedReference, setEquippedReference] = useState(
-    character.inventory.find(
+    Object.values(inventory).find(
       (item) => item.equipped === true && item.slot === "reference"
     )
   );
 
   const algorithmsTotal =
-    character.algorithms +
+    char.algorithms +
     (equippedGear ? equippedGear.algorithmsBoost : 0) +
     (equippedFood ? equippedFood.algorithmsBoost : 0) +
     (equippedReference ? equippedReference.algorithmsBoost : 0);
 
   const backendTotal =
-    character.backend +
+    char.backend +
     (equippedGear ? equippedGear.backendBoost : 0) +
     (equippedFood ? equippedFood.backendBoost : 0) +
     (equippedReference ? equippedReference.backendBoost : 0);
 
   const frontendTotal =
-    character.frontend +
+    char.frontend +
     (equippedGear ? equippedGear.frontendBoost : 0) +
     (equippedFood ? equippedFood.frontendBoost : 0) +
     (equippedReference ? equippedReference.frontendBoost : 0);
 
   const cssTotal =
-    character.css +
+    char.css +
     (equippedGear ? equippedGear.cssBoost : 0) +
     (equippedFood ? equippedFood.cssBoost : 0) +
     (equippedReference ? equippedReference.cssBoost : 0);
 
   const debuggingTotal =
-    character.debugging +
+    char.debugging +
     (equippedGear ? equippedGear.debuggingBoost : 0) +
     (equippedFood ? equippedFood.debuggingBoost : 0) +
     (equippedReference ? equippedReference.debuggingBoost : 0);
 
   const energyTotal =
-    character.maxEnergy +
+    char.maxEnergy +
     (equippedGear ? equippedGear.energyBoost : 0) +
     (equippedFood ? equippedFood.energyBoost : 0) +
     (equippedReference ? equippedReference.energyBoost : 0);
 
   return (
     <div id="container">
-      <h3 id="header">{character.name}</h3>
+      <h3 id="header">{char.name}</h3>
       <div id="avatar">
         <div id="avatar-image-container"></div>
         <div id="attributes-container">
@@ -74,8 +76,8 @@ function CharacterModal() {
           <span className="attribute">Debugging: {debuggingTotal}</span>
           <span className="attribute">Energy: {energyTotal}</span>
           <span className="attribute">Max Energy: {energyTotal}</span>
-          <span className="attribute">Sanity: {character.currSanity}</span>
-          <span className="attribute">Max Sanity: {character.maxSanity}</span>
+          <span className="attribute">Sanity: {char.currSanity}</span>
+          <span className="attribute">Max Sanity: {char.maxSanity}</span>
         </div>
       </div>
       <div id="equipped-items">
@@ -84,6 +86,7 @@ function CharacterModal() {
             <div
               id="equipped-gear"
               onClick={() => {
+                dispatch(toggleInventoryItemEquipThunk(equippedGear.id));
                 setEquippedGear(null);
               }}
             >
@@ -98,6 +101,7 @@ function CharacterModal() {
             <div
               id="equipped-food"
               onClick={() => {
+                dispatch(toggleInventoryItemEquipThunk(equippedFood.id));
                 setEquippedFood(null);
               }}
             >
@@ -112,6 +116,9 @@ function CharacterModal() {
             <div
               id="equipped-reference"
               onClick={() => {
+                dispatch(
+                  toggleInventoryItemEquipThunk(char.id, equippedReference.id)
+                );
                 setEquippedReference(null);
               }}
             >
@@ -137,13 +144,14 @@ function CharacterModal() {
       <div id="inventory">
         <h5>Gear</h5>
         <div id="inventory-gear">
-          {inventory.map((item, idx) => {
+          {Object.entries(inventory).map(([key, item]) => {
             if (item.slot === "gear" && !_.isEqual(equippedGear, item)) {
               return (
                 <div
-                  key={idx}
+                  key={key}
                   className="equipment-card"
                   onClick={() => {
+                    dispatch(toggleInventoryItemEquipThunk(item.id));
                     setEquippedGear(item);
                   }}
                 >
@@ -156,13 +164,14 @@ function CharacterModal() {
         </div>
         <h5>Food</h5>
         <div id="inventory-food">
-          {inventory.map((item, idx) => {
+          {Object.entries(inventory).map(([key, item]) => {
             if (item.slot === "food" && !_.isEqual(equippedFood, item)) {
               return (
                 <div
-                  key={idx}
+                  key={key}
                   className="equipment-card"
                   onClick={() => {
+                    dispatch(toggleInventoryItemEquipThunk(item.id));
                     setEquippedFood(item);
                   }}
                 >
@@ -175,16 +184,17 @@ function CharacterModal() {
         </div>
         <h5>Reference</h5>
         <div id="inventory-reference">
-          {inventory.map((item, idx) => {
+          {Object.entries(inventory).map(([key, item]) => {
             if (
               item.slot === "reference" &&
               !_.isEqual(equippedReference, item)
             ) {
               return (
                 <div
-                  key={idx}
+                  key={key}
                   className="equipment-card"
                   onClick={() => {
+                    dispatch(toggleInventoryItemEquipThunk(item.id));
                     setEquippedReference(item);
                   }}
                 >

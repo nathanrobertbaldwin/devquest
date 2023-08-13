@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import db, Character, Save, Attack
+from app.models import db, Character, Save, Attack, Inventory
 from app.forms import CharacterForm
 from sqlalchemy import inspect
 
@@ -88,6 +88,34 @@ def new_character():
         }
 
     return "form not validating"
+
+
+@character_routes.route("/inventory/<int:itemId>", methods=["PUT"])
+@login_required
+def toggle_item_equip(itemId):
+    item = Inventory.query.get(itemId)
+
+    if item:
+        item.equipped = not item.equipped
+
+        db.session.commit()
+
+        return {"message": "Item equip status toggled."}
+
+    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}
+
+
+@character_routes.route("/api/inventory/<int:itemId>/drop", methods=["DELETE"])
+@login_required
+def drop_item(itemId):
+    item = Inventory.query.get(itemId)
+
+    if item:
+        db.session.delete(item)
+        db.session.commit()
+        return {"message": "Item removed from Character's inventory."}
+
+    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}
 
 
 @character_routes.route("/<int:charId>/energy", methods=["PUT"])

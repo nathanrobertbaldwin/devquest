@@ -41,9 +41,10 @@ class Character(db.Model):
             "currSanity": self.curr_sanity,
             "maxSanity": self.max_sanity,
             "attacks": [attack.to_dict() for attack in self.attacks],
-            "inventory": [
-                inventory_item.to_dict() for inventory_item in self.inventory
-            ],
+            "inventory": {
+                inventory_item.id: inventory_item.to_dict()
+                for inventory_item in self.inventory
+            },
         }
 
     def save_data(self):

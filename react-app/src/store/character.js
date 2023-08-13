@@ -7,6 +7,8 @@ import { deleteSaveFile, getNewCharSave } from "./saves";
 
 const GET_CHARACTER_DATA = "character_data/GET";
 const CREATE_NEW_CHARACTER = "character_data/POST";
+const TOGGLE_INVENTORY_ITEM_EQUIP = "inventory_item_equip/TOGGLE";
+const DROP_INVENTORY_ITEM = "inventory_item/DROP";
 const SPEND_CHARACTER_ENERGY = "character_energy/SPEND";
 const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
 const DELETE_CHARACTER = "character/DELETE";
@@ -22,6 +24,16 @@ const getCharacterData = (data) => ({
 const createNewCharacter = (newCharacter) => ({
   type: CREATE_NEW_CHARACTER,
   data: newCharacter,
+});
+
+export const toggleInventoryItemEquip = (itemId) => ({
+  type: TOGGLE_INVENTORY_ITEM_EQUIP,
+  data: itemId,
+});
+
+export const dropInventoryItem = (itemId) => ({
+  type: DROP_INVENTORY_ITEM,
+  data: itemId,
 });
 
 const spendCharacterEnergy = (cost) => ({
@@ -78,6 +90,32 @@ export const createNewCharacterThunk = (character) => async (dispatch) => {
   }
 };
 
+export const toggleInventoryItemEquipThunk = (itemId) => async (dispatch) => {
+  const response = await fetch(`/api/characters/inventory/${itemId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (response.ok) {
+    const data = response.json();
+    // console.log("From toggleInventoryItemThunk", data);
+    dispatch(toggleInventoryItemEquip(itemId));
+  }
+};
+
+export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
+  const response = await fetch(`/api/characters/inventory/${itemId}/drop`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (response.ok) {
+    const data = response.json();
+    // console.log("From dropInventoryItemThunk", data);
+    dispatch(dropInventoryItem(itemId));
+  }
+};
+
 export const spendCharacterEnergyThunk = (charId, cost) => async (dispatch) => {
   const response = await fetch(`api/characters/${charId}/energy`, {
     method: "PUT",
@@ -100,7 +138,7 @@ export const udpateCharacterSanityThunk =
     });
     if (response.ok) {
       const data = await response.json();
-      console.log("from updateCharacterSanityThunk:", data);
+      // console.log("from updateCharacterSanityThunk:", data);
       dispatch(udpateCharacterSanity(damage));
     }
   };
@@ -137,6 +175,21 @@ export default function reducer(state = initialState, action) {
     case CREATE_NEW_CHARACTER: {
       const character = action.data;
       return { ...state, ...character };
+    }
+    case TOGGLE_INVENTORY_ITEM_EQUIP: {
+      const itemId = action.data;
+      const newState = { ...state };
+      const inventory = newState.inventory;
+      console.log("BEFORE TOGGLE", inventory[itemId].equipped);
+      inventory[itemId].equipped = !inventory[itemId].equipped;
+      console.log("AFTER TOGGLE", inventory[itemId].equipped);
+      return newState;
+    }
+    case DROP_INVENTORY_ITEM: {
+      const itemId = action.data;
+      const newState = { ...state };
+      delete newState.inventory[itemId];
+      return newState;
     }
     case SPEND_CHARACTER_ENERGY: {
       const cost = action.data;

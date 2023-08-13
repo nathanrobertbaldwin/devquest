@@ -119,9 +119,6 @@ export default function GameStateCombat() {
 
   if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
 
-  console.log(stage);
-  console.log(monster);
-
   return (
     <div id="game-state-combat-container">
       <div id="monster-container">
