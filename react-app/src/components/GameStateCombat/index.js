@@ -64,7 +64,7 @@ export default function GameStateCombat() {
   function handleCharacterAttack(attack) {
     if (char.currSanity > 0 && turnCounter % 2 === 1) {
       const charDamage = calculateCharDamage(attack);
-      dispatch(spendCharacterEnergyThunk(attack.energyCost));
+      dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
       dispatch(updateMonsterHpThunk(charDamage));
       setTurnCounter(turnCounter + 1);
       if (monster.currHp <= charDamage) {
@@ -106,7 +106,7 @@ export default function GameStateCombat() {
       if (monsterDamage > char.currSanity) {
         console.log("You Lose!");
       } else {
-        dispatch(udpateCharacterSanityThunk(monsterDamage));
+        dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
         setCombatLog([
           `Turn ${turnCounter}: ${monster.name} uses ${monsterAttack.name}! You take ${monsterDamage} sanity damage. You are slowly losing your mind!`,
           ...combatLog,

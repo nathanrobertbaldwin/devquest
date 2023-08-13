@@ -78,13 +78,32 @@ export const createNewCharacterThunk = (character) => async (dispatch) => {
   }
 };
 
-export const spendCharacterEnergyThunk = (cost) => async (dispatch) => {
-  dispatch(spendCharacterEnergy(cost));
+export const spendCharacterEnergyThunk = (charId, cost) => async (dispatch) => {
+  const response = await fetch(`api/characters/${charId}/energy`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cost }),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    // console.log("from spendCharacterEnergyThunk:", data);
+    dispatch(spendCharacterEnergy(cost));
+  }
 };
 
-export const udpateCharacterSanityThunk = (damage) => async (dispatch) => {
-  dispatch(udpateCharacterSanity(damage));
-};
+export const udpateCharacterSanityThunk =
+  (charId, damage) => async (dispatch) => {
+    const response = await fetch(`api/characters/${charId}/sanity`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ damage }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("from updateCharacterSanityThunk:", data);
+      dispatch(udpateCharacterSanity(damage));
+    }
+  };
 
 export const deleteCharacterDataThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/characters/${id}`, {

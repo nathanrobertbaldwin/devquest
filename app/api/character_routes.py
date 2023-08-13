@@ -90,11 +90,59 @@ def new_character():
     return "form not validating"
 
 
+@character_routes.route("/<int:charId>/energy", methods=["PUT"])
+@login_required
+def spend_energy(charId):
+    """
+    Character has used an attack. Update character's current energy by charId.
+    """
+    character = Character.query.get(charId)
+
+    if character:
+        energy_cost = request.get_json()["cost"]
+
+        character.curr_energy -= energy_cost
+
+        db.session.commit()
+
+        return {
+            "message": "Updated character.currEnergy",
+            "character_id": charId,
+            "character.currEnergy": character.curr_energy,
+        }
+
+    return {"message": "Error: Character not found. Character file is corrupted."}
+
+
+@character_routes.route("/<int:charId>/sanity", methods=["PUT"])
+@login_required
+def lose_sanity(charId):
+    """
+    Monster has dealt sanity damage to character. Update character sanity.
+    """
+    print("THIS IS THE CHARACTERS ID,", charId)
+    character = Character.query.get(charId)
+    if character:
+        sanity_damage = request.get_json()["damage"]
+
+        character.curr_sanity -= sanity_damage
+
+        db.session.commit()
+
+        return {
+            "message": "Updated character.currSanity",
+            "character_id": charId,
+            "character.currEnergy": character.curr_sanity,
+        }
+
+    return {"message": "Error: Character not found. Character file is corrupted."}
+
+
 @character_routes.route("/<int:charId>", methods=["DELETE"])
 @login_required
 def delete_character(charId):
     """
-    Delete a character and its save file information.
+    Delete a character and its save data.
     """
 
     character = Character.query.get(charId)
