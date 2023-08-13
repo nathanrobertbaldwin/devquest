@@ -2,23 +2,26 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { getUserSavesThunk } from "../../store/saves";
-import { getCharacterDataThunk } from "../../store/character";
+import {
+  deleteCharacterDataThunk,
+  getCharacterDataThunk,
+} from "../../store/character";
 import OpenModalButton from "../OpenModalButton";
 import CharacterCreationModal from "../CharacterCreationModal";
-import "./SavesModal.css";
+import "./GameMenu.css";
 
-function SavesModal() {
+function GameMenuModal() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const saves_data = useSelector((store) => store.saves);
+  const savesData = useSelector((store) => store.saves);
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
   useEffect(() => {
-    if (!Object.values(saves_data).length) {
-      dispatch(getUserSavesThunk()).then(() => {
-        setIsLoaded(true);
-      });
-    }
+    dispatch(getUserSavesThunk()).then(() => {
+      setIsLoaded(true);
+    });
+
+    setIsLoaded(true);
   }, [dispatch]);
 
   const handleLoadSave = async (charId) => {
@@ -27,14 +30,18 @@ function SavesModal() {
     });
   };
 
+  const handleDeleteSave = async (charId) => {
+    await dispatch(deleteCharacterDataThunk(charId));
+  };
+
   if (!isLoaded) return <></>;
 
-  const savesArr = Object.values(saves_data);
+  const savesArr = Object.values(savesData);
 
   return (
-    <div id="saves-panel">
-      <div id="saves-component-container">
-        <h3>Saved Games</h3>
+    <div id="game-menu-panel">
+      <div id="game-menu-component-container">
+        <h5>Load A Save File or Create a New Game</h5>
         {savesArr.map((save, idx) => {
           return (
             <div id="saved-game-container" key={idx}>
@@ -47,7 +54,9 @@ function SavesModal() {
                   <div id="save-name-span-container">
                     {save.name ? <span>{save.name}</span> : <span>Empty</span>}
                   </div>
-                  <button>Delete Save</button>
+                  <button onClick={() => handleDeleteSave(save.id)}>
+                    Delete Save
+                  </button>
                 </>
               ) : (
                 <OpenModalButton
@@ -64,4 +73,4 @@ function SavesModal() {
   );
 }
 
-export default SavesModal;
+export default GameMenuModal;

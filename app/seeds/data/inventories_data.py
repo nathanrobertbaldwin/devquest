@@ -2,7 +2,7 @@ character_inventories = [
     {
         "character_id": 1,
         "equipment_id": 1,
-        "equipped": True,
+        "equipped": False,
     },
     {
         "character_id": 1,

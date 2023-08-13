@@ -12,32 +12,21 @@ def saves_data():
     """
     Query to load all the saves for a user.
     """
-    user_saves_data = Save.query.filter(Save.user_id == current_user.id)
-    user_saves = [save.to_dict() for save in user_saves_data][0]
+    user_save_file = Save.query.filter(Save.user_id == current_user.id).first()
 
-    characters = [{}] * 3
+    char_one = {}
+    char_two = {}
+    char_three = {}
 
-    if user_saves["slot_one"]:
-        character_one_data = Character.query.get(user_saves["slot_one"])
-        character_one = character_one_data.to_dict()
-        characters[0] = {
-            "name": character_one["name"],
-            "id": character_one["id"],
-        }
-    if user_saves["slot_two"]:
-        character_two_data = Character.query.get(user_saves["slot_three"])
-        character_two = character_two_data.to_dict()
-        characters[1] = {
-            "name": character_two["name"],
-            "id": character_two["id"],
-        }
-    if user_saves["slot_three"]:
-        character_three_data = Character.query.get(user_saves["slot_three"]).to_dict()
-        character_three = character_three_data.to_dict()
-        characters[2] = {
-            "name": character_three["name"],
-            "id": character_three["id"],
-        }
+    if user_save_file.slot_one:
+        char_one = Character.query.get(user_save_file.slot_one).save_data()
 
+    if user_save_file.slot_two:
+        char_two = Character.query.get(user_save_file.slot_two).save_data()
 
-    return characters
+    if user_save_file.slot_three:
+        char_three = Character.query.get(user_save_file.slot_three).save_data()
+
+    return_package = {1: char_one, 2: char_two, 3: char_three}
+
+    return return_package

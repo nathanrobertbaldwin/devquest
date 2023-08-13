@@ -2,8 +2,9 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 
 primary_stat = ["backend", "frontend", "debugging", "css", "algorithms", "energy"]
 
-class Monster(db.Model):
-    __tablename__ = "monsters"
+
+class MonsterTemplate(db.Model):
+    __tablename__ = "monster_templates"
 
     if environment == "production":
         __table_args__ = {"schema": SCHEMA}

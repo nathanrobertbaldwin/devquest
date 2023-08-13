@@ -1,10 +1,11 @@
-#character-creation-component-container{
+#component-container{
     display: grid;
     gap: .5em;
     width: 600px;
     height: 400px;
     background-color: #F8A557;
-    border: 10px solid #494991;
+    border: 5px solid #C44300;
+    box-shadow: 10px 10px 10px #494991;
     border-radius: 10px;
     padding: 1em;
     grid-template-columns: 2fr 3fr 3fr;
@@ -16,64 +17,67 @@
     "attributes chosenattacks availableattacks";
 }
 
-#character-creation-h3{
+#header{
     grid-area: header;
-    text-align: center;
+    display: flex;
+    justify-content: left;
+    align-items: center;
     margin: 0px;
     padding: 0px;
+    gap: 1em;
 }
 
-#character-creation-attributes-header{
+#attributes-header{
     grid-area: attributesheader;
     text-align: center;
 }
 
-#character-creation-attacks-header{
+#attacks-header{
     grid-area: chosenattacksheader;
     text-align: center;
 }
 
-#character-creation-choose-attacks-header{
+#choose-attacks-header{
     grid-area: availableattacksheader;
     text-align: center;
 }
 
-#character-creation-choose-more-attacks-text{
+#choose-more-attacks-text{
     grid-area: chosenattackstext;
     text-align: center;
 }
 
-#character-creation-points-remaining{
+#points-remaining{
     grid-area: attributestext;
     text-align: center;
 }
 
-#character-creation-attack-text{
+#attack-text{
     grid-area: chosenattacksheader;
     text-align: center;
 }
 
-#character-creation-chosen-attacks{
+#chosen-attacks{
     grid-area: chosenattacks;
     display: flex;
     flex-direction: column;
     gap: .5em;
 }
 
-#character-creation-available-attacks{
+#available-attacks{
     grid-area: availableattacks;
 }
 
-#character-creation-attributes-container{
+#cc-attributes-container{
     grid-area: attributes;
     display: flex;
     flex-direction: column;
-    height: 325px;
+    height: 310px;
+    width: 90%;
     gap: 1em;
-    padding-top: .5em;
-    padding-left: .5em;
-    padding-right: .5em;
-    background-color: #494991;
+    background-color: rgb(60, 60, 60);
+    border-radius: .5em;
+    padding: .5em;
 }
 
 .attribute-button-container{
@@ -90,7 +94,7 @@
     overflow-y: scroll;
 }
 
-.character-creation-attack-card{
+.attack-card{
     display: flex;
     flex-direction: column;
     border: 3px solid black;

@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+
 import "./CharacterCreationModal.css";
+import { createNewCharacterThunk } from "../../store/character";
 
 function CharacterCreationModal() {
   const dispatch = useDispatch();
-  const { closeModal } = useModal();
-
+  const sessionUser = useSelector((store) => store.session.user);
+  const [name, setName] = useState("");
+  const [backend, setBackend] = useState(5);
+  const [frontend, setFrontend] = useState(5);
   const [algorithms, setAlgorithms] = useState(5);
   const [CSS, setCSS] = useState(5);
-  const [databases, setDatabases] = useState(5);
   const [debugging, setDebugging] = useState(5);
   const [energy, setEnergy] = useState(50);
   const [points, setPoints] = useState(10);
@@ -21,18 +23,111 @@ function CharacterCreationModal() {
     return store.gamedata.characterAttacks;
   });
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const attacks = [...Object.values(chosenAttacks)];
+
+    const newCharacterData = {
+      name,
+      user_id: sessionUser.id,
+      backend,
+      frontend,
+      algorithms,
+      css: CSS,
+      debugging,
+      energy,
+      attack_one: attacks[0].id,
+      attack_two: attacks[1].id,
+      attack_three: attacks[2].id,
+      attack_four: attacks[3].id,
+    };
+
+    await dispatch(createNewCharacterThunk(newCharacterData));
+  }
+
   return (
-    <div id="character-creation-component-container">
-      <h4 id="character-creation-h3">Create A New Character</h4>
-      <h5 id="character-creation-attributes-header">Attributes</h5>
-      <span id="character-creation-points-remaining">
-        {points} points remaining
-      </span>
-      <div id="character-creation-attributes-container">
+    <form id="component-container">
+      <div id="header">
+        <h5>Name Your Character</h5>
+        <div className="name-field-container">
+          <input
+            className="name-input"
+            type="text"
+            placeholder="What's your name?"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        {points === 0 && attacksRemaining === 0 && (
+          <button type="submit" onClick={(e) => handleSubmit(e)}>
+            Begin Adventure!
+          </button>
+        )}
+      </div>
+      <h5 id="attributes-header">Attributes</h5>
+      <span id="points-remaining">{points} points remaining</span>
+      <div id="cc-attributes-container">
+        <div className="attribute-button-container">
+          <span>Backend: {backend}</span>
+          <div className="button-container">
+            <button
+              type="button"
+              onClick={() => {
+                if (points > 0) {
+                  setBackend(backend + 1);
+                  setPoints(points - 1);
+                }
+              }}
+            >
+              +
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (backend > 0) {
+                  setBackend(backend - 1);
+                  setPoints(points + 1);
+                }
+              }}
+            >
+              -
+            </button>
+          </div>
+        </div>
+        <div className="attribute-button-container">
+          <span>Frontend: {frontend}</span>
+          <div className="button-container">
+            <button
+              type="button"
+              onClick={() => {
+                if (points > 0) {
+                  setFrontend(frontend + 1);
+                  setPoints(points - 1);
+                }
+              }}
+            >
+              +
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (frontend > 0) {
+                  setFrontend(frontend - 1);
+                  setPoints(points + 1);
+                }
+              }}
+            >
+              -
+            </button>
+          </div>
+        </div>
         <div className="attribute-button-container">
           <span>Algorithms: {algorithms}</span>
           <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setAlgorithms(algorithms + 1);
@@ -43,6 +138,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (algorithms > 0) {
                   setAlgorithms(algorithms - 1);
@@ -54,10 +150,11 @@ function CharacterCreationModal() {
             </button>
           </div>
         </div>
-        <div class="attribute-button-container">
+        <div className="attribute-button-container">
           <span>CSS: {CSS}</span>
-          <div class="button-container">
+          <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setCSS(CSS + 1);
@@ -68,6 +165,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (CSS > 0) {
                   setCSS(CSS - 1);
@@ -79,35 +177,11 @@ function CharacterCreationModal() {
             </button>
           </div>
         </div>
-        <div class="attribute-button-container">
-          <span>Databases: {databases}</span>
-          <div class="button-container">
-            <button
-              onClick={() => {
-                if (points > 0) {
-                  setDatabases(databases + 1);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              onClick={() => {
-                if (databases > 0) {
-                  setDatabases(databases - 1);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-        <div class="attribute-button-container">
+        <div className="attribute-button-container">
           <span>Debugging: {debugging}</span>
-          <div class="button-container">
+          <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setDebugging(debugging + 1);
@@ -118,6 +192,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (debugging > 0) {
                   setDebugging(debugging - 1);
@@ -129,10 +204,11 @@ function CharacterCreationModal() {
             </button>
           </div>
         </div>
-        <div class="attribute-button-container">
+        <div className="attribute-button-container">
           <span>Energy: {energy}</span>
-          <div class="button-container">
+          <div className="button-container">
             <button
+              type="button"
               onClick={() => {
                 if (points > 0) {
                   setEnergy(energy + 10);
@@ -143,6 +219,7 @@ function CharacterCreationModal() {
               +
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (energy > 0) {
                   setEnergy(energy - 10);
@@ -155,11 +232,11 @@ function CharacterCreationModal() {
           </div>
         </div>
       </div>
-      <h5 id="character-creation-attacks-header">Chosen Attacks</h5>
-      <span id="character-creation-choose-more-attacks-text">
+      <h5 id="attacks-header">Chosen Attacks</h5>
+      <span id="choose-more-attacks-text">
         Choose {attacksRemaining} more attacks
       </span>
-      <div id="character-creation-chosen-attacks">
+      <div id="chosen-attacks">
         {Object.entries(chosenAttacks).map(([key, value]) => {
           return (
             <div
@@ -172,7 +249,7 @@ function CharacterCreationModal() {
                   setAttacksRemaining(attacksRemaining + 1);
                 }
               }}
-              className="character-creation-attack-card"
+              className="attack-card"
             >
               <span>Name: {value["name"]}</span>
               <span>Power: {value["power"]}</span>
@@ -182,8 +259,8 @@ function CharacterCreationModal() {
           );
         })}
       </div>
-      <h5 id="character-creation-choose-attacks-header">Available Attacks</h5>
-      <div id="character-creation-available-attacks">
+      <h5 id="choose-attacks-header">Available Attacks</h5>
+      <div id="available-attacks">
         <div id="character-attack-cards-container">
           {Object.entries(characterAttacks).map(([key, value]) => {
             if (!chosenAttacks[key]) {
@@ -198,7 +275,7 @@ function CharacterCreationModal() {
                       setAttacksRemaining(attacksRemaining - 1);
                     }
                   }}
-                  className="character-creation-attack-card"
+                  className="attack-card"
                 >
                   <span>Name: {value["name"]}</span>
                   <span>Power: {value["power"]}</span>
@@ -207,10 +284,11 @@ function CharacterCreationModal() {
                 </div>
               );
             }
+            return null;
           })}
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 
