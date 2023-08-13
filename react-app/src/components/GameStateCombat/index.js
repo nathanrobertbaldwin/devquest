@@ -70,7 +70,7 @@ export default function GameStateCombat() {
       if (monster.currHp <= charDamage) {
         setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
         setTimeout(setCombatLog, 1000, [
-          `Did you think you were finished? While you might be going insane, the bugs never cease. A new problem approaches!`,
+          `Did you think you were finished? You might go insane, but bugs never cease!`,
         ]);
         setTimeout(handleStageChange, 3000, stage);
       }
