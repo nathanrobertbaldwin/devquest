@@ -39,7 +39,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_MONSTER_HP: {
       const damage = action.data;
       const newState = { ...state };
-      newState.currHp -= damage;
+      newState.currHp = Math.max(0, newState.currHp - damage);
       return { ...newState };
     }
     default: {

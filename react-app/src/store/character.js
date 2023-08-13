@@ -8,6 +8,7 @@ import { deleteSaveFile, getNewCharSave } from "./saves";
 const GET_CHARACTER_DATA = "character_data/GET";
 const CREATE_NEW_CHARACTER = "character_data/POST";
 const SPEND_CHARACTER_ENERGY = "character_energy/SPEND";
+const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
 const DELETE_CHARACTER = "character/DELETE";
 const RESET_CHARACTER_DATA = "character_data/RESET";
 
@@ -26,6 +27,11 @@ const createNewCharacter = (newCharacter) => ({
 const spendCharacterEnergy = (cost) => ({
   type: SPEND_CHARACTER_ENERGY,
   data: cost,
+});
+
+const udpateCharacterSanity = (damage) => ({
+  type: UPDATE_CHARACTER_SANITY,
+  data: damage,
 });
 
 const deleteCharacter = () => ({
@@ -76,6 +82,10 @@ export const spendCharacterEnergyThunk = (cost) => async (dispatch) => {
   dispatch(spendCharacterEnergy(cost));
 };
 
+export const udpateCharacterSanityThunk = (damage) => async (dispatch) => {
+  dispatch(udpateCharacterSanity(damage));
+};
+
 export const deleteCharacterDataThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/characters/${id}`, {
     method: "DELETE",
@@ -112,7 +122,13 @@ export default function reducer(state = initialState, action) {
     case SPEND_CHARACTER_ENERGY: {
       const cost = action.data;
       const newState = { ...state };
-      newState.currEnergy -= cost;
+      newState.currEnergy = Math.max(0, newState.currEnergy - cost);
+      return newState;
+    }
+    case UPDATE_CHARACTER_SANITY: {
+      const damage = action.data;
+      const newState = state;
+      newState.currSanity = Math.max(0, newState.currSanity - damage);
       return newState;
     }
     case DELETE_CHARACTER: {

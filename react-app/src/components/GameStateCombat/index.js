@@ -5,7 +5,9 @@ import MonsterCard from "./MonsterCard";
 import { getCharacterDataThunk } from "../../store/character";
 import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
+import { getGameDataThunk } from "../../store/gamedata";
 import { spendCharacterEnergyThunk } from "../../store/character";
+import { udpateCharacterSanityThunk } from "../../store/character";
 import "./GameStateCombat.css";
 const _ = require("lodash");
 
@@ -20,76 +22,105 @@ export default function GameStateCombat() {
   const charInventory = useSelector((store) => store.character.inventory);
 
   const monstersArr = useSelector((store) => store.gamedata.monsterArr);
-  const [monsterIdx] = useState(Math.ceil(Math.random() * 15));
+  const monster = useSelector((store) => store.monster);
   const monsterAttacksArr = useSelector(
     (store) => store.gamedata.monsterAttacksArr
   );
-  const monster = useSelector((store) => store.monster);
 
   const [combatLog, setCombatLog] = useState([]);
 
-  console.log(stage);
-
   useEffect(() => {
-    if (_.isEmpty(char)) {
-      dispatch(getCharacterDataThunk(1));
-      dispatch(createNewMonsterThunk(makeMonster(stage)));
-    }
+    if (_.isEmpty(char)) dispatch(getCharacterDataThunk(1));
+    if (_.isEmpty(monster)) dispatch(createNewMonsterThunk(makeMonster(stage)));
   }, [dispatch]);
 
-  function handleStageChange() {
-    setCombatLog([]);
+  useEffect(() => {
+    let monsterAttackTimer = 0;
+    if (turnCounter % 2 === 0) {
+      monsterAttackTimer = setTimeout(handleMonsterAttack, 1000);
+    }
+    return () => clearTimeout(monsterAttackTimer);
+  }, [turnCounter]);
+
+  // Stage based logic.
+
+  function handleStageChange(stage) {
     setStage(stage + 1);
-    dispatch(makeMonster(stage));
+    dispatch(createNewMonsterThunk(makeMonster(stage)));
+    setCombatLog([`Oh no! Another problem appeared.`]);
+    setTurnCounter(1);
   }
 
   function makeMonster(currStage) {
-    const monster = monstersArr[monsterIdx];
+    const monster =
+      monstersArr[Math.floor(Math.random() * monsterAttacksArr.length - 1)];
     monster.maxHp = Math.ceil(monster.hp * (currStage * 1.2));
     monster.currHp = monster.maxHp;
-    const monsterAttacks = [];
-    for (let i = 0; i < 4; i++) {
-      monsterAttacks.push(monsterAttacksArr[Math.ceil(Math.random() * 4)]);
-    }
-    monster.attacks = monsterAttacks;
     return monster;
   }
 
-  function handleCharAttack(attack) {
-    if (turnCounter % 2 === 1) {
-      const damage = calculateDamage(attack);
+  // Combat Logic: Character.
+
+  function handleCharacterAttack(attack) {
+    if (char.currSanity > 0 && turnCounter % 2 === 1) {
+      const charDamage = calculateCharDamage(attack);
       dispatch(spendCharacterEnergyThunk(attack.energyCost));
-      dispatch(updateMonsterHpThunk(damage));
-      if (monster.currHp <= damage) {
-        setCombatLog([...combatLog, `You defeated the ${monster.name}!`]);
-        setTimeout(setCombatLog, 2000, [
-          ...combatLog,
-          `Did you think you were finished? Time for more coding!`,
+      dispatch(updateMonsterHpThunk(charDamage));
+      setTurnCounter(turnCounter + 1);
+      if (monster.currHp <= charDamage) {
+        setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
+        setTimeout(setCombatLog, 1000, [
+          `Did you think you were finished? While you might be going insane, the bugs never cease. A new problem approaches!`,
         ]);
-        setTimeout(handleStageChange, 4000);
+        setTimeout(handleStageChange, 3000, stage);
       }
     }
   }
 
-  function calculateDamage(attack) {
+  function calculateCharDamage(attack) {
     const randomizer = Math.random() + 1;
     if (attack.primaryStat === monster.weakness) {
-      const damage = Math.floor(attack.power * randomizer * 2);
+      const charDamage = Math.floor(attack.power * randomizer * 2);
       setCombatLog([
+        `Turn ${turnCounter}: It's super effective! You deal ${charDamage} logic Damage to the ${monster.name}.`,
         ...combatLog,
-        `It's super effective! You deal ${damage} logic damage to the ${monster.name}.`,
       ]);
-      return damage;
+      return charDamage;
     }
-    const damage = Math.floor(attack.power * randomizer);
+    const charDamage = Math.floor(attack.power * randomizer);
     setCombatLog([
+      `Turn ${turnCounter}: You deal ${charDamage} logic Damage to the ${monster.name}.`,
       ...combatLog,
-      `You deal ${damage} logic damage to the ${monster.name}.`,
     ]);
-    return damage;
+    return charDamage;
   }
 
-  if (_.isEmpty(char)) return <></>;
+  // Combat Logic: Monster
+
+  function handleMonsterAttack() {
+    if (monster.currHp > 0) {
+      const randomizer = Math.random() + 1;
+      const monsterAttack =
+        monsterAttacksArr[Math.floor(Math.random() * monsterAttacksArr.length)];
+      const monsterDamage = Math.ceil(monsterAttack.power * randomizer);
+      if (monsterDamage > char.currSanity) {
+        console.log("You Lose!");
+      } else {
+        dispatch(udpateCharacterSanityThunk(monsterDamage));
+        setCombatLog([
+          `Turn ${turnCounter}: ${monster.name} uses ${monsterAttack.name}! You take ${monsterDamage} sanity damage. You are slowly losing your mind!`,
+          ...combatLog,
+          ,
+        ]);
+        setTurnCounter(turnCounter + 1);
+      }
+    }
+  }
+
+  if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
+
+  console.log(stage);
+  console.log(monster);
 
   return (
     <div id="game-state-combat-container">
@@ -133,7 +164,7 @@ export default function GameStateCombat() {
               <div
                 key={attack.id}
                 id="character-attack-container"
-                onClick={() => handleCharAttack(attack)}
+                onClick={() => handleCharacterAttack(attack)}
               >
                 <CharacterAttackCard attack={attack} />
               </div>
