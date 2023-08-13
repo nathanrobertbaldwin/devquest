@@ -1,4 +1,4 @@
-monsters = [
+monster_templates = [
     {
         "name": "TypeError",
         "hp": "21",
