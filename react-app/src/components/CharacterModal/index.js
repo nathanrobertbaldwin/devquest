@@ -15,11 +15,13 @@ function CharacterModal() {
       (item) => item.equipped === true && item.slot === "gear"
     )
   );
+
   const [equippedFood, setEquippedFood] = useState(
     Object.values(inventory).find(
       (item) => item.equipped === true && item.slot === "food"
     )
   );
+
   const [equippedReference, setEquippedReference] = useState(
     Object.values(inventory).find(
       (item) => item.equipped === true && item.slot === "reference"

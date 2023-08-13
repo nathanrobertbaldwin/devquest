@@ -180,9 +180,7 @@ export default function reducer(state = initialState, action) {
       const itemId = action.data;
       const newState = { ...state };
       const inventory = newState.inventory;
-      console.log("BEFORE TOGGLE", inventory[itemId].equipped);
       inventory[itemId].equipped = !inventory[itemId].equipped;
-      console.log("AFTER TOGGLE", inventory[itemId].equipped);
       return newState;
     }
     case DROP_INVENTORY_ITEM: {

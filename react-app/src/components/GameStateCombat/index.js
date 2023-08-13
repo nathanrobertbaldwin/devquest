@@ -19,7 +19,7 @@ export default function GameStateCombat() {
 
   const char = useSelector((store) => store.character);
   const charAttacks = useSelector((store) => store.character.attacks);
-  const charInventory = useSelector((store) => store.character.inventory);
+  const inventory = useSelector((store) => store.character.inventory);
 
   const monstersArr = useSelector((store) => store.gamedata.monsterArr);
   const monster = useSelector((store) => store.monster);
@@ -41,6 +41,8 @@ export default function GameStateCombat() {
     }
     return () => clearTimeout(monsterAttackTimer);
   }, [turnCounter]);
+
+  if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
 
   // Stage based logic.
 
@@ -80,14 +82,18 @@ export default function GameStateCombat() {
   function calculateCharDamage(attack) {
     const randomizer = Math.random() + 1;
     if (attack.primaryStat === monster.weakness) {
-      const charDamage = Math.floor(attack.power * randomizer * 2);
+      const charDamage = Math.floor(
+        char[attack.primaryStat] + attack.power * randomizer * 2
+      );
       setCombatLog([
         `Turn ${turnCounter}: It's super effective! You deal ${charDamage} logic Damage to the ${monster.name}.`,
         ...combatLog,
       ]);
       return charDamage;
     }
-    const charDamage = Math.floor(attack.power * randomizer);
+    const charDamage = Math.floor(
+      char[attack.primaryStat] + attack.power * randomizer
+    );
     setCombatLog([
       `Turn ${turnCounter}: You deal ${charDamage} logic Damage to the ${monster.name}.`,
       ...combatLog,
@@ -117,7 +123,55 @@ export default function GameStateCombat() {
     }
   }
 
-  if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
+  // Character attributes
+
+  const equippedGear = Object.values(inventory).find(
+    (item) => item.equipped === true && item.slot === "gear"
+  );
+
+  const equippedFood = Object.values(inventory).find(
+    (item) => item.equipped === true && item.slot === "food"
+  );
+
+  const equippedReference = Object.values(inventory).find(
+    (item) => item.equipped === true && item.slot === "reference"
+  );
+
+  const algorithmsTotal =
+    char.algorithms +
+    (equippedGear ? equippedGear.algorithmsBoost : 0) +
+    (equippedFood ? equippedFood.algorithmsBoost : 0) +
+    (equippedReference ? equippedReference.algorithmsBoost : 0);
+
+  const backendTotal =
+    char.backend +
+    (equippedGear ? equippedGear.backendBoost : 0) +
+    (equippedFood ? equippedFood.backendBoost : 0) +
+    (equippedReference ? equippedReference.backendBoost : 0);
+
+  const frontendTotal =
+    char.frontend +
+    (equippedGear ? equippedGear.frontendBoost : 0) +
+    (equippedFood ? equippedFood.frontendBoost : 0) +
+    (equippedReference ? equippedReference.frontendBoost : 0);
+
+  const cssTotal =
+    char.css +
+    (equippedGear ? equippedGear.cssBoost : 0) +
+    (equippedFood ? equippedFood.cssBoost : 0) +
+    (equippedReference ? equippedReference.cssBoost : 0);
+
+  const debuggingTotal =
+    char.debugging +
+    (equippedGear ? equippedGear.debuggingBoost : 0) +
+    (equippedFood ? equippedFood.debuggingBoost : 0) +
+    (equippedReference ? equippedReference.debuggingBoost : 0);
+
+  const energyTotal =
+    char.maxEnergy +
+    (equippedGear ? equippedGear.energyBoost : 0) +
+    (equippedFood ? equippedFood.energyBoost : 0) +
+    (equippedReference ? equippedReference.energyBoost : 0);
 
   return (
     <div id="game-state-combat-container">
@@ -151,9 +205,9 @@ export default function GameStateCombat() {
           </div>
         </div>
         <div id="equipped-items-container">
-          <div className="equipped-item">Gear</div>
-          <div className="equipped-item">Food</div>
-          <div className="equipped-item">Ref</div>
+          <div className="equipped-item">{equippedGear?.imgUrl}</div>
+          <div className="equipped-item">{equippedFood?.imgUrl}</div>
+          <div className="equipped-item">{equippedReference?.imgUrl}</div>
         </div>
         <div id="character-attacks-container">
           {charAttacks.map((attack) => {
