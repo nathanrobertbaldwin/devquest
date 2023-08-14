@@ -5,7 +5,6 @@ import MonsterCard from "./MonsterCard";
 import { getCharacterDataThunk } from "../../store/character";
 import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
-import { getGameDataThunk } from "../../store/gamedata";
 import { spendCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
 import "./GameStateCombat.css";
@@ -20,6 +19,8 @@ export default function GameStateCombat() {
   const char = useSelector((store) => store.character);
   const charAttacks = useSelector((store) => store.character.attacks);
   const inventory = useSelector((store) => store.character.inventory);
+  const currEnergy = useSelector((store) => store.character.currEnergy);
+  const currSanity = useSelector((store) => store.character.currSanity);
 
   const monstersArr = useSelector((store) => store.gamedata.monsterArr);
   const monster = useSelector((store) => store.monster);
@@ -27,19 +28,19 @@ export default function GameStateCombat() {
     (store) => store.gamedata.monsterAttacksArr
   );
 
+  const [clicked, setClicked] = useState(false);
+
   const [combatLog, setCombatLog] = useState([]);
 
   useEffect(() => {
     if (_.isEmpty(char)) dispatch(getCharacterDataThunk(1));
     if (_.isEmpty(monster)) dispatch(createNewMonsterThunk(makeMonster(stage)));
-  }, [dispatch]);
+  }, [dispatch, char, monster, stage]);
 
   useEffect(() => {
-    let monsterAttackTimer = 0;
     if (turnCounter % 2 === 0) {
-      monsterAttackTimer = setTimeout(handleMonsterAttack, 1000);
+      handleMonsterAttack(turnCounter);
     }
-    return () => clearTimeout(monsterAttackTimer);
   }, [turnCounter]);
 
   if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
@@ -54,36 +55,48 @@ export default function GameStateCombat() {
   }
 
   function makeMonster(currStage) {
-    const monster =
-      monstersArr[Math.floor(Math.random() * monsterAttacksArr.length - 1)];
-    monster.maxHp = Math.ceil(monster.hp * (currStage * 1.2));
-    monster.currHp = monster.maxHp;
+    const monsterTemplate =
+      monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
+
+    const hp = Math.ceil(monsterTemplate.hp * (currStage * 1.2));
+
+    const monster = {
+      name: monsterTemplate["name"],
+      max_hp: hp,
+      curr_hp: hp,
+      weakness: monsterTemplate["weakness"],
+      image_url: monsterTemplate["imageUrl"],
+    };
+
     return monster;
   }
 
   // Combat Logic: Character.
 
   function handleCharacterAttack(attack) {
-    if (char.currSanity > 0 && turnCounter % 2 === 1) {
-      const charDamage = calculateCharDamage(attack);
+    if (char.currSanity > 0 && turnCounter % 2 === 1 && !clicked) {
+      setClicked(true);
       dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
+      const charDamage = calculateCharDamage(attack);
       dispatch(updateMonsterHpThunk(charDamage));
-      setTurnCounter(turnCounter + 1);
       if (monster.currHp <= charDamage) {
         setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
-        setTimeout(setCombatLog, 1000, [
+        setTimeout(setCombatLog, 2000, [
           `Did you think you were finished? You might go insane, but bugs never cease!`,
         ]);
-        setTimeout(handleStageChange, 3000, stage);
+        setTimeout(handleStageChange, 4000, stage);
       }
+      setTimeout(setTurnCounter, 1500, turnCounter + 1);
     }
   }
 
   function calculateCharDamage(attack) {
     const randomizer = Math.random() + 1;
     if (attack.primaryStat === monster.weakness) {
+      console.log(attack.primaryStat);
+      console.log(attackMapper[attack.primaryStat]);
       const charDamage = Math.floor(
-        char[attack.primaryStat] + attack.power * randomizer * 2
+        attackMapper[attack.primaryStat] + attack.power * randomizer * 2
       );
       setCombatLog([
         `Turn ${turnCounter}: It's super effective! You deal ${charDamage} logic Damage to the ${monster.name}.`,
@@ -91,8 +104,9 @@ export default function GameStateCombat() {
       ]);
       return charDamage;
     }
+    console.log(attackMapper[attack.primaryStat]);
     const charDamage = Math.floor(
-      char[attack.primaryStat] + attack.power * randomizer
+      attackMapper[attack.primaryStat] + attack.power * randomizer
     );
     setCombatLog([
       `Turn ${turnCounter}: You deal ${charDamage} logic Damage to the ${monster.name}.`,
@@ -103,23 +117,19 @@ export default function GameStateCombat() {
 
   // Combat Logic: Monster
 
-  function handleMonsterAttack() {
+  function handleMonsterAttack(turnCounter) {
+    setClicked(false);
     if (monster.currHp > 0) {
       const randomizer = Math.random() + 1;
       const monsterAttack =
         monsterAttacksArr[Math.floor(Math.random() * monsterAttacksArr.length)];
       const monsterDamage = Math.ceil(monsterAttack.power * randomizer);
-      if (monsterDamage > char.currSanity) {
-        console.log("You Lose!");
-      } else {
-        dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
-        setCombatLog([
-          `Turn ${turnCounter}: ${monster.name} uses ${monsterAttack.name}! You take ${monsterDamage} sanity damage. You are slowly losing your mind!`,
-          ...combatLog,
-          ,
-        ]);
-        setTurnCounter(turnCounter + 1);
-      }
+      dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
+      setCombatLog([
+        `Turn ${turnCounter}: ${monster.name} uses ${monsterAttack.name}! You take ${monsterDamage} sanity damage. You are slowly losing your mind!`,
+        ...combatLog,
+      ]);
+      setTurnCounter(turnCounter + 1);
     }
   }
 
@@ -167,11 +177,13 @@ export default function GameStateCombat() {
     (equippedFood ? equippedFood.debuggingBoost : 0) +
     (equippedReference ? equippedReference.debuggingBoost : 0);
 
-  const energyTotal =
-    char.maxEnergy +
-    (equippedGear ? equippedGear.energyBoost : 0) +
-    (equippedFood ? equippedFood.energyBoost : 0) +
-    (equippedReference ? equippedReference.energyBoost : 0);
+  const attackMapper = {
+    algorithms: algorithmsTotal,
+    backend: backendTotal,
+    frontend: frontendTotal,
+    css: cssTotal,
+    debugging: debuggingTotal,
+  };
 
   return (
     <div id="game-state-combat-container">
@@ -194,10 +206,10 @@ export default function GameStateCombat() {
         <div id="character-resources-image-container">
           <div id="character-resources-container">
             <span className="character-resources-span">
-              Energy: {char.currEnergy}/{char.maxEnergy}
+              Energy: {currEnergy}/{char.maxEnergy}
             </span>
             <span className="character-resources-span">
-              Sanity: {char.currSanity}/{char.maxSanity}
+              Sanity: {currSanity}/{char.maxSanity}
             </span>
           </div>
           <div id="character-image-container">
