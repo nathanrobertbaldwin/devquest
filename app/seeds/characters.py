@@ -16,7 +16,7 @@ def seed_characters():
             debugging=character["debugging"],
             curr_energy=100,
             max_energy=100,
-            curr_sanity=100,
+            curr_sanity=1,
             max_sanity=100,
         )
 

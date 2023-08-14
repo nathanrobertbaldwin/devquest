@@ -7,14 +7,14 @@ from app.forms import MonsterForm
 monster_routes = Blueprint("monster_routes", __name__)
 
 
-@monster_routes.route("/")
-@login_required
-def monster():
-    """
-    Query for the single monster on the monster table.
-    """
-    monster = Monster.query.get(1)
-    return monster.to_dict()
+# @monster_routes.route("/")
+# @login_required
+# def monster():
+#     """
+#     Query for the single monster on the monster table.
+#     """
+#     monster = Monster.query.get(1)
+#     return monster.to_dict()
 
 
 @monster_routes.route("/", methods=["POST"])
@@ -24,16 +24,24 @@ def create_monster():
     Post a monster the monster table.
     """
 
-    Monster.delete_all()
-
     form = MonsterForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
-    request_data = request.get_data()
-
     if form.validate_on_submit():
         data = form.data
+
+        charId = data["character_id"]
+        char_monsters = (
+            db.session.query(Monster).filter(Monster.character_id == charId).all()
+        )
+
+        for monster in char_monsters:
+            db.session.delete(monster)
+
+        db.session.commit()
+
         new_monster = Monster(
+            character_id=data["character_id"],
             name=data["name"],
             max_hp=data["max_hp"],
             curr_hp=data["curr_hp"],
@@ -46,7 +54,7 @@ def create_monster():
 
         return new_monster.to_dict()
 
-    return {"message": "Definitely not validating."}
+    return {"message": "Error while creating new monster."}
 
 
 @monster_routes.route("/", methods=["PUT"])
@@ -55,34 +63,39 @@ def update_monster_hp():
     """
     Edit the current monster's hp.
     """
-    monster = Monster.query.get(1)
-    print("HITTING THIS ROUTE")
+    charId = request.get_json()["charId"]
 
-    if monster:
+    char_monster = (
+        db.session.query(Monster).filter(Monster.character_id == charId).first()
+    )
+
+    if char_monster:
         damage = request.get_json()["damage"]
-        monster.curr_hp -= damage
+        char_monster.curr_hp -= damage
 
         db.session.commit()
 
         return {
             "message": "Updated monster.curr_hp",
-            "monster.curr_hp": monster.curr_hp,
+            "char_monster.curr_hp": char_monster.curr_hp,
         }
 
     return {"message": "Error: Monster could not be found. Game files corrupted."}
 
 
-@monster_routes.route("/", methods=["DELETE"])
-@login_required
-def monsters():
-    """
-    Edit the current monster's hp.
-    """
-    monster = Monster.query.get(1)
+# Pretty sure I won't need this?
 
-    if monster:
-        db.session.delete(monster)
-        db.session.commit()
-        return {"message": "Monster deleted."}
+# @monster_routes.route("/", methods=["DELETE"])
+# @login_required
+# def monsters():
+#     """
 
-    return {"message": "Error: Monster could not be found. Game files corrupted."}
+#     """
+#     monster = Monster.query.get(1)
+
+#     if monster:
+#         db.session.delete(monster)
+#         db.session.commit()
+#         return {"message": "Monster deleted."}
+
+#     return {"message": "Error: Monster could not be found. Game files corrupted."}

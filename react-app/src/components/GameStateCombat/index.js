@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CharacterAttackCard from "./CharacterAttackCard";
 import MonsterCard from "./MonsterCard";
-import { getCharacterDataThunk } from "../../store/character";
+import {
+  deleteCharacterDataThunk,
+  getCharacterDataThunk,
+} from "../../store/character";
 import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
 import { spendCharacterEnergyThunk } from "../../store/character";
@@ -13,8 +16,7 @@ const _ = require("lodash");
 export default function GameStateCombat() {
   const dispatch = useDispatch();
 
-  const [stage, setStage] = useState(1);
-  const [turnCounter, setTurnCounter] = useState(1);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const char = useSelector((store) => store.character);
   const charAttacks = useSelector((store) => store.character.attacks);
@@ -28,13 +30,20 @@ export default function GameStateCombat() {
     (store) => store.gamedata.monsterAttacksArr
   );
 
+  const [stage, setStage] = useState(1);
+  const [turnCounter, setTurnCounter] = useState(1);
   const [clicked, setClicked] = useState(false);
-
   const [combatLog, setCombatLog] = useState([]);
 
   useEffect(() => {
-    if (_.isEmpty(char)) dispatch(getCharacterDataThunk(1));
-    if (_.isEmpty(monster)) dispatch(createNewMonsterThunk(makeMonster(stage)));
+    async function wrapper() {
+      if (_.isEmpty(char)) await dispatch(getCharacterDataThunk(1));
+      if (_.isEmpty(monster))
+        await dispatch(createNewMonsterThunk(makeMonster(stage))).then(() => {
+          setIsLoaded(true);
+        });
+    }
+    wrapper();
   }, [dispatch, char, monster, stage]);
 
   useEffect(() => {
@@ -62,6 +71,7 @@ export default function GameStateCombat() {
 
     const monster = {
       name: monsterTemplate["name"],
+      character_id: char.id,
       max_hp: hp,
       curr_hp: hp,
       weakness: monsterTemplate["weakness"],
@@ -78,7 +88,7 @@ export default function GameStateCombat() {
       setClicked(true);
       dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
       const charDamage = calculateCharDamage(attack);
-      dispatch(updateMonsterHpThunk(charDamage));
+      dispatch(updateMonsterHpThunk(char.id, charDamage));
       if (monster.currHp <= charDamage) {
         setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
         setTimeout(setCombatLog, 2000, [
@@ -93,8 +103,6 @@ export default function GameStateCombat() {
   function calculateCharDamage(attack) {
     const randomizer = Math.random() + 1;
     if (attack.primaryStat === monster.weakness) {
-      console.log(attack.primaryStat);
-      console.log(attackMapper[attack.primaryStat]);
       const charDamage = Math.floor(
         attackMapper[attack.primaryStat] + attack.power * randomizer * 2
       );
@@ -104,7 +112,6 @@ export default function GameStateCombat() {
       ]);
       return charDamage;
     }
-    console.log(attackMapper[attack.primaryStat]);
     const charDamage = Math.floor(
       attackMapper[attack.primaryStat] + attack.power * randomizer
     );
@@ -124,6 +131,21 @@ export default function GameStateCombat() {
       const monsterAttack =
         monsterAttacksArr[Math.floor(Math.random() * monsterAttacksArr.length)];
       const monsterDamage = Math.ceil(monsterAttack.power * randomizer);
+      if (monsterDamage >= char.currSanity) {
+        setCombatLog([
+          `You descend into madness. You lose! Deleting character data. Create a new character to try again.`,
+          ...combatLog,
+        ]);
+        dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
+
+        const charIdIntoDispatchCB = () => {
+          return dispatch(deleteCharacterDataThunk(char.id));
+        };
+
+        setTimeout(charIdIntoDispatchCB, 3000);
+        console.log("YOU WILL HAVE TO UPDATE GAMESTATE.");
+        return;
+      }
       dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
       setCombatLog([
         `Turn ${turnCounter}: ${monster.name} uses ${monsterAttack.name}! You take ${monsterDamage} sanity damage. You are slowly losing your mind!`,
@@ -184,6 +206,8 @@ export default function GameStateCombat() {
     css: cssTotal,
     debugging: debuggingTotal,
   };
+
+  if (!isLoaded) return <>"Not Loading"</>;
 
   return (
     <div id="game-state-combat-container">
