@@ -67,7 +67,6 @@ export default function GameStateCombat() {
   }
 
   function makeMonster(currStage) {
-    console.log("THIS IS THE MONSTER ARRAY", monstersArr);
     const monsterTemplate =
       monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
 
@@ -227,6 +226,8 @@ export default function GameStateCombat() {
     css: cssTotal,
     debugging: debuggingTotal,
   };
+
+  if (!monsterIsLoaded) return <></>;
 
   return (
     <div id="game-state-combat-container">

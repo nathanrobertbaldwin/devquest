@@ -14,6 +14,9 @@ class Inventory(db.Model):
     equipment_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("equipments.id"))
     )
+    
+    # batch_id: db.Column(items in the same order: 20939ghn320gh)
+    
     item = db.relationship("Equipment")
     equipped = db.Column(db.Boolean, nullable=False)
 
