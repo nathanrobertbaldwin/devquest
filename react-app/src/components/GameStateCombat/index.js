@@ -2,13 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CharacterAttackCard from "./CharacterAttackCard";
 import MonsterCard from "./MonsterCard";
-import {
-  deleteCharacterDataThunk,
-  getCharacterDataThunk,
-} from "../../store/character";
+import { deleteCharacterDataThunk } from "../../store/character";
 import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
-import { spendCharacterEnergyThunk } from "../../store/character";
+import { updateCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
 import { useGameState, useChangeGameState } from "../../context/GameState";
 import "./GameStateCombat.css";
@@ -38,7 +35,6 @@ export default function GameStateCombat() {
   const [clicked, setClicked] = useState(false);
   const [combatLog, setCombatLog] = useState([]);
 
-  const [charIsLoaded, setcharIsLoaded] = useState(false);
   const [monsterIsLoaded, setMonsterIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -90,7 +86,7 @@ export default function GameStateCombat() {
     if (char.currSanity > 0 && turnCounter % 2 === 1 && !clicked) {
       if (char.currEnergy > attack.energyCost) {
         setClicked(true);
-        dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
+        dispatch(updateCharacterEnergyThunk(char.id, attack.energyCost));
         const charDamage = calculateCharDamage(attack);
         dispatch(updateMonsterHpThunk(char.id, charDamage));
         if (monster.currHp <= charDamage) {
