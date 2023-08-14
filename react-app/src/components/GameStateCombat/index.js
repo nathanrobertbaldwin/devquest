@@ -5,7 +5,6 @@ import MonsterCard from "./MonsterCard";
 import { getCharacterDataThunk } from "../../store/character";
 import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
-import { getGameDataThunk } from "../../store/gamedata";
 import { spendCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
 import "./GameStateCombat.css";
@@ -36,13 +35,13 @@ export default function GameStateCombat() {
   useEffect(() => {
     if (_.isEmpty(char)) dispatch(getCharacterDataThunk(1));
     if (_.isEmpty(monster)) dispatch(createNewMonsterThunk(makeMonster(stage)));
-  }, [dispatch]);
+  }, [dispatch, char, monster, stage]);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
       handleMonsterAttack(turnCounter);
     }
-  }, [handleMonsterAttack, turnCounter]);
+  }, [turnCounter]);
 
   if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
 
@@ -129,7 +128,6 @@ export default function GameStateCombat() {
       setCombatLog([
         `Turn ${turnCounter}: ${monster.name} uses ${monsterAttack.name}! You take ${monsterDamage} sanity damage. You are slowly losing your mind!`,
         ...combatLog,
-        ,
       ]);
       setTurnCounter(turnCounter + 1);
     }
@@ -178,12 +176,6 @@ export default function GameStateCombat() {
     (equippedGear ? equippedGear.debuggingBoost : 0) +
     (equippedFood ? equippedFood.debuggingBoost : 0) +
     (equippedReference ? equippedReference.debuggingBoost : 0);
-
-  const energyTotal =
-    char.maxEnergy +
-    (equippedGear ? equippedGear.energyBoost : 0) +
-    (equippedFood ? equippedFood.energyBoost : 0) +
-    (equippedReference ? equippedReference.energyBoost : 0);
 
   const attackMapper = {
     algorithms: algorithmsTotal,

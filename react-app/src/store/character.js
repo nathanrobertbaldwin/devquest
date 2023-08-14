@@ -97,8 +97,6 @@ export const toggleInventoryItemEquipThunk = (itemId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = response.json();
-    // console.log("From toggleInventoryItemThunk", data);
     dispatch(toggleInventoryItemEquip(itemId));
   }
 };
@@ -110,8 +108,6 @@ export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = response.json();
-    // console.log("From dropInventoryItemThunk", data);
     dispatch(dropInventoryItem(itemId));
   }
 };
@@ -123,8 +119,6 @@ export const spendCharacterEnergyThunk = (charId, cost) => async (dispatch) => {
     body: JSON.stringify({ cost }),
   });
   if (response.ok) {
-    const data = await response.json();
-    // console.log("from spendCharacterEnergyThunk:", data);
     dispatch(spendCharacterEnergy(cost));
   }
 };
@@ -137,7 +131,6 @@ export const udpateCharacterSanityThunk =
       body: JSON.stringify({ damage }),
     });
     if (response.ok) {
-      const data = await response.json();
       dispatch(udpateCharacterSanity(damage));
     }
   };
