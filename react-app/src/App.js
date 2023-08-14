@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import Footer from "./components/Footer";
 import Error from "./components/Error";
+import GameStateProvider from "./context/GameState";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <GameStateProvider>
       <Navigation isLoaded={isLoaded} />
       <div id="main-content">
         {isLoaded && (
@@ -30,7 +31,7 @@ function App() {
         )}
       </div>
       <Footer />
-    </>
+    </GameStateProvider>
   );
 }
 

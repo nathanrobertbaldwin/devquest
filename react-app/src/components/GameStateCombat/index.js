@@ -10,17 +10,20 @@ import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
 import { spendCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
+import { useGameState, useChangeGameState } from "../../context/GameState";
 import "./GameStateCombat.css";
 const _ = require("lodash");
 
 export default function GameStateCombat() {
   const dispatch = useDispatch();
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  const gameState = useGameState();
+  const toggleGameState = useChangeGameState();
 
   const char = useSelector((store) => store.character);
   const charAttacks = useSelector((store) => store.character.attacks);
   const inventory = useSelector((store) => store.character.inventory);
+
   const currEnergy = useSelector((store) => store.character.currEnergy);
   const currSanity = useSelector((store) => store.character.currSanity);
 
@@ -35,24 +38,24 @@ export default function GameStateCombat() {
   const [clicked, setClicked] = useState(false);
   const [combatLog, setCombatLog] = useState([]);
 
+  const [charIsLoaded, setcharIsLoaded] = useState(false);
+  const [monsterIsLoaded, setMonsterIsLoaded] = useState(false);
+
   useEffect(() => {
     async function wrapper() {
-      if (_.isEmpty(char)) await dispatch(getCharacterDataThunk(1));
       if (_.isEmpty(monster))
         await dispatch(createNewMonsterThunk(makeMonster(stage))).then(() => {
-          setIsLoaded(true);
+          setMonsterIsLoaded(true);
         });
     }
     wrapper();
-  }, [dispatch, char, monster, stage]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
       handleMonsterAttack(turnCounter);
     }
   }, [turnCounter]);
-
-  if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
 
   // Stage based logic.
 
@@ -64,6 +67,7 @@ export default function GameStateCombat() {
   }
 
   function makeMonster(currStage) {
+    console.log("THIS IS THE MONSTER ARRAY", monstersArr);
     const monsterTemplate =
       monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
 
@@ -100,7 +104,7 @@ export default function GameStateCombat() {
         setTimeout(setTurnCounter, 1500, turnCounter + 1);
       } else {
         setCombatLog([
-          `You are exhausted! Escape this bug and lose 20 sanity?`,
+          `You are exhausted! You must rest. Escape this bug and lose 20 sanity?`,
           ...combatLog,
         ]);
       }
@@ -149,8 +153,8 @@ export default function GameStateCombat() {
           return dispatch(deleteCharacterDataThunk(char.id));
         };
 
+        setTimeout(toggleGameState, 2999, "loss");
         setTimeout(charIdIntoDispatchCB, 3000);
-        console.log("YOU WILL HAVE TO UPDATE GAMESTATE.");
         return;
       }
       dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
@@ -163,25 +167,29 @@ export default function GameStateCombat() {
   }
 
   function handleEscapeCombat() {
-    console.log(
-      "You gave up defeating this problem! You lose 20 sanity. You take a moment to rest..."
-    );
+    setCombatLog([
+      "You gave up defeating this problem! You lose 20 sanity. You take a moment to rest...",
+      ...combatLog,
+    ]);
+    setTimeout(toggleGameState, 2000, "rest");
     // Game state change will also go here.
   }
 
   // Character attributes
 
-  const equippedGear = Object.values(inventory).find(
-    (item) => item.equipped === true && item.slot === "gear"
-  );
+  if (!monster) return <div>Monster isn't loaded yet.</div>;
 
-  const equippedFood = Object.values(inventory).find(
-    (item) => item.equipped === true && item.slot === "food"
-  );
+  const equippedGear = Object.values(inventory).find((item) => {
+    return item.equipped === true && item.slot === "gear";
+  });
 
-  const equippedReference = Object.values(inventory).find(
-    (item) => item.equipped === true && item.slot === "reference"
-  );
+  const equippedFood = Object.values(inventory).find((item) => {
+    return item.equipped === true && item.slot === "food";
+  });
+
+  const equippedReference = Object.values(inventory).find((item) => {
+    return item.equipped === true && item.slot === "equipment";
+  });
 
   const algorithmsTotal =
     char.algorithms +
@@ -220,8 +228,6 @@ export default function GameStateCombat() {
     css: cssTotal,
     debugging: debuggingTotal,
   };
-
-  if (!isLoaded) return <>"Not Loading"</>;
 
   return (
     <div id="game-state-combat-container">
