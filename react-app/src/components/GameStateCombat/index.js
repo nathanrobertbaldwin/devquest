@@ -172,7 +172,6 @@ export default function GameStateCombat() {
       ...combatLog,
     ]);
     setTimeout(toggleGameState, 2000, "rest");
-    // Game state change will also go here.
   }
 
   // Character attributes
