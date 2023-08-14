@@ -85,18 +85,25 @@ export default function GameStateCombat() {
 
   function handleCharacterAttack(attack) {
     if (char.currSanity > 0 && turnCounter % 2 === 1 && !clicked) {
-      setClicked(true);
-      dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
-      const charDamage = calculateCharDamage(attack);
-      dispatch(updateMonsterHpThunk(char.id, charDamage));
-      if (monster.currHp <= charDamage) {
-        setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
-        setTimeout(setCombatLog, 2000, [
-          `Did you think you were finished? You might go insane, but bugs never cease!`,
+      if (char.currEnergy > attack.energyCost) {
+        setClicked(true);
+        dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
+        const charDamage = calculateCharDamage(attack);
+        dispatch(updateMonsterHpThunk(char.id, charDamage));
+        if (monster.currHp <= charDamage) {
+          setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
+          setTimeout(setCombatLog, 2000, [
+            `Did you think you were finished? You might go insane, but bugs never cease!`,
+          ]);
+          setTimeout(handleStageChange, 4000, stage);
+        }
+        setTimeout(setTurnCounter, 1500, turnCounter + 1);
+      } else {
+        setCombatLog([
+          `You are exhausted! Escape this bug and lose 20 sanity?`,
+          ...combatLog,
         ]);
-        setTimeout(handleStageChange, 4000, stage);
       }
-      setTimeout(setTurnCounter, 1500, turnCounter + 1);
     }
   }
 
@@ -153,6 +160,13 @@ export default function GameStateCombat() {
       ]);
       setTurnCounter(turnCounter + 1);
     }
+  }
+
+  function handleEscapeCombat() {
+    console.log(
+      "You gave up defeating this problem! You lose 20 sanity. You take a moment to rest..."
+    );
+    // Game state change will also go here.
   }
 
   // Character attributes
@@ -229,6 +243,9 @@ export default function GameStateCombat() {
       <div id="character-container">
         <div id="character-resources-image-container">
           <div id="character-resources-container">
+            {char.currEnergy === 0 && (
+              <button onClick={() => handleEscapeCombat()}>Escape!</button>
+            )}
             <span className="character-resources-span">
               Energy: {currEnergy}/{char.maxEnergy}
             </span>
