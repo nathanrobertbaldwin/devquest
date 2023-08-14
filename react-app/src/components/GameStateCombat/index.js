@@ -2,23 +2,28 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CharacterAttackCard from "./CharacterAttackCard";
 import MonsterCard from "./MonsterCard";
-import { getCharacterDataThunk } from "../../store/character";
+import {
+  deleteCharacterDataThunk,
+  getCharacterDataThunk,
+} from "../../store/character";
 import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
 import { spendCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
+import { useGameState, useChangeGameState } from "../../context/GameState";
 import "./GameStateCombat.css";
 const _ = require("lodash");
 
 export default function GameStateCombat() {
   const dispatch = useDispatch();
 
-  const [stage, setStage] = useState(1);
-  const [turnCounter, setTurnCounter] = useState(1);
+  const gameState = useGameState();
+  const toggleGameState = useChangeGameState();
 
   const char = useSelector((store) => store.character);
   const charAttacks = useSelector((store) => store.character.attacks);
   const inventory = useSelector((store) => store.character.inventory);
+
   const currEnergy = useSelector((store) => store.character.currEnergy);
   const currSanity = useSelector((store) => store.character.currSanity);
 
@@ -28,22 +33,29 @@ export default function GameStateCombat() {
     (store) => store.gamedata.monsterAttacksArr
   );
 
+  const [stage, setStage] = useState(1);
+  const [turnCounter, setTurnCounter] = useState(1);
   const [clicked, setClicked] = useState(false);
-
   const [combatLog, setCombatLog] = useState([]);
 
+  const [charIsLoaded, setcharIsLoaded] = useState(false);
+  const [monsterIsLoaded, setMonsterIsLoaded] = useState(false);
+
   useEffect(() => {
-    if (_.isEmpty(char)) dispatch(getCharacterDataThunk(1));
-    if (_.isEmpty(monster)) dispatch(createNewMonsterThunk(makeMonster(stage)));
-  }, [dispatch, char, monster, stage]);
+    async function wrapper() {
+      if (_.isEmpty(monster))
+        await dispatch(createNewMonsterThunk(makeMonster(stage))).then(() => {
+          setMonsterIsLoaded(true);
+        });
+    }
+    wrapper();
+  }, [dispatch]);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
       handleMonsterAttack(turnCounter);
     }
   }, [turnCounter]);
-
-  if (_.isEmpty(char) || _.isEmpty(monster)) return <></>;
 
   // Stage based logic.
 
@@ -55,6 +67,7 @@ export default function GameStateCombat() {
   }
 
   function makeMonster(currStage) {
+    console.log("THIS IS THE MONSTER ARRAY", monstersArr);
     const monsterTemplate =
       monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
 
@@ -62,6 +75,7 @@ export default function GameStateCombat() {
 
     const monster = {
       name: monsterTemplate["name"],
+      character_id: char.id,
       max_hp: hp,
       curr_hp: hp,
       weakness: monsterTemplate["weakness"],
@@ -75,26 +89,31 @@ export default function GameStateCombat() {
 
   function handleCharacterAttack(attack) {
     if (char.currSanity > 0 && turnCounter % 2 === 1 && !clicked) {
-      setClicked(true);
-      dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
-      const charDamage = calculateCharDamage(attack);
-      dispatch(updateMonsterHpThunk(charDamage));
-      if (monster.currHp <= charDamage) {
-        setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
-        setTimeout(setCombatLog, 2000, [
-          `Did you think you were finished? You might go insane, but bugs never cease!`,
+      if (char.currEnergy > attack.energyCost) {
+        setClicked(true);
+        dispatch(spendCharacterEnergyThunk(char.id, attack.energyCost));
+        const charDamage = calculateCharDamage(attack);
+        dispatch(updateMonsterHpThunk(char.id, charDamage));
+        if (monster.currHp <= charDamage) {
+          setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
+          setTimeout(setCombatLog, 2000, [
+            `Did you think you were finished? You might go insane, but bugs never cease!`,
+          ]);
+          setTimeout(handleStageChange, 4000, stage);
+        }
+        setTimeout(setTurnCounter, 1500, turnCounter + 1);
+      } else {
+        setCombatLog([
+          `You are exhausted! You must rest. Escape this bug and lose 20 sanity?`,
+          ...combatLog,
         ]);
-        setTimeout(handleStageChange, 4000, stage);
       }
-      setTimeout(setTurnCounter, 1500, turnCounter + 1);
     }
   }
 
   function calculateCharDamage(attack) {
     const randomizer = Math.random() + 1;
     if (attack.primaryStat === monster.weakness) {
-      console.log(attack.primaryStat);
-      console.log(attackMapper[attack.primaryStat]);
       const charDamage = Math.floor(
         attackMapper[attack.primaryStat] + attack.power * randomizer * 2
       );
@@ -104,7 +123,6 @@ export default function GameStateCombat() {
       ]);
       return charDamage;
     }
-    console.log(attackMapper[attack.primaryStat]);
     const charDamage = Math.floor(
       attackMapper[attack.primaryStat] + attack.power * randomizer
     );
@@ -124,6 +142,21 @@ export default function GameStateCombat() {
       const monsterAttack =
         monsterAttacksArr[Math.floor(Math.random() * monsterAttacksArr.length)];
       const monsterDamage = Math.ceil(monsterAttack.power * randomizer);
+      if (monsterDamage >= char.currSanity) {
+        setCombatLog([
+          `You descend into madness. You lose! Deleting character data. Create a new character to try again.`,
+          ...combatLog,
+        ]);
+        dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
+
+        const charIdIntoDispatchCB = () => {
+          return dispatch(deleteCharacterDataThunk(char.id));
+        };
+
+        setTimeout(toggleGameState, 2999, "loss");
+        setTimeout(charIdIntoDispatchCB, 3000);
+        return;
+      }
       dispatch(udpateCharacterSanityThunk(char.id, monsterDamage));
       setCombatLog([
         `Turn ${turnCounter}: ${monster.name} uses ${monsterAttack.name}! You take ${monsterDamage} sanity damage. You are slowly losing your mind!`,
@@ -133,19 +166,30 @@ export default function GameStateCombat() {
     }
   }
 
+  function handleEscapeCombat() {
+    setCombatLog([
+      "You gave up defeating this problem! You lose 20 sanity. You take a moment to rest...",
+      ...combatLog,
+    ]);
+    setTimeout(toggleGameState, 2000, "rest");
+    // Game state change will also go here.
+  }
+
   // Character attributes
 
-  const equippedGear = Object.values(inventory).find(
-    (item) => item.equipped === true && item.slot === "gear"
-  );
+  if (!monster) return <div>Monster isn't loaded yet.</div>;
 
-  const equippedFood = Object.values(inventory).find(
-    (item) => item.equipped === true && item.slot === "food"
-  );
+  const equippedGear = Object.values(inventory).find((item) => {
+    return item.equipped === true && item.slot === "gear";
+  });
 
-  const equippedReference = Object.values(inventory).find(
-    (item) => item.equipped === true && item.slot === "reference"
-  );
+  const equippedFood = Object.values(inventory).find((item) => {
+    return item.equipped === true && item.slot === "food";
+  });
+
+  const equippedReference = Object.values(inventory).find((item) => {
+    return item.equipped === true && item.slot === "equipment";
+  });
 
   const algorithmsTotal =
     char.algorithms +
@@ -205,6 +249,9 @@ export default function GameStateCombat() {
       <div id="character-container">
         <div id="character-resources-image-container">
           <div id="character-resources-container">
+            {char.currEnergy === 0 && (
+              <button onClick={() => handleEscapeCombat()}>Escape!</button>
+            )}
             <span className="character-resources-span">
               Energy: {currEnergy}/{char.maxEnergy}
             </span>
