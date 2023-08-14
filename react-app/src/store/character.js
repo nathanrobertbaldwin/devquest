@@ -138,7 +138,6 @@ export const udpateCharacterSanityThunk =
     });
     if (response.ok) {
       const data = await response.json();
-      // console.log("from updateCharacterSanityThunk:", data);
       dispatch(udpateCharacterSanity(damage));
     }
   };
@@ -179,8 +178,7 @@ export default function reducer(state = initialState, action) {
     case TOGGLE_INVENTORY_ITEM_EQUIP: {
       const itemId = action.data;
       const newState = { ...state };
-      const inventory = newState.inventory;
-      inventory[itemId].equipped = !inventory[itemId].equipped;
+      newState.inventory[itemId].equipped = !newState.inventory[itemId].equipped;
       return newState;
     }
     case DROP_INVENTORY_ITEM: {

@@ -1,13 +1,12 @@
 """empty message
 
-Revision ID: aeca640e7036
+Revision ID: 669fc6fb82c6
 Revises: 
-Create Date: 2023-08-13 14:33:02.485562
+Create Date: 2023-08-13 16:59:43.603288
 
 """
 from alembic import op
 import sqlalchemy as sa
-
 
 import os
 
@@ -16,7 +15,7 @@ SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
-revision = "aeca640e7036"
+revision = "669fc6fb82c6"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -93,7 +92,8 @@ def upgrade():
         "monsters",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(length=50), nullable=False),
-        sa.Column("hp", sa.Integer(), nullable=False),
+        sa.Column("max_hp", sa.Integer(), nullable=False),
+        sa.Column("curr_hp", sa.Integer(), nullable=False),
         sa.Column(
             "weakness",
             sa.Enum(
@@ -194,7 +194,6 @@ def upgrade():
         op.execute(f"ALTER TABLE saves SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE character_attacks SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE inventories SET SCHEMA {SCHEMA};")
-
     # ### end Alembic commands ###
 
 

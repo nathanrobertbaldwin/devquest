@@ -2,7 +2,6 @@
 
 const CREATE_NEW_MONSTER = "new_monster/CREATE";
 const UPDATE_MONSTER_HP = "monster_hp/UPDATE";
-// const DELETE_MONSTER = "monster/DELETE";
 
 // ============================== ACTIONS ============================== //
 
@@ -19,11 +18,28 @@ export const updateMonsterHP = (data) => ({
 // ============================== THUNKS =============================== //
 
 export const createNewMonsterThunk = (data) => async (dispatch) => {
-  dispatch(createNewMonster(data));
+  const response = await fetch("/api/monster/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (response.ok) {
+    const monster = await response.json();
+    dispatch(createNewMonster(monster));
+  }
 };
 
-export const updateMonsterHpThunk = (data) => async (dispatch) => {
-  dispatch(updateMonsterHP(data));
+export const updateMonsterHpThunk = (damage) => async (dispatch) => {
+  const response = await fetch("/api/monster/", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ damage }),
+  });
+
+  if (response.ok) {
+    dispatch(updateMonsterHP(damage));
+  }
 };
 
 // ============================== REDUCER ============================== //

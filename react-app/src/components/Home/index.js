@@ -14,7 +14,7 @@ export default function Home() {
   const gameData = useSelector((store) => store.gamedata);
   const dispatch = useDispatch();
   const [isGameDataLoaded, setIsGameDataLoaded] = useState(false);
-  const [gameState, setGameState] = useState("combat");
+  const [gameState, setGameState] = useState("intro");
 
   useEffect(() => {
     if (_.isEmpty(gameData)) {
@@ -33,7 +33,7 @@ export default function Home() {
   if (gameState === "intro") {
     return (
       <div id="game-component">
-        <button onClick={() => changeGameState("combat")}>Intro</button>
+        <button onClick={() => changeGameState("combat")}>Combat</button>
         <GameStateIntro />
       </div>
     );

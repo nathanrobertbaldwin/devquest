@@ -96,7 +96,10 @@ def toggle_item_equip(itemId):
     item = Inventory.query.get(itemId)
 
     if item:
+        print("THIS IS THE ITEM", item.to_dict())
+        print("THIS IS THE ITEM BEFORE IT IS TOGGLED", item.equipped)
         item.equipped = not item.equipped
+        print("THIS IS THE ITEM AFTER IT IS TOGGLED", item.equipped)
 
         db.session.commit()
 

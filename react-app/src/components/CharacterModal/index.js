@@ -118,9 +118,7 @@ function CharacterModal() {
             <div
               id="equipped-reference"
               onClick={() => {
-                dispatch(
-                  toggleInventoryItemEquipThunk(char.id, equippedReference.id)
-                );
+                dispatch(toggleInventoryItemEquipThunk(equippedReference.id));
                 setEquippedReference(null);
               }}
             >
@@ -153,7 +151,7 @@ function CharacterModal() {
                   key={key}
                   className="equipment-card"
                   onClick={() => {
-                    dispatch(toggleInventoryItemEquipThunk(item.id));
+                    dispatch(toggleInventoryItemEquipThunk(key));
                     setEquippedGear(item);
                   }}
                 >
@@ -173,7 +171,7 @@ function CharacterModal() {
                   key={key}
                   className="equipment-card"
                   onClick={() => {
-                    dispatch(toggleInventoryItemEquipThunk(item.id));
+                    dispatch(toggleInventoryItemEquipThunk(key));
                     setEquippedFood(item);
                   }}
                 >
@@ -196,7 +194,7 @@ function CharacterModal() {
                   key={key}
                   className="equipment-card"
                   onClick={() => {
-                    dispatch(toggleInventoryItemEquipThunk(item.id));
+                    dispatch(toggleInventoryItemEquipThunk(key));
                     setEquippedReference(item);
                   }}
                 >
