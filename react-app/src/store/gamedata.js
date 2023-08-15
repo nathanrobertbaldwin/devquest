@@ -3,6 +3,8 @@
 const GET_GAME_DATA = "game_data/GET";
 const CREATE_NEW_EQUIPMENT = "new_equipment/CREATE";
 const EDIT_EQUIPMENT = "equipment/EDIT";
+const CREATE_MEW_MONSTER_TEMPLATE = "monster_template/CREATE";
+const EDIT_MONSTER_TEMPLATE = "monster_template/EDIT";
 const ERASE_USER_DATA = "game_data/ERASE";
 
 // ============================== ACTIONS ============================== //
@@ -20,6 +22,16 @@ const createNewEquipment = (data) => ({
 const editEquipmentById = (id) => ({
   type: EDIT_EQUIPMENT,
   data: id,
+});
+
+export const createMonsterTemplate = (data) => ({
+  type: CREATE_MEW_MONSTER_TEMPLATE,
+  data: data,
+});
+
+export const editMonsterTemplate = (data) => ({
+  type: EDIT_MONSTER_TEMPLATE,
+  data: data,
 });
 
 const eraseUserData = (data = {}) => ({
@@ -51,6 +63,19 @@ export const createNewEquipmentThunk = (data) => async (dispatch) => {
   }
 };
 
+export const createNewMonsterTemplateThunk = (data) => async (dispatch) => {
+  const response = await fetch("/api/monsters-templates/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(createNewEquipment(data));
+  }
+};
+
 export const editEquipmentByIdThunk = (id, data) => async (dispatch) => {
   const response = await fetch(`/api/equipment/${id}`, {
     method: "PUT",
@@ -66,6 +91,18 @@ export const editEquipmentByIdThunk = (id, data) => async (dispatch) => {
 
 export const eraseUserDataThunk = () => async (dispatch) => {
   dispatch(eraseUserData());
+};
+
+export const editMonsterTemplateByIdThunk = (id, data) => async (dispatch) => {
+  const response = await fetch(`/api/monster/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ data }),
+  });
+
+  if (response.ok) {
+    dispatch(editEquipmentById(data));
+  }
 };
 
 // ============================== REDUCER ============================== //
@@ -99,7 +136,7 @@ export default function reducer(state = initialState, action) {
       const id = newEquipment.id;
       newState.equipment[id] = newEquipment;
       newState.equipmentArr = Object.values(newState.equipment);
-      return newState
+      return newState;
     }
 
     default: {

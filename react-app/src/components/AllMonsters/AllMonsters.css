@@ -1,0 +1,7 @@
+#all-monsters-container{
+    width: 75%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}

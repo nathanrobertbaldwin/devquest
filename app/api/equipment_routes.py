@@ -8,7 +8,7 @@ equipment_routes = Blueprint("equipment_routes", __name__)
 
 @equipment_routes.route("/")
 @login_required
-def equipment():
+def all_equipment():
     """
     Query for all equipment and return in a list of dictionaries.
     """

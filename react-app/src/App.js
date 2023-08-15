@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Error from "./components/Error";
 import GameStateProvider from "./context/GameState";
 import AllEquipment from "./components/AllEquipment";
+import AllMonsters from "./components/AllMonsters";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ function App() {
       <div id="main-content">
         {isLoaded && (
           <Switch>
+            <Route path="/monsters/all">
+              <AllMonsters />
+            </Route>
             <Route path="/equipment/all">
               <AllEquipment />
             </Route>

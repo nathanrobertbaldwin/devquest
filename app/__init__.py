@@ -12,6 +12,7 @@ from .api.equipment_routes import equipment_routes
 from .api.game_data_routes import game_data_routes
 from .api.user_data_routes import user_data_routes
 from .api.monster_routes import monster_routes
+from .api.monster_templates import monster_templates_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -38,6 +39,7 @@ app.register_blueprint(equipment_routes, url_prefix="/api/equipment")
 app.register_blueprint(game_data_routes, url_prefix="/api/gamedata")
 app.register_blueprint(user_data_routes, url_prefix="/api/userdata")
 app.register_blueprint(monster_routes, url_prefix="/api/monster")
+app.register_blueprint(monster_templates_routes, url_prefix="/api/monster-templates")
 db.init_app(app)
 Migrate(app, db)
 

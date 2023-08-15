@@ -8,6 +8,7 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import CreateNewEquipmentModal from "../EquipmentCreationModal";
+import CreateNewMonsterModal from "../MonsterCreationModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -66,6 +67,18 @@ function ProfileButton({ user }) {
             <li>
               <NavLink exact to="/equipment/all">
                 <button>Manage Equipment</button>
+              </NavLink>
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText="Create Monster"
+                onItemClick={closeMenu}
+                modalComponent={<CreateNewMonsterModal />}
+              />
+            </li>
+            <li>
+              <NavLink exact to="/monsters/all">
+                <button>Manage Monsters</button>
               </NavLink>
             </li>
           </>
