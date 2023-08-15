@@ -90,7 +90,7 @@ export default function GameStateCombat() {
 
   function handleCharacterAttack(attack) {
     if (char.currSanity > 0 && turnCounter % 2 === 1 && !clicked) {
-      if (char.currEnergy > attack.energyCost) {
+      if (attack.energyCost <= char.currEnergy) {
         setClicked(true);
         dispatch(updateCharacterEnergyThunk(char.id, attack.energyCost));
         const charDamage = calculateCharDamage(attack);
