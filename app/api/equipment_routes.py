@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import Equipment
+from app.models import db, Equipment
 from ..forms import EquipmentForm
 
 equipment_routes = Blueprint("equipment_routes", __name__)
@@ -24,8 +24,6 @@ def create_equipment():
     """
     form = EquipmentForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    request_data = request.get_json()
-    print("HERE IS THE RAW DATA", request_data)
 
     if form.validate_on_submit():
         data = form.data

@@ -88,8 +88,10 @@ export default function reducer(state = initialState, action) {
       };
     }
     case CREATE_NEW_EQUIPMENT: {
-      // const newEquipment = action.data;
-      // const newState = state.equipment
+      const newEquipment = action.data;
+      const newState = { ...state };
+      newState.equipmentArr.push(newEquipment);
+      return newState;
     }
 
     default: {
