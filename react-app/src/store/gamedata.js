@@ -64,9 +64,9 @@ export const editEquipmentByIdThunk = (id, data) => async (dispatch) => {
   }
 };
 
-// export const eraseUserDataThunk = () => async (dispatch) => {
-//   dispatch(eraseUserData());
-// };
+export const eraseUserDataThunk = () => async (dispatch) => {
+  dispatch(eraseUserData());
+};
 
 // ============================== REDUCER ============================== //
 
@@ -99,7 +99,7 @@ export default function reducer(state = initialState, action) {
       const id = newEquipment.id;
       newState.equipment[id] = newEquipment;
       newState.equipmentArr = Object.values(newState.equipment);
-      return newState;
+      return newState
     }
 
     default: {

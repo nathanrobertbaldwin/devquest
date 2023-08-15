@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createNewEquipmentThunk } from "../../store/gamedata";
-import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 
 import "./EquipmentCreationModal.css";
@@ -10,7 +9,6 @@ const _ = require("lodash");
 
 export default function CreateNewEquipmentModal() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { closeModal } = useModal();
 
   const [name, setName] = useState("");

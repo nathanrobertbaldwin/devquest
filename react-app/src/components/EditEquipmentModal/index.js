@@ -56,8 +56,6 @@ export default function CreateNewEquipmentModal({ itemId }) {
         image_url: imageUrl,
       };
 
-      console.log(editedEquipmentData);
-
       await dispatch(editEquipmentByIdThunk(itemId, editedEquipmentData));
       _reset();
       closeModal();
