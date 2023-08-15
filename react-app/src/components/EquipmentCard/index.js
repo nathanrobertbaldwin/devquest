@@ -1,7 +1,7 @@
 import "./EquipmentCard.css";
-import OpenModalButton from "../../OpenModalButton";
-import EditEquipmentModal from "../../EditEquipmentModal";
-import { useModal } from "../../../context/Modal";
+import OpenModalButton from "../OpenModalButton";
+import EditEquipmentModal from "../EditEquipmentModal";
+import { useModal } from "../../context/Modal";
 
 export default function EquipmentCard({ item }) {
   const { closeModal } = useModal();

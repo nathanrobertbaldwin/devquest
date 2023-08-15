@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import EquipmentCard from "./EquipmentCard";
+import EquipmentCard from "../EquipmentCard";
 import "./AllEquipment.css";
 
 export default function AllEquipment() {
