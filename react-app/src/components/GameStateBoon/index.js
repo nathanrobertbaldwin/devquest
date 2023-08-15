@@ -1,7 +1,7 @@
 import { useChangeGameState } from "../../context/GameState";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
-import CharacterBonusModal from "./CharacterBonusModal";
+import CharacterBonusModal from "../CharacterBonusModal";
 import {
   addInventoryItemThunk,
   toggleInventoryItemEquipThunk,

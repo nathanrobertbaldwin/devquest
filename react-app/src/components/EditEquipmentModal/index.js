@@ -1,28 +1,27 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { createNewEquipmentThunk } from "../../store/gamedata";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { editEquipmentByIdThunk } from "../../store/gamedata";
 import { useModal } from "../../context/Modal";
 
-import "./EquipmentCreationModal.css";
+import "./EditEquipmentModal.css";
 
 const _ = require("lodash");
 
-export default function CreateNewEquipmentModal() {
+export default function CreateNewEquipmentModal({ itemId }) {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { closeModal } = useModal();
 
-  const [name, setName] = useState("");
-  const [backendBoost, setBackendBoost] = useState(0);
-  const [frontendBoost, setFrontendBoost] = useState(0);
-  const [algorithmsBoost, setAlgorithmsBoost] = useState(0);
-  const [CSSBoost, setCSSBoost] = useState(0);
-  const [debuggingBoost, setDebuggingBoost] = useState(0);
-  const [maxEnergyBoost, setMaxEnergyBoost] = useState(0);
-  const [slot, setSlot] = useState("gear");
-  const [imageUrl, setImageUrl] = useState("");
-  const [points, setPoints] = useState(10);
+  const item = useSelector((store) => store.gamedata.equipment)[itemId];
+
+  const [name, setName] = useState(item.name);
+  const [backendBoost, setBackendBoost] = useState(item.backendBoost);
+  const [frontendBoost, setFrontendBoost] = useState(item.frontendBoost);
+  const [algorithmsBoost, setAlgorithmsBoost] = useState(item.algorithmsBoost);
+  const [CSSBoost, setCSSBoost] = useState(item.cssBoost);
+  const [debuggingBoost, setDebuggingBoost] = useState(item.debuggingBoost);
+  const [maxEnergyBoost, setMaxEnergyBoost] = useState(item.maxEnergyBoost);
+  const [slot, setSlot] = useState(item.slot);
+  const [imageUrl, setImageUrl] = useState(item.imageUrl);
 
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -45,7 +44,7 @@ export default function CreateNewEquipmentModal() {
     setHasSubmitted(true);
 
     if (_.isEmpty(validationErrors)) {
-      const newEquipmentData = {
+      const editedEquipmentData = {
         name,
         backend_boost: backendBoost,
         frontend_boost: frontendBoost,
@@ -57,7 +56,9 @@ export default function CreateNewEquipmentModal() {
         image_url: imageUrl,
       };
 
-      await dispatch(createNewEquipmentThunk(newEquipmentData));
+      console.log(editedEquipmentData);
+
+      await dispatch(editEquipmentByIdThunk(itemId, editedEquipmentData));
       _reset();
       closeModal();
     }
@@ -70,7 +71,6 @@ export default function CreateNewEquipmentModal() {
       errors.imgUrl = "Image must end with .png, .jpg, or .jpeg";
 
     setValidationErrors(errors);
-    console.log(validationErrors.imgUrl);
   }
 
   const urlCheck = (url) => {
@@ -81,25 +81,26 @@ export default function CreateNewEquipmentModal() {
 
   function _reset() {
     setName("");
-    setBackendBoost("");
-    setFrontendBoost("");
-    setAlgorithmsBoost("");
-    setCSSBoost("");
-    setDebuggingBoost("");
-    setMaxEnergyBoost("");
+    setBackendBoost(0);
+    setFrontendBoost(0);
+    setAlgorithmsBoost(0);
+    setCSSBoost(0);
+    setDebuggingBoost(0);
+    setMaxEnergyBoost(0);
+    setSlot("gear");
     setImageUrl("");
   }
 
   return (
-    <form id="new-equipment-component-container">
-      <div id="new-equipment-header">
-        <h4>Create New Equipment!</h4>
+    <form id="edit-equipment-component-container">
+      <div id="edit-equipment-header">
+        <h4>Edit Equipment</h4>
       </div>
-      <div className="new-equipment-field-container">
-        <div className="new-equipment-input-wrapper">
-          <span className="new-equipment-label">Name:</span>
+      <div className="edit-equipment-field-container">
+        <div className="edit-equipment-input-wrapper">
+          <span className="edit-equipment-label">Name:</span>
           <input
-            className="new-equipment-name-input"
+            className="edit-equipment-name-input"
             type="text"
             placeholder="Equipment Name"
             value={name}
@@ -110,20 +111,14 @@ export default function CreateNewEquipmentModal() {
           <span className="error-message">{validationErrors.name}</span>
         )}
       </div>
-      <h6 id="new-equipment-attributes-header">
-        Attribute Boosts - Points Remaining: {points}
-      </h6>
-      <div id="new-equipment-attributes-container">
-        <div className="new-equipment-attribute-button-container">
+      <div id="edit-equipment-attributes-container">
+        <div className="edit-equipment-attribute-button-container">
           <span>Backend Boost: {backendBoost}</span>
-          <div className="new-equipment-button-container">
+          <div className="edit-equipment-button-container">
             <button
               type="button"
               onClick={() => {
-                if (points > 0) {
-                  setBackendBoost(backendBoost + 1);
-                  setPoints(points - 1);
-                }
+                setBackendBoost(backendBoost + 1);
               }}
             >
               +
@@ -133,7 +128,6 @@ export default function CreateNewEquipmentModal() {
               onClick={() => {
                 if (backendBoost > 0) {
                   setBackendBoost(backendBoost - 1);
-                  setPoints(points + 1);
                 }
               }}
             >
@@ -141,16 +135,13 @@ export default function CreateNewEquipmentModal() {
             </button>
           </div>
         </div>
-        <div className="new-equipment-attribute-button-container">
+        <div className="edit-equipment-attribute-button-container">
           <span>Frontend Boost: {frontendBoost}</span>
-          <div className="new-equipment-button-container">
+          <div className="edit-equipment-button-container">
             <button
               type="button"
               onClick={() => {
-                if (points > 0) {
-                  setFrontendBoost(frontendBoost + 1);
-                  setPoints(points - 1);
-                }
+                setFrontendBoost(frontendBoost + 1);
               }}
             >
               +
@@ -160,7 +151,6 @@ export default function CreateNewEquipmentModal() {
               onClick={() => {
                 if (frontendBoost > 0) {
                   setFrontendBoost(frontendBoost - 1);
-                  setPoints(points + 1);
                 }
               }}
             >
@@ -168,16 +158,13 @@ export default function CreateNewEquipmentModal() {
             </button>
           </div>
         </div>
-        <div className="new-equipment-attribute-button-container">
+        <div className="edit-equipment-attribute-button-container">
           <span>Algorithms Boost: {algorithmsBoost}</span>
-          <div className="new-equipment-button-container">
+          <div className="edit-equipment-button-container">
             <button
               type="button"
               onClick={() => {
-                if (points > 0) {
-                  setAlgorithmsBoost(algorithmsBoost + 1);
-                  setPoints(points - 1);
-                }
+                setAlgorithmsBoost(algorithmsBoost + 1);
               }}
             >
               +
@@ -187,7 +174,6 @@ export default function CreateNewEquipmentModal() {
               onClick={() => {
                 if (algorithmsBoost > 0) {
                   setAlgorithmsBoost(algorithmsBoost - 1);
-                  setPoints(points + 1);
                 }
               }}
             >
@@ -195,16 +181,13 @@ export default function CreateNewEquipmentModal() {
             </button>
           </div>
         </div>
-        <div className="new-equipment-attribute-button-container">
+        <div className="edit-equipment-attribute-button-container">
           <span>CSS Boost: {CSSBoost}</span>
-          <div className="new-equipment-button-container">
+          <div className="edit-equipment-button-container">
             <button
               type="button"
               onClick={() => {
-                if (points > 0) {
-                  setCSSBoost(CSSBoost + 1);
-                  setPoints(points - 1);
-                }
+                setCSSBoost(CSSBoost + 1);
               }}
             >
               +
@@ -212,9 +195,8 @@ export default function CreateNewEquipmentModal() {
             <button
               type="button"
               onClick={() => {
-                if (CSS > 0) {
+                if (CSSBoost > 0) {
                   setCSSBoost(CSSBoost - 1);
-                  setPoints(points + 1);
                 }
               }}
             >
@@ -222,16 +204,13 @@ export default function CreateNewEquipmentModal() {
             </button>
           </div>
         </div>
-        <div className="new-equipment-attribute-button-container">
+        <div className="edit-equipment-attribute-button-container">
           <span>Debugging Boost: {debuggingBoost}</span>
-          <div className="new-equipment-button-container">
+          <div className="edit-equipment-button-container">
             <button
               type="button"
               onClick={() => {
-                if (points > 0) {
-                  setDebuggingBoost(debuggingBoost + 1);
-                  setPoints(points - 1);
-                }
+                setDebuggingBoost(debuggingBoost + 1);
               }}
             >
               +
@@ -241,7 +220,6 @@ export default function CreateNewEquipmentModal() {
               onClick={() => {
                 if (debuggingBoost > 0) {
                   setDebuggingBoost(debuggingBoost - 1);
-                  setPoints(points + 1);
                 }
               }}
             >
@@ -249,16 +227,13 @@ export default function CreateNewEquipmentModal() {
             </button>
           </div>
         </div>
-        <div className="new-equipment-attribute-button-container">
+        <div className="edit-equipment-attribute-button-container">
           <span>Max Energy Boost: {maxEnergyBoost}</span>
-          <div className="new-equipment-button-container">
+          <div className="edit-equipment-button-container">
             <button
               type="button"
               onClick={() => {
-                if (points > 0) {
-                  setMaxEnergyBoost(maxEnergyBoost + 10);
-                  setPoints(points - 1);
-                }
+                setMaxEnergyBoost(maxEnergyBoost + 5);
               }}
             >
               +
@@ -267,8 +242,7 @@ export default function CreateNewEquipmentModal() {
               type="button"
               onClick={() => {
                 if (maxEnergyBoost > 0) {
-                  setMaxEnergyBoost(maxEnergyBoost - 10);
-                  setPoints(points + 1);
+                  setMaxEnergyBoost(Math.max(0, maxEnergyBoost - 5));
                 }
               }}
             >
@@ -277,8 +251,8 @@ export default function CreateNewEquipmentModal() {
           </div>
         </div>
         <div>
-          <div className="new-equipment-field-container">
-            <div className="new-equipment-input-wrapper">
+          <div className="edit-equipment-field-container">
+            <div className="edit-equipment-input-wrapper">
               <span>Slot: </span>
               <select
                 id="slot"
@@ -292,11 +266,11 @@ export default function CreateNewEquipmentModal() {
             </div>
           </div>
         </div>
-        <div className="new-equipment-field-container">
-          <div className="new-equipment-input-wrapper">
+        <div className="edit-equipment-field-container">
+          <div className="edit-equipment-input-wrapper">
             <span>Image URL:</span>
             <input
-              className="new-equipment-input"
+              className="edit-equipment-input"
               type="text"
               placeholder="Image One"
               value={imageUrl}
@@ -308,12 +282,10 @@ export default function CreateNewEquipmentModal() {
           )}
         </div>
       </div>
-      <div id="new-equipment-submit-button-container">
-        {points === 0 && (
-          <button type="submit" onClick={(e) => handleSubmit(e)}>
-            Create!
-          </button>
-        )}
+      <div id="edit-equipment-submit-button-container">
+        <button type="submit" onClick={(e) => handleSubmit(e)}>
+          Edit!
+        </button>
       </div>
     </form>
   );

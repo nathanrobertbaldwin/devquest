@@ -1,12 +1,12 @@
 import "./EquipmentCard.css";
 import OpenModalButton from "../../OpenModalButton";
-import CreateNewEquipmentModal from "../../EquipmentCreationModal";
+import EditEquipmentModal from "../../EditEquipmentModal";
 import { useModal } from "../../../context/Modal";
 
 export default function EquipmentCard({ item }) {
   const { closeModal } = useModal();
   return (
-    <div className="item-card-container">
+    <div key={item.id} className="item-card-container">
       <h6>Item: {item.name}</h6>
       <span>id: {item.id}</span>
       <span>Algorithms Boost: {item.algorithmsBoost}</span>
@@ -20,7 +20,7 @@ export default function EquipmentCard({ item }) {
       <OpenModalButton
         buttonText="Edit Equipment"
         onItemClick={closeModal}
-        modalComponent={<CreateNewEquipmentModal />}
+        modalComponent={<EditEquipmentModal itemId={item.id} />}
       />
     </div>
   );

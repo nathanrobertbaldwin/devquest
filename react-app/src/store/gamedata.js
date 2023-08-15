@@ -64,9 +64,9 @@ export const editEquipmentByIdThunk = (id, data) => async (dispatch) => {
   }
 };
 
-export const eraseUserDataThunk = () => async (dispatch) => {
-  dispatch(eraseUserData());
-};
+// export const eraseUserDataThunk = () => async (dispatch) => {
+//   dispatch(eraseUserData());
+// };
 
 // ============================== REDUCER ============================== //
 
@@ -88,9 +88,17 @@ export default function reducer(state = initialState, action) {
       };
     }
     case CREATE_NEW_EQUIPMENT: {
-      const newEquipment = action.data;
       const newState = { ...state };
+      const newEquipment = action.data;
       newState.equipmentArr.push(newEquipment);
+      return newState;
+    }
+    case EDIT_EQUIPMENT: {
+      const newState = { ...state };
+      const newEquipment = action.data;
+      const id = newEquipment.id;
+      newState.equipment[id] = newEquipment;
+      newState.equipmentArr = Object.values(newState.equipment);
       return newState;
     }
 
