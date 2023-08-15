@@ -23,6 +23,7 @@ function Navigation({ isLoaded }) {
         <button onClick={() => toggleGameState("intro")}>Intro</button>
         <button onClick={() => toggleGameState("combat")}>Combat</button>
         <button onClick={() => toggleGameState("rest")}>Rest</button>
+        <button onClick={() => toggleGameState("boon")}>Boon</button>
         <button onClick={() => toggleGameState("win")}>Win</button>
         <button onClick={() => toggleGameState("loss")}>Loss</button>
         <ul id="navigation-links-container">

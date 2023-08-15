@@ -48,6 +48,12 @@ export default function GameStateCombat() {
   }, [dispatch]);
 
   useEffect(() => {
+    if (!_.isEmpty(monster)) {
+      setMonsterIsLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (turnCounter % 2 === 0) {
       handleMonsterAttack(turnCounter);
     }

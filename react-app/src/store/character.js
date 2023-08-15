@@ -8,6 +8,7 @@ import { deleteSaveFile, getNewCharSave } from "./saves";
 const GET_CHARACTER_DATA = "character_data/GET";
 const CREATE_NEW_CHARACTER = "character_data/POST";
 const TOGGLE_INVENTORY_ITEM_EQUIP = "inventory_item_equip/TOGGLE";
+const ADD_INVENTORY_ITEM = "inventory_item/DROP";
 const DROP_INVENTORY_ITEM = "inventory_item/DROP";
 const UPDATE_CHARACTER_ENERGY = "character_energy/UPDATE";
 const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
@@ -26,12 +27,17 @@ const createNewCharacter = (newCharacter) => ({
   data: newCharacter,
 });
 
-export const toggleInventoryItemEquip = (itemId) => ({
+const toggleInventoryItemEquip = (itemId) => ({
   type: TOGGLE_INVENTORY_ITEM_EQUIP,
   data: itemId,
 });
 
-export const dropInventoryItem = (itemId) => ({
+const addInventoryItem = (itemId) => ({
+  type: ADD_INVENTORY_ITEM,
+  data: itemId,
+});
+
+const dropInventoryItem = (itemId) => ({
   type: DROP_INVENTORY_ITEM,
   data: itemId,
 });
@@ -101,6 +107,18 @@ export const toggleInventoryItemEquipThunk = (itemId) => async (dispatch) => {
   }
 };
 
+export const addInventoryItemThunk = (charId, itemId) => async (dispatch) => {
+  const response = await fetch(`/api/characters/inventory/${itemId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ charId }),
+  });
+
+  if (response.ok) {
+    dispatch(dropInventoryItem(itemId));
+  }
+};
+
 export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
   const response = await fetch(`/api/characters/inventory/${itemId}/drop`, {
     method: "DELETE",
@@ -114,7 +132,6 @@ export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
 
 export const updateCharacterEnergyThunk =
   (charId, change) => async (dispatch) => {
-    console.log("FROM THUNK", "CHARID", charId, "ENERGY CHANGE", change);
     const response = await fetch(`api/characters/${charId}/energy`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -127,7 +144,6 @@ export const updateCharacterEnergyThunk =
 
 export const udpateCharacterSanityThunk =
   (charId, change) => async (dispatch) => {
-    console.log("FROM THUNK", "CHARID", charId, "SANITY CHANGE", change);
     const response = await fetch(`api/characters/${charId}/sanity`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
