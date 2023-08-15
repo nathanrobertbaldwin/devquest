@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
 import { resetSaveDataThunk } from "../../store/saves";
@@ -6,6 +7,7 @@ import { resetCharacterDataThunk } from "../../store/character";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import CreateNewEquipmentModal from "../EquipmentCreationModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -53,6 +55,18 @@ function ProfileButton({ user }) {
             <li>{user.email}</li>
             <li>
               <button onClick={handleLogout}>Log Out</button>
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText="Create Equipment"
+                onItemClick={closeMenu}
+                modalComponent={<CreateNewEquipmentModal />}
+              />
+            </li>
+            <li>
+              <NavLink exact to="/equipment/all">
+                <button>Manage Equipment</button>
+              </NavLink>
             </li>
           </>
         ) : (

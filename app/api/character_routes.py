@@ -82,7 +82,7 @@ def new_character():
             },
         }
 
-    return "form not validating"
+    return {"message": "Error creating character."}
 
 
 @character_routes.route("/inventory/<int:itemId>", methods=["PUT"])

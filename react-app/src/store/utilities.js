@@ -12,7 +12,7 @@ function flattenInventory(obj) {
       frontendBoost: obj[item].item.frontendBoost,
       cssBoost: obj[item].item.cssBoost,
       debuggingBoost: obj[item].item.debuggingBoost,
-      energyBoost: obj[item].item.energyBoost,
+      maxEnergyBoost: obj[item].item.maxEnergyBoost,
     };
   }
   return inventory;

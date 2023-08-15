@@ -1,0 +1,27 @@
+import "./EquipmentCard.css";
+import OpenModalButton from "../../OpenModalButton";
+import CreateNewEquipmentModal from "../../EquipmentCreationModal";
+import { useModal } from "../../../context/Modal";
+
+export default function EquipmentCard({ item }) {
+  const { closeModal } = useModal();
+  return (
+    <div className="item-card-container">
+      <h6>Item: {item.name}</h6>
+      <span>id: {item.id}</span>
+      <span>Algorithms Boost: {item.algorithmsBoost}</span>
+      <span>Backend Boost: {item.backendBoost}</span>
+      <span>CSS Boost: {item.cssBoost}</span>
+      <span>Debugging Boost: {item.debuggingBoost}</span>
+      <span>Frontend Boost: {item.frontendBoost}</span>
+      <span>ImageUrl: {item.imageUrl}</span>
+      <span>Max Energy Boost: {item.maxEnergyBoost}</span>
+      <span>Slot: {item.slot}</span>
+      <OpenModalButton
+        buttonText="Edit Equipment"
+        onItemClick={closeModal}
+        modalComponent={<CreateNewEquipmentModal />}
+      />
+    </div>
+  );
+}
