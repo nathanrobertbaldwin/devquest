@@ -16,9 +16,21 @@ class Equipment(db.Model):
     algorithms_boost = db.Column(db.Integer, nullable=False)
     css_boost = db.Column(db.Integer, nullable=False)
     debugging_boost = db.Column(db.Integer, nullable=False)
-    energy_boost = db.Column(db.Integer, nullable=False)
+    max_energy_boost = db.Column(db.Integer, nullable=False)
     slot = db.Column(db.Enum(*slots, name="slot_enum"), nullable=False)
     image_url = db.Column(db.String(255), nullable=True)
+    
+#     {
+#     "name": "Test",
+#     "backend_boost": 10,
+#     "frontend_boost": 0,
+#     "algorithms_boost": 0,
+#     "css_boost": 0,
+#     "debugging_boost": 0,
+#     "max_energy_boost": 0,
+#     "slot": "gear",
+#     "image_url": "asdf.jpg",
+# }
 
     def to_dict(self):
         return {
@@ -29,7 +41,7 @@ class Equipment(db.Model):
             "algorithmsBoost": self.algorithms_boost,
             "cssBoost": self.css_boost,
             "debuggingBoost": self.debugging_boost,
-            "energyBoost": self.energy_boost,
+            "maxEnergyBoost": self.max_energy_boost,
             "slot": self.slot,
             "imageUrl": self.image_url,
         }

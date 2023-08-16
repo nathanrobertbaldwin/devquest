@@ -58,11 +58,11 @@ function CharacterModal() {
     (equippedFood ? equippedFood.debuggingBoost : 0) +
     (equippedReference ? equippedReference.debuggingBoost : 0);
 
-  const energyTotal =
+  const maxEnergyTotal =
     char.maxEnergy +
-    (equippedGear ? equippedGear.energyBoost : 0) +
-    (equippedFood ? equippedFood.energyBoost : 0) +
-    (equippedReference ? equippedReference.energyBoost : 0);
+    (equippedGear ? equippedGear.maxEnergyBoost : 0) +
+    (equippedFood ? equippedFood.maxEnergyBoost : 0) +
+    (equippedReference ? equippedReference.maxEnergyBoost : 0);
 
   return (
     <div id="container">
@@ -76,8 +76,8 @@ function CharacterModal() {
           <span className="attribute">Frontend: {frontendTotal}</span>
           <span className="attribute">CSS: {cssTotal}</span>
           <span className="attribute">Debugging: {debuggingTotal}</span>
-          <span className="attribute">Energy: {energyTotal}</span>
-          <span className="attribute">Max Energy: {energyTotal}</span>
+          <span className="attribute">Energy: {char.currEnergy}</span>
+          <span className="attribute">Max Energy: {maxEnergyTotal}</span>
           <span className="attribute">Sanity: {char.currSanity}</span>
           <span className="attribute">Max Sanity: {char.maxSanity}</span>
         </div>

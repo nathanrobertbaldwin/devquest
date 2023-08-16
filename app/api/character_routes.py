@@ -24,6 +24,7 @@ def new_character():
     """
     Create a new character, apply character attacks, and create character save file.
     """
+
     form = CharacterForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
@@ -56,23 +57,17 @@ def new_character():
         new_character.attacks.append(attack_four)
 
         user_saves = Save.query.filter_by(user_id=data["user_id"]).first()
-
         inspector = inspect(Save)
-
         save_slot = None
 
         for column in inspector.columns:
             column_name = column.name
             column_value = getattr(user_saves, column_name)
+            slot_mapper = {"slot_one": 1, "slot_two": 2, "slot_three": 3}
 
-            if column_value is None:
-                setattr(user_saves, column_name, new_character.id)
-                if column_name == "slot_one":
-                    save_slot = 1
-                if column_name == "slot_two":
-                    save_slot = 2
-                if column_name == "slot_three":
-                    save_slot = 3
+            if column_name in slot_mapper and column_value == charId:
+                setattr(user_saves, column_name, None)
+                save_slot = slot_mapper[column_name]
                 break
 
         db.session.commit()
@@ -87,22 +82,21 @@ def new_character():
             },
         }
 
-    return "form not validating"
+    return {"message": "Error creating character."}
 
 
 @character_routes.route("/inventory/<int:itemId>", methods=["PUT"])
 @login_required
 def toggle_item_equip(itemId):
+    """
+    Toggle the equip status for an item in a character's inventory.
+    """
+
     item = Inventory.query.get(itemId)
 
     if item:
-        print("THIS IS THE ITEM", item.to_dict())
-        print("THIS IS THE ITEM BEFORE IT IS TOGGLED", item.equipped)
         item.equipped = not item.equipped
-        print("THIS IS THE ITEM AFTER IT IS TOGGLED", item.equipped)
-
         db.session.commit()
-
         return {"message": "Item equip status toggled."}
 
     return {"message": "Error: Item not found in Inventory. Inventory corrupted."}
@@ -111,6 +105,10 @@ def toggle_item_equip(itemId):
 @character_routes.route("/api/inventory/<int:itemId>/drop", methods=["DELETE"])
 @login_required
 def drop_item(itemId):
+    """
+    Remove an item from a character's inventory.
+    """
+
     item = Inventory.query.get(itemId)
 
     if item:
@@ -123,17 +121,16 @@ def drop_item(itemId):
 
 @character_routes.route("/<int:charId>/energy", methods=["PUT"])
 @login_required
-def spend_energy(charId):
+def update_energy(charId):
     """
     Character has used an attack. Update character's current energy by charId.
     """
     character = Character.query.get(charId)
 
     if character:
-        energy_cost = request.get_json()["cost"]
-
-        character.curr_energy -= energy_cost
-
+        energy_change = request.get_json()["change"]
+        print("FROM BACKEND", "CHARID", charId, "ENERGY CHANGE", energy_change)
+        character.curr_energy = character.curr_energy - energy_change
         db.session.commit()
 
         return {
@@ -147,17 +144,17 @@ def spend_energy(charId):
 
 @character_routes.route("/<int:charId>/sanity", methods=["PUT"])
 @login_required
-def lose_sanity(charId):
+def update_sanity(charId):
     """
     Monster has dealt sanity damage to character. Update character sanity.
     """
-    print("THIS IS THE CHARACTERS ID,", charId)
+
     character = Character.query.get(charId)
+
     if character:
-        sanity_damage = request.get_json()["damage"]
-
-        character.curr_sanity -= sanity_damage
-
+        sanity_change = request.get_json()["change"]
+        print("FROM BACKEND", "CHARID", charId, "SANITY CHANGE", sanity_change)
+        character.curr_sanity = character.curr_sanity - sanity_change
         db.session.commit()
 
         return {
@@ -180,23 +177,17 @@ def delete_character(charId):
 
     if character:
         user_saves = Save.query.filter(Save.user_id == character.user_id).first()
-
         inspector = inspect(Save)
-
         save_slot = None
 
         for column in inspector.columns:
             column_name = column.name
             column_value = getattr(user_saves, column_name)
+            slot_mapper = {"slot_one": 1, "slot_two": 2, "slot_three": 3}
 
-            if column_value is charId:
+            if column_name in slot_mapper and column_value == charId:
                 setattr(user_saves, column_name, None)
-                if column_name == "slot_one":
-                    save_slot = 1
-                if column_name == "slot_two":
-                    save_slot = 2
-                if column_name == "slot_three":
-                    save_slot = 3
+                save_slot = slot_mapper[column_name]
                 break
 
         db.session.delete(character)

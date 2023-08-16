@@ -5,7 +5,7 @@ from .character_attack import character_attacks
 from .character import Character
 from .equipment import Equipment
 from .inventory import Inventory
-from .monster_templates import MonsterTemplate
+from .monster_template import MonsterTemplate
 from .monster import Monster
 from .save import Save
 from .user import User

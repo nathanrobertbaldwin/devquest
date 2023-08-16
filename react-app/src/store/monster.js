@@ -30,11 +30,11 @@ export const createNewMonsterThunk = (data) => async (dispatch) => {
   }
 };
 
-export const updateMonsterHpThunk = (damage) => async (dispatch) => {
+export const updateMonsterHpThunk = (charId, damage) => async (dispatch) => {
   const response = await fetch("/api/monster/", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ damage }),
+    body: JSON.stringify({ charId, damage }),
   });
 
   if (response.ok) {

@@ -58,22 +58,23 @@ const initialState = { 1: {}, 2: {}, 3: {} };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_USER_SAVES: {
+      const newState = { ...state };
       const userSaves = action.data;
-      return { ...state, ...userSaves };
+      return { ...newState, ...userSaves };
     }
     case RESET_SAVE_DATA: {
       const emptyData = action.data;
       return { ...emptyData };
     }
     case GET_NEW_CHAR_SAVE: {
+      const newState = { ...state };
       const newSave = action.data;
-      return { ...state, ...newSave };
+      return { ...newState, ...newSave };
     }
     case DELETE_SAVE_FILE: {
       const id = action.data;
       const newState = { ...state };
       newState[id] = {};
-
       return { ...newState };
     }
     default: {

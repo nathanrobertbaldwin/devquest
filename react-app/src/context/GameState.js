@@ -1,11 +1,28 @@
-import { createContext } from "react";
+import React, { useContext, useState } from "react";
 
-export const GameState = createContext();
+const GameStateContext = React.createContext();
+const ChangeGameStateContext = React.createContext();
 
-const GameStateProvider = ({ children }) => {
-  const  gameState = "intro";
+export function useGameState() {
+  return useContext(GameStateContext);
+}
 
-  return <GameState.Provider value={gameState}>{children}</GameState.Provider>;
-};
+export function useChangeGameState() {
+  return useContext(ChangeGameStateContext);
+}
 
-export default GameStateProvider;
+export default function GameStateProvider({ children }) {
+  const [gameState, setGameState] = useState("intro");
+
+  function toggleGameState(string) {
+    setGameState(string);
+  }
+
+  return (
+    <GameStateContext.Provider value={gameState}>
+      <ChangeGameStateContext.Provider value={toggleGameState}>
+        {children}
+      </ChangeGameStateContext.Provider>
+    </GameStateContext.Provider>
+  );
+}
