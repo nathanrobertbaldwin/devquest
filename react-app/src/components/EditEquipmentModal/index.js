@@ -239,9 +239,7 @@ export default function CreateNewEquipmentModal({ itemId }) {
             <button
               type="button"
               onClick={() => {
-                if (maxEnergyBoost > 0) {
-                  setMaxEnergyBoost(Math.max(0, maxEnergyBoost - 5));
-                }
+                setMaxEnergyBoost(Math.max(0, maxEnergyBoost - 5));
               }}
             >
               -

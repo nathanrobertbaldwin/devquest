@@ -253,7 +253,7 @@ export default function CreateNewEquipmentModal() {
               type="button"
               onClick={() => {
                 if (points > 0) {
-                  setMaxEnergyBoost(maxEnergyBoost + 10);
+                  setMaxEnergyBoost(maxEnergyBoost + 5);
                   setPoints(points - 1);
                 }
               }}
@@ -263,10 +263,8 @@ export default function CreateNewEquipmentModal() {
             <button
               type="button"
               onClick={() => {
-                if (maxEnergyBoost > 0) {
-                  setMaxEnergyBoost(maxEnergyBoost - 10);
-                  setPoints(points + 1);
-                }
+                setMaxEnergyBoost(maxEnergyBoost - 5);
+                setPoints(points + 1);
               }}
             >
               -
