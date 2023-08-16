@@ -86,6 +86,6 @@ def delete_equipment(id):
         db.session.delete(equipment)
         db.session.commit()
 
-        return {"message": "Deleted", "EquipmentId": equipmentId}
+        return {"message": "Deleted", "EquipmentId": id}
 
     return {"message": "Error: Equipment not found. Save files are corrupted."}

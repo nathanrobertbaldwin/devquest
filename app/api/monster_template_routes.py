@@ -84,11 +84,11 @@ def edit_monster_template(monsterId):
 
 @monster_template_routes.route("/<int:id>", methods=["DELETE"])
 @login_required
-def delete_monster(id):
+def delete_monster_template(id):
     """
     Delete a monster template.
     """
-
+    print("HITTING THIS?")
     monster_template = MonsterTemplate.query.get(id)
 
     if monster_template:

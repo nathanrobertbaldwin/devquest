@@ -1,10 +1,19 @@
-import "./EquipmentCard.css";
+import { useDispatch } from "react-redux";
+import { useModal } from "../../context/Modal";
 import OpenModalButton from "../OpenModalButton";
 import EditEquipmentModal from "../EditEquipmentModal";
-import { useModal } from "../../context/Modal";
+import { deleteEquipmentByIdThunk } from "../../store/gamedata";
+
+import "./EquipmentCard.css";
 
 export default function EquipmentCard({ item }) {
+  const dispatch = useDispatch();
   const { closeModal } = useModal();
+
+  function handleDelete(id) {
+    dispatch(deleteEquipmentByIdThunk(id));
+  }
+
   return (
     <div key={item.id} className="item-card-container">
       <h6>{item.name}</h6>
@@ -22,6 +31,7 @@ export default function EquipmentCard({ item }) {
         onItemClick={closeModal}
         modalComponent={<EditEquipmentModal itemId={item.id} />}
       />
+      <button onClick={() => handleDelete(item.id)}>Delete</button>
     </div>
   );
 }

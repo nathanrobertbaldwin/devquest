@@ -121,7 +121,8 @@ export const editMonsterTemplateByIdThunk = (id, data) => async (dispatch) => {
 };
 
 export const deleteMonsterTemplateByIdThunk = (id) => async (dispatch) => {
-  const response = await fetch(`/api/equipment/${id}`, {
+  console.log("HITTING DELETE MONSTER THUNK?");
+  const response = await fetch(`/api/monstertemplates/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });
@@ -171,6 +172,7 @@ export default function reducer(state = initialState, action) {
       const id = action.data;
       delete newState.equipment[id];
       newState.equipmentArr = Object.values(newState.equipment);
+      return newState;
     }
     case CREATE_MEW_MONSTER_TEMPLATE: {
       const newState = { ...state };
