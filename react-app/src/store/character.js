@@ -115,7 +115,7 @@ export const addInventoryItemThunk = (charId, itemId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    dispatch(dropInventoryItem(itemId));
+    dispatch(addInventoryItem(itemId));
   }
 };
 

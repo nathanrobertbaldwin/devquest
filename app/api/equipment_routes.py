@@ -43,8 +43,7 @@ def create_equipment():
         db.session.commit()
         return new_equipment.to_dict()
 
-    print("Here are the form errors.", form.errors)
-    return {"message": "Equipment not passing validation."}
+    return {"message": "Equipment not passing validation."}, 500
 
 
 @equipment_routes.route("/<int:itemId>", methods=["PUT"])
@@ -70,7 +69,9 @@ def edit_equipment(itemId):
 
         db.session.commit()
 
-    return item.to_dict()
+        return item.to_dict()
+
+    return {"message": "Item not found. Game files corrupted."}, 500
 
 
 @equipment_routes.route("/<int:id>", methods=["DELETE"])
@@ -88,4 +89,4 @@ def delete_equipment(id):
 
         return {"message": "Deleted", "EquipmentId": id}
 
-    return {"message": "Error: Equipment not found. Save files are corrupted."}
+    return {"message": "Equipment not found. Save files are corrupted."}, 500

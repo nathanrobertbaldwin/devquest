@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import db, Character, Save, Attack, Inventory
+from app.models import db, Character, Save, Attack, Inventory, Equipment
 from app.forms import CharacterForm
 from sqlalchemy import inspect
 
@@ -82,7 +82,7 @@ def new_character():
             },
         }
 
-    return {"message": "Error creating character."}
+    return {"message": "Error creating character."}, 500
 
 
 @character_routes.route("/inventory/<int:itemId>", methods=["PUT"])
@@ -99,12 +99,37 @@ def toggle_item_equip(itemId):
         db.session.commit()
         return {"message": "Item equip status toggled."}
 
-    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}
+    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}, 500
+
+
+@character_routes.route("/api/inventory/<int:itemId>", methods=["POST"])
+@login_required
+def add_inventory_item(itemId):
+    """
+    Add an item to a character's inventory.
+    """
+
+    item = Equipment.query.get(itemId)
+
+    char_id = request.get_json()["char_id"]
+    character = Character.query.get(char_id)
+
+    if item and character:
+        new_inventory_item = Inventory(
+            character_id=char_id, equipment_id=itemId, equipped=False
+        )
+
+        db.session.add(new_inventory_item)
+        db.session.commit()
+
+        return new_inventory_item.to_dict()
+
+    return {"message": "Error adding item to inventory. Game files corrupted."}, 500
 
 
 @character_routes.route("/api/inventory/<int:itemId>/drop", methods=["DELETE"])
 @login_required
-def drop_item(itemId):
+def drop_inventory_item(itemId):
     """
     Remove an item from a character's inventory.
     """
@@ -116,7 +141,7 @@ def drop_item(itemId):
         db.session.commit()
         return {"message": "Item removed from Character's inventory."}
 
-    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}
+    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}, 500
 
 
 @character_routes.route("/<int:charId>/energy", methods=["PUT"])
@@ -139,7 +164,7 @@ def update_energy(charId):
             "character.currEnergy": character.curr_energy,
         }
 
-    return {"message": "Error: Character not found. Character file is corrupted."}
+    return {"message": "Error: Character not found. Character file is corrupted."}, 500
 
 
 @character_routes.route("/<int:charId>/sanity", methods=["PUT"])
@@ -163,7 +188,7 @@ def update_sanity(charId):
             "character.currEnergy": character.curr_sanity,
         }
 
-    return {"message": "Error: Character not found. Character file is corrupted."}
+    return {"message": "Error: Character not found. Character file is corrupted."}, 500
 
 
 @character_routes.route("/<int:charId>", methods=["DELETE"])
@@ -195,4 +220,4 @@ def delete_character(charId):
 
         return {"message": "Deleted", "character_id": charId, "save_slot": save_slot}
 
-    return {"message": "Error: Character not found. Save files are corrupted."}
+    return {"message": "Error: Character not found. Save files are corrupted."}, 500

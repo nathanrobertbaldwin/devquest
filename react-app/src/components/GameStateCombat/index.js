@@ -24,7 +24,9 @@ export default function GameStateCombat() {
   const currEnergy = useSelector((store) => store.character.currEnergy);
   const currSanity = useSelector((store) => store.character.currSanity);
 
-  const monstersArr = useSelector((store) => store.gamedata.monsterArr);
+  const monstersArr = useSelector(
+    (store) => store.gamedata.monsterTemplatesArr
+  );
   const monster = useSelector((store) => store.monster);
   const monsterAttacksArr = useSelector(
     (store) => store.gamedata.monsterAttacksArr
@@ -39,19 +41,16 @@ export default function GameStateCombat() {
 
   useEffect(() => {
     async function wrapper() {
-      if (_.isEmpty(monster))
+      if (_.isEmpty(monster)) {
         await dispatch(createNewMonsterThunk(makeMonster(stage))).then(() => {
           setMonsterIsLoaded(true);
         });
+      } else {
+        setMonsterIsLoaded(true);
+      }
     }
     wrapper();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!_.isEmpty(monster)) {
-      setMonsterIsLoaded(true);
-    }
-  }, []);
+  });
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {

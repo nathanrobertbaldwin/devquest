@@ -54,7 +54,7 @@ def create_monster():
 
         return new_monster.to_dict()
 
-    return {"message": "Error while creating new monster."}
+    return {"message": "Unable to create new monster."}, 500
 
 
 @monster_routes.route("/", methods=["PUT"])
@@ -80,4 +80,4 @@ def update_monster_hp():
             "char_monster.curr_hp": char_monster.curr_hp,
         }
 
-    return {"message": "Error: Monster could not be found. Game files corrupted."}
+    return {"message": "Monster could not be found. Game files corrupted."}, 500
