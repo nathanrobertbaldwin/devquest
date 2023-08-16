@@ -130,7 +130,7 @@ export default function reducer(state = initialState, action) {
       const newEquipment = action.data;
       const id = newEquipment.id;
       newState.equipment[id] = newEquipment;
-      newState.equipmentArr.push(newEquipment);
+      newState.equipmentArr = Object.values(newState.equipment);
       return newState;
     }
     case CREATE_MEW_MONSTER_TEMPLATE: {
@@ -138,7 +138,7 @@ export default function reducer(state = initialState, action) {
       const newMonsterTemplate = action.data;
       const id = newMonsterTemplate.id;
       newState.monsterTemplates[id] = newMonsterTemplate;
-      newState.monsterTemplatesArr.push(newMonsterTemplate);
+      newState.monsterTemplatesArr = Object.values(newState.monsterTemplates);
       return newState;
     }
     case EDIT_EQUIPMENT: {

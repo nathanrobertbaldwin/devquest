@@ -7,9 +7,9 @@ export default function MonsterCard({ monster }) {
   const { closeModal } = useModal();
   return (
     <div key={monster.id} className="monster-card-container">
-      <h6>Name: {monster.name}</h6>
-      <span>id: {monster.id}</span>
-      <span>HP {monster.hp}</span>
+      <h6>{monster.name}</h6>
+      <span>Monster Id: {monster.id}</span>
+      <span>HP: {monster.hp}</span>
       <span>Weakness: {monster.weakness}</span>
       <OpenModalButton
         buttonText="Edit Monster"

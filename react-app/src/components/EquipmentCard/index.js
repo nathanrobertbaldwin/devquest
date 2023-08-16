@@ -7,7 +7,7 @@ export default function EquipmentCard({ item }) {
   const { closeModal } = useModal();
   return (
     <div key={item.id} className="item-card-container">
-      <h6>Item: {item.name}</h6>
+      <h6>{item.name}</h6>
       <span>id: {item.id}</span>
       <span>Algorithms Boost: {item.algorithmsBoost}</span>
       <span>Backend Boost: {item.backendBoost}</span>
