@@ -11,12 +11,16 @@ export default function EditMonsterModal({ monsterId }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
-  const monster = useSelector((store) => store.gamedata.monsters)[monsterId];
+  const monster = useSelector((store) => store.gamedata.monsterTemplates)[
+    monsterId
+  ];
 
-  const [name, setName] = useState("");
-  const [hp, setHp] = useState(0);
-  const [weakness, setWeakness] = useState(0);
-  const [imageUrl, setImageUrl] = useState();
+  const [name, setName] = useState(monster.name);
+  const [hp, setHp] = useState(monster.hp);
+  const [weakness, setWeakness] = useState(monster.weakness);
+  const [imageUrl, setImageUrl] = useState(
+    monster.imageUrl ? monster.imageUrl : ""
+  );
 
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -37,7 +41,9 @@ export default function EditMonsterModal({ monsterId }) {
         image_url: imageUrl,
       };
 
-      await dispatch(editMonsterTemplateByIdThunk(editedMonsterData));
+      await dispatch(
+        editMonsterTemplateByIdThunk(monster.id, editedMonsterData)
+      );
       _reset();
       closeModal();
     }
@@ -135,7 +141,7 @@ export default function EditMonsterModal({ monsterId }) {
       </div>
       <div id="edit-monster-submit-button-container">
         <button type="submit" onClick={(e) => handleSubmit(e)}>
-          Create!
+          Edit!
         </button>
       </div>
     </form>

@@ -13,7 +13,7 @@ export default function CreateNewMonsterModal() {
 
   const [name, setName] = useState("");
   const [hp, setHp] = useState(0);
-  const [weakness, setWeakness] = useState(0);
+  const [weakness, setWeakness] = useState("backend");
   const [imageUrl, setImageUrl] = useState("");
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -34,7 +34,7 @@ export default function CreateNewMonsterModal() {
         weakness,
         image_url: imageUrl,
       };
-
+      console.log(newMonsterData);
       await dispatch(createNewMonsterTemplateThunk(newMonsterData));
       _reset();
       closeModal();
@@ -64,7 +64,7 @@ export default function CreateNewMonsterModal() {
     setImageUrl("");
   }
 
-  console.log(validationErrors);
+  console.log(weakness);
 
   return (
     <form id="new-monster-component-container">
@@ -113,7 +113,7 @@ export default function CreateNewMonsterModal() {
             <option value="backend">Backend</option>
             <option value="frontend">Frontend</option>
             <option value="debugging">Debugging</option>
-            <option value="css">Css</option>
+            <option value="css">CSS</option>
             <option value="algorithms">Algorithms</option>
           </select>
         </div>

@@ -68,7 +68,6 @@ export default function CreateNewEquipmentModal() {
       errors.imgUrl = "Image must end with .png, .jpg, or .jpeg";
 
     setValidationErrors(errors);
-    console.log(validationErrors.imgUrl);
   }
 
   const urlCheck = (url) => {

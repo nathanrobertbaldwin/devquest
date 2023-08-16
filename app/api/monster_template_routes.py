@@ -2,9 +2,9 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from sqlalchemy import func
 from app.models import db, MonsterTemplate
-from app.forms import MonsterForm
+from app.forms import MonsterTemplateForm
 
-monster_templates_routes = Blueprint("monster_template_routes", __name__)
+monster_template_routes = Blueprint("monster_template_routes", __name__)
 
 
 # @monster_routes.route("/")
@@ -17,7 +17,7 @@ monster_templates_routes = Blueprint("monster_template_routes", __name__)
 #     return monster.to_dict()
 
 
-@monster_templates_routes.route("/")
+@monster_template_routes.route("/")
 @login_required
 def all_monsters():
     """
@@ -27,55 +27,59 @@ def all_monsters():
     return [monster_template.to_dict() for monster in monster_template]
 
 
-@monster_templates_routes.route("/", methods=["POST"])
+@monster_template_routes.route("/", methods=["POST"])
 @login_required
 def create_monster_template():
     """
     Post a monster the monster template table.
     """
-
-    form = MonsterForm()
+    form = MonsterTemplateForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():
         data = form.data
 
-        new_monster_template = Monster(
+        new_monster_template = MonsterTemplate(
             name=data["name"],
             hp=data["hp"],
             weakness=data["weakness"],
             image_url=data["image_url"],
         )
 
-        db.session.add(new_monster)
+        db.session.add(new_monster_template)
         db.session.commit()
 
-        return new_monster.to_dict()
+        return new_monster_template.to_dict()
 
     return {"message": "Error while creating new monster."}
 
 
-@monster_templates_routes.route("/<int:monsterId>", methods=["PUT"])
+@monster_template_routes.route("/<int:monsterId>", methods=["PUT"])
 @login_required
 def edit_monster_template(monsterId):
     """
     Edit an existing monster's template info.
     """
-    monsterId = request.get_json()["monsterId"]
 
     monster_template = MonsterTemplate.query.get(monsterId)
 
     if monster_template:
-        monster.name = data["name"]
-        monster.hp = data["hp"]
-        monster.weakness = data["weakness"]
-        monster.image_url = data["image_url"]
+        new_data = request.get_json()
+
+        print("HERE IS THE NEW DATA,", new_data)
+
+        monster_template.name = new_data["name"]
+        monster_template.hp = new_data["hp"]
+        monster_template.weakness = new_data["weakness"]
+        monster_template.image_url = new_data["image_url"]
 
         db.session.commit()
 
-        return {"message": "Updated Monster Template"}
+        return monster_template.to_dict()
 
-    return {"message": "Error: Monster could not be found. Game files corrupted."}
+    return {
+        "message": "Error: Monster Template could not be found. Game files corrupted."
+    }
 
 
 # Pretty sure I won't need this?

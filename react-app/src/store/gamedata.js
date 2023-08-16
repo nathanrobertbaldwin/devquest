@@ -58,21 +58,21 @@ export const createNewEquipmentThunk = (data) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = await response.json();
-    dispatch(createNewEquipment(data));
+    const newEquipment = await response.json();
+    dispatch(createNewEquipment(newEquipment));
   }
 };
 
 export const createNewMonsterTemplateThunk = (data) => async (dispatch) => {
-  const response = await fetch("/api/monsters-templates/", {
+  const response = await fetch("/api/monstertemplates/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
 
   if (response.ok) {
-    const data = await response.json();
-    dispatch(createNewEquipment(data));
+    const newMonsterTemplate = await response.json();
+    dispatch(createMonsterTemplate(newMonsterTemplate));
   }
 };
 
@@ -84,25 +84,26 @@ export const editEquipmentByIdThunk = (id, data) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = await response.json();
-    dispatch(editEquipmentById(data));
+    const editedEquipment = await response.json();
+    dispatch(editEquipmentById(editedEquipment));
+  }
+};
+
+export const editMonsterTemplateByIdThunk = (id, data) => async (dispatch) => {
+  const response = await fetch(`/api/monstertemplates/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (response.ok) {
+    const editedMonster = await response.json();
+    dispatch(editMonsterTemplate(editedMonster));
   }
 };
 
 export const eraseUserDataThunk = () => async (dispatch) => {
   dispatch(eraseUserData());
-};
-
-export const editMonsterTemplateByIdThunk = (id, data) => async (dispatch) => {
-  const response = await fetch(`/api/monster/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ data }),
-  });
-
-  if (response.ok) {
-    dispatch(editEquipmentById(data));
-  }
 };
 
 // ============================== REDUCER ============================== //
@@ -127,7 +128,17 @@ export default function reducer(state = initialState, action) {
     case CREATE_NEW_EQUIPMENT: {
       const newState = { ...state };
       const newEquipment = action.data;
+      const id = newEquipment.id;
+      newState.equipment[id] = newEquipment;
       newState.equipmentArr.push(newEquipment);
+      return newState;
+    }
+    case CREATE_MEW_MONSTER_TEMPLATE: {
+      const newState = { ...state };
+      const newMonsterTemplate = action.data;
+      const id = newMonsterTemplate.id;
+      newState.monsterTemplates[id] = newMonsterTemplate;
+      newState.monsterTemplatesArr.push(newMonsterTemplate);
       return newState;
     }
     case EDIT_EQUIPMENT: {
@@ -136,6 +147,15 @@ export default function reducer(state = initialState, action) {
       const id = newEquipment.id;
       newState.equipment[id] = newEquipment;
       newState.equipmentArr = Object.values(newState.equipment);
+      return newState;
+    }
+    case EDIT_MONSTER_TEMPLATE: {
+      const newState = { ...state };
+      const editedMonster = action.data;
+      console.log("FROM STORE", editedMonster);
+      const id = editedMonster.id;
+      newState.monsterTemplates[id] = editedMonster;
+      newState.monsterTemplatesArr = Object.values(newState.monsterTemplates);
       return newState;
     }
 
