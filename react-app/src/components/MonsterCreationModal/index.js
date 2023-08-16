@@ -34,7 +34,7 @@ export default function CreateNewMonsterModal() {
         weakness,
         image_url: imageUrl,
       };
-      console.log(newMonsterData);
+
       await dispatch(createNewMonsterTemplateThunk(newMonsterData));
       _reset();
       closeModal();
@@ -63,8 +63,6 @@ export default function CreateNewMonsterModal() {
     setWeakness("algorithms");
     setImageUrl("");
   }
-
-  console.log(weakness);
 
   return (
     <form id="new-monster-component-container">

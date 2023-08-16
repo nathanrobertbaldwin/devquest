@@ -152,7 +152,6 @@ export default function reducer(state = initialState, action) {
     case EDIT_MONSTER_TEMPLATE: {
       const newState = { ...state };
       const editedMonster = action.data;
-      console.log("FROM STORE", editedMonster);
       const id = editedMonster.id;
       newState.monsterTemplates[id] = editedMonster;
       newState.monsterTemplatesArr = Object.values(newState.monsterTemplates);
