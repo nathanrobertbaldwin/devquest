@@ -102,7 +102,7 @@ def toggle_item_equip(itemId):
     return {"message": "Error: Item not found in Inventory. Inventory corrupted."}, 500
 
 
-@character_routes.route("/api/inventory/<int:itemId>", methods=["POST"])
+@character_routes.route("/inventory/<int:itemId>", methods=["POST"])
 @login_required
 def add_inventory_item(itemId):
     """
@@ -114,7 +114,9 @@ def add_inventory_item(itemId):
     char_id = request.get_json()["char_id"]
     character = Character.query.get(char_id)
 
+
     if item and character:
+
         new_inventory_item = Inventory(
             character_id=char_id, equipment_id=itemId, equipped=False
         )

@@ -4,7 +4,6 @@ import OpenModalButton from "../OpenModalButton";
 import CharacterBonusModal from "../CharacterBonusModal";
 import {
   addInventoryItemThunk,
-  toggleInventoryItemEquipThunk,
   udpateCharacterSanityThunk,
   updateCharacterEnergyThunk,
 } from "../../store/character";
@@ -27,9 +26,7 @@ export default function GameStateBoon() {
   const [boonApplied, setBoonApplied] = useState(false);
 
   async function handleAddItemToInventory(item) {
-    await dispatch(addInventoryItemThunk(char.id, item.id)).then(() => {
-      dispatch(toggleInventoryItemEquipThunk(item.id));
-    });
+    await dispatch(addInventoryItemThunk(char.id, item.id));
     setBoonApplied(true);
     setTimeout(toggleGameState, 1000, "combat");
   }
@@ -73,7 +70,7 @@ export default function GameStateBoon() {
         <span>You found a new {equipmentArr[boon.num].slot} item!</span>
         <span>{equipmentArr[boon.num].name}</span>
         <div id="boon-item-image-container">
-          <img alt="new item" src={`${equipmentArr[boon.num].imgUrl}`} />
+          <img alt="new item" src={`${equipmentArr[boon.num].imageUrl}`} />
         </div>
         <button
           onClick={() => handleAddItemToInventory(equipmentArr[boon.num])}

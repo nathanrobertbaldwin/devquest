@@ -1,6 +1,6 @@
 // ============================== IMPORTS ================================ //
 
-import { flattenInventory } from "./utilities";
+import { flattenInventory, flattenItem } from "./utilities";
 import { deleteSaveFile, getNewCharSave } from "./saves";
 
 // =========================== ACTION STRINGS ============================ //
@@ -111,11 +111,13 @@ export const addInventoryItemThunk = (charId, itemId) => async (dispatch) => {
   const response = await fetch(`/api/characters/inventory/${itemId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ charId }),
+    body: JSON.stringify({ char_id: charId }),
   });
 
   if (response.ok) {
-    dispatch(addInventoryItem(itemId));
+    const data = await response.json();
+    const newInventoryItem = flattenItem(data);
+    dispatch(addInventoryItem(newInventoryItem));
   }
 };
 
@@ -180,18 +182,27 @@ const initialState = {};
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_CHARACTER_DATA: {
+      const newState = { ...state };
       const character = action.data;
-      return { ...state, ...character };
+      return { ...newState, ...character };
     }
     case CREATE_NEW_CHARACTER: {
+      const newState = { ...state };
       const character = action.data;
-      return { ...state, ...character };
+      return { ...newState, ...character };
     }
     case TOGGLE_INVENTORY_ITEM_EQUIP: {
-      const itemId = action.data;
       const newState = { ...state };
+      const itemId = action.data;
       newState.inventory[itemId].equipped =
         !newState.inventory[itemId].equipped;
+      return newState;
+    }
+    case ADD_INVENTORY_ITEM: {
+      const newState = { ...state };
+      const newInventoryItem = action.data;
+      const idx = newInventoryItem.id;
+      newState.inventory[idx] = newInventoryItem;
       return newState;
     }
     case DROP_INVENTORY_ITEM: {
