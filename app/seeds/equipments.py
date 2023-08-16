@@ -13,7 +13,7 @@ def seed_equipments():
             algorithms_boost=equipment["algorithms_boost"],
             css_boost=equipment["css_boost"],
             debugging_boost=equipment["debugging_boost"],
-            energy_boost=equipment["energy_boost"],
+            max_energy_boost=equipment["max_energy_boost"],
             slot=equipment["slot"],
         )
 

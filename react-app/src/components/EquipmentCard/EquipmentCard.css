@@ -1,0 +1,15 @@
+.item-card-container{
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    width: 150px;
+    background-color: rgb(60, 60, 60);
+    border: 2px solid black;
+    display: flex;
+    border-radius: .5em;
+    padding: .5em;
+}
+
+.item-card-container > h6 {
+    color: white;
+}

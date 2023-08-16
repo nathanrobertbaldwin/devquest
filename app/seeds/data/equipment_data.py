@@ -7,7 +7,7 @@ equipments = [
         "algorithms_boost": 3,
         "css_boost": 1,
         "debugging_boost": 3,
-        "energy_boost": 25,
+        "max_energy_boost": 25,
         "slot": "food",
     },
     # Equipment 2
@@ -18,7 +18,7 @@ equipments = [
         "algorithms_boost": 2,
         "css_boost": 1,
         "debugging_boost": 5,
-        "energy_boost": 5,
+        "max_energy_boost": 5,
         "slot": "food",
     },
     # Equipment 3
@@ -29,7 +29,7 @@ equipments = [
         "algorithms_boost": 7,
         "css_boost": 3,
         "debugging_boost": 1,
-        "energy_boost": 0,
+        "max_energy_boost": 0,
         "slot": "gear",
     },
     # Equipment 4
@@ -40,7 +40,7 @@ equipments = [
         "algorithms_boost": 0,
         "css_boost": 9,
         "debugging_boost": 0,
-        "energy_boost": 5,
+        "max_energy_boost": 5,
         "slot": "reference",
     },
     # Equipment 5
@@ -51,7 +51,7 @@ equipments = [
         "algorithms_boost": 2,
         "css_boost": 5,
         "debugging_boost": 5,
-        "energy_boost": 0,
+        "max_energy_boost": 0,
         "slot": "reference",
     },
     # Equipment 6
@@ -62,7 +62,7 @@ equipments = [
         "algorithms_boost": 5,
         "css_boost": 2,
         "debugging_boost": 2,
-        "energy_boost": 15,
+        "max_energy_boost": 15,
         "slot": "food",
     },
     # Equipment 7
@@ -73,7 +73,7 @@ equipments = [
         "algorithms_boost": 5,
         "css_boost": 1,
         "debugging_boost": 5,
-        "energy_boost": 10,
+        "max_energy_boost": 10,
         "slot": "reference",
     },
     # Equipment 8
@@ -84,7 +84,7 @@ equipments = [
         "algorithms_boost": 4,
         "css_boost": 1,
         "debugging_boost": 4,
-        "energy_boost": 0,
+        "max_energy_boost": 0,
         "slot": "reference",
     },
     # Equipment 9
@@ -95,7 +95,7 @@ equipments = [
         "algorithms_boost": 5,
         "css_boost": 3,
         "debugging_boost": 2,
-        "energy_boost": 20,
+        "max_energy_boost": 20,
         "slot": "food",
     },
     # Equipment 10
@@ -106,7 +106,7 @@ equipments = [
         "algorithms_boost": 5,
         "css_boost": 1,
         "debugging_boost": 5,
-        "energy_boost": 40,
+        "max_energy_boost": 40,
         "slot": "food",
     },
     # Equipment 11
@@ -117,7 +117,7 @@ equipments = [
         "algorithms_boost": 3,
         "css_boost": 3,
         "debugging_boost": 0,
-        "energy_boost": 0,
+        "max_energy_boost": 0,
         "slot": "gear",
     },
     # Equipment 12
@@ -128,7 +128,7 @@ equipments = [
         "algorithms_boost": 3,
         "css_boost": 5,
         "debugging_boost": 3,
-        "energy_boost": 0,
+        "max_energy_boost": 0,
         "slot": "gear",
     },
     # Equipment 13
@@ -139,7 +139,7 @@ equipments = [
         "algorithms_boost": 1,
         "css_boost": 4,
         "debugging_boost": 5,
-        "energy_boost": 15,
+        "max_energy_boost": 15,
         "slot": "gear",
     },
     # Equipment 14
@@ -150,7 +150,7 @@ equipments = [
         "algorithms_boost": 2,
         "css_boost": 3,
         "debugging_boost": 1,
-        "energy_boost": 10,
+        "max_energy_boost": 10,
         "slot": "gear",
     },
     # Equipment 15
@@ -161,7 +161,7 @@ equipments = [
         "algorithms_boost": 4,
         "css_boost": 1,
         "debugging_boost": 8,
-        "energy_boost": 0,
+        "max_energy_boost": 0,
         "slot": "gear",
     },
     # Equipment 16
@@ -172,7 +172,7 @@ equipments = [
         "algorithms_boost": 0,
         "css_boost": 0,
         "debugging_boost": 0,
-        "energy_boost": 10,
+        "max_energy_boost": 10,
         "slot": "gear",
     },
     # Equipment 17
@@ -183,7 +183,7 @@ equipments = [
         "algorithms_boost": 5,
         "css_boost": 1,
         "debugging_boost": 9,
-        "energy_boost": -10,
+        "max_energy_boost": -10,
         "slot": "reference",
     },
     # Equipment 18
@@ -194,7 +194,7 @@ equipments = [
         "algorithms_boost": 3,
         "css_boost": 0,
         "debugging_boost": 1,
-        "energy_boost": 10,
+        "max_energy_boost": 10,
         "slot": "reference",
     },
 ]

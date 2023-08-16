@@ -31,8 +31,8 @@ def game_data():
         "equipmentArr": equipment_array,
         "characterAttacks": character_attacks,
         "characterAttacksArr": character_attacks_array,
-        "monsters": monsters,
-        "monsterArr": monsters_array,
+        "monsterTemplates": monsters,
+        "monsterTemplatesArr": monsters_array,
         "monsterAttacks": monster_attacks,
         "monsterAttacksArr": monster_attacks_array,
     }

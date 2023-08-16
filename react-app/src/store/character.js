@@ -8,8 +8,9 @@ import { deleteSaveFile, getNewCharSave } from "./saves";
 const GET_CHARACTER_DATA = "character_data/GET";
 const CREATE_NEW_CHARACTER = "character_data/POST";
 const TOGGLE_INVENTORY_ITEM_EQUIP = "inventory_item_equip/TOGGLE";
+const ADD_INVENTORY_ITEM = "inventory_item/DROP";
 const DROP_INVENTORY_ITEM = "inventory_item/DROP";
-const SPEND_CHARACTER_ENERGY = "character_energy/SPEND";
+const UPDATE_CHARACTER_ENERGY = "character_energy/UPDATE";
 const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
 const DELETE_CHARACTER = "character/DELETE";
 const RESET_CHARACTER_DATA = "character_data/RESET";
@@ -26,24 +27,29 @@ const createNewCharacter = (newCharacter) => ({
   data: newCharacter,
 });
 
-export const toggleInventoryItemEquip = (itemId) => ({
+const toggleInventoryItemEquip = (itemId) => ({
   type: TOGGLE_INVENTORY_ITEM_EQUIP,
   data: itemId,
 });
 
-export const dropInventoryItem = (itemId) => ({
+const addInventoryItem = (itemId) => ({
+  type: ADD_INVENTORY_ITEM,
+  data: itemId,
+});
+
+const dropInventoryItem = (itemId) => ({
   type: DROP_INVENTORY_ITEM,
   data: itemId,
 });
 
-const spendCharacterEnergy = (cost) => ({
-  type: SPEND_CHARACTER_ENERGY,
-  data: cost,
+const updateCharacterEnergy = (change) => ({
+  type: UPDATE_CHARACTER_ENERGY,
+  data: change,
 });
 
-const udpateCharacterSanity = (damage) => ({
+const udpateCharacterSanity = (change) => ({
   type: UPDATE_CHARACTER_SANITY,
-  data: damage,
+  data: change,
 });
 
 const deleteCharacter = () => ({
@@ -101,6 +107,18 @@ export const toggleInventoryItemEquipThunk = (itemId) => async (dispatch) => {
   }
 };
 
+export const addInventoryItemThunk = (charId, itemId) => async (dispatch) => {
+  const response = await fetch(`/api/characters/inventory/${itemId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ charId }),
+  });
+
+  if (response.ok) {
+    dispatch(dropInventoryItem(itemId));
+  }
+};
+
 export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
   const response = await fetch(`/api/characters/inventory/${itemId}/drop`, {
     method: "DELETE",
@@ -112,26 +130,27 @@ export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
   }
 };
 
-export const spendCharacterEnergyThunk = (charId, cost) => async (dispatch) => {
-  const response = await fetch(`api/characters/${charId}/energy`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cost }),
-  });
-  if (response.ok) {
-    dispatch(spendCharacterEnergy(cost));
-  }
-};
+export const updateCharacterEnergyThunk =
+  (charId, change) => async (dispatch) => {
+    const response = await fetch(`api/characters/${charId}/energy`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ change }),
+    });
+    if (response.ok) {
+      dispatch(updateCharacterEnergy(change));
+    }
+  };
 
 export const udpateCharacterSanityThunk =
-  (charId, damage) => async (dispatch) => {
+  (charId, change) => async (dispatch) => {
     const response = await fetch(`api/characters/${charId}/sanity`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ damage }),
+      body: JSON.stringify({ change }),
     });
     if (response.ok) {
-      dispatch(udpateCharacterSanity(damage));
+      dispatch(udpateCharacterSanity(change));
     }
   };
 
@@ -171,7 +190,8 @@ export default function reducer(state = initialState, action) {
     case TOGGLE_INVENTORY_ITEM_EQUIP: {
       const itemId = action.data;
       const newState = { ...state };
-      newState.inventory[itemId].equipped = !newState.inventory[itemId].equipped;
+      newState.inventory[itemId].equipped =
+        !newState.inventory[itemId].equipped;
       return newState;
     }
     case DROP_INVENTORY_ITEM: {
@@ -180,16 +200,16 @@ export default function reducer(state = initialState, action) {
       delete newState.inventory[itemId];
       return newState;
     }
-    case SPEND_CHARACTER_ENERGY: {
-      const cost = action.data;
+    case UPDATE_CHARACTER_ENERGY: {
+      const change = action.data;
       const newState = { ...state };
-      newState.currEnergy = Math.max(0, newState.currEnergy - cost);
+      newState.currEnergy = Math.max(0, newState.currEnergy - change);
       return newState;
     }
     case UPDATE_CHARACTER_SANITY: {
-      const damage = action.data;
+      const change = action.data;
       const newState = state;
-      newState.currSanity = Math.max(0, newState.currSanity - damage);
+      newState.currSanity = Math.max(0, newState.currSanity - change);
       return newState;
     }
     case DELETE_CHARACTER: {

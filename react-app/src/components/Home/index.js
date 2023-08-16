@@ -51,7 +51,6 @@ export default function Home() {
   if (gameState === "intro") {
     return (
       <div id="game-component">
-        <button onClick={() => toggleGameState("combat")}>Combat</button>
         <GameStateIntro />
       </div>
     );
@@ -60,7 +59,6 @@ export default function Home() {
   if (gameState === "combat") {
     return (
       <div id="game-component">
-        <button onClick={() => toggleGameState("intro")}>Intro</button>
         <GameStateCombat />
       </div>
     );
@@ -70,7 +68,6 @@ export default function Home() {
     return (
       <div id="game-component">
         <GameStateRest />
-        <button onClick={() => toggleGameState("combat")}>Combat</button>
       </div>
     );
   }
@@ -79,7 +76,6 @@ export default function Home() {
     return (
       <div id="game-component">
         <GameStateBoon />
-        <button onClick={() => toggleGameState("combat")}>Combat</button>
       </div>
     );
   }
@@ -88,7 +84,6 @@ export default function Home() {
     return (
       <div id="game-component">
         <GameStateLoss />
-        <button onClick={() => toggleGameState("intro")}>Intro</button>
       </div>
     );
   }
@@ -97,7 +92,6 @@ export default function Home() {
     return (
       <div id="game-component">
         <GameStateWin />
-        <button onClick={() => toggleGameState("intro")}>Intro</button>
       </div>
     );
   }

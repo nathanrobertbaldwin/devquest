@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 1e9aac9b7a3e
+Revision ID: 950d8cc149b1
 Revises: 
-Create Date: 2023-08-14 09:24:05.504964
+Create Date: 2023-08-16 09:53:42.578854
 
 """
 from alembic import op
@@ -14,7 +14,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = "1e9aac9b7a3e"
+revision = "950d8cc149b1"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -57,7 +57,7 @@ def upgrade():
         sa.Column("algorithms_boost", sa.Integer(), nullable=False),
         sa.Column("css_boost", sa.Integer(), nullable=False),
         sa.Column("debugging_boost", sa.Integer(), nullable=False),
-        sa.Column("energy_boost", sa.Integer(), nullable=False),
+        sa.Column("max_energy_boost", sa.Integer(), nullable=False),
         sa.Column(
             "slot",
             sa.Enum("gear", "food", "reference", name="slot_enum"),

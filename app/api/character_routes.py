@@ -82,7 +82,7 @@ def new_character():
             },
         }
 
-    return "form not validating"
+    return {"message": "Error creating character."}
 
 
 @character_routes.route("/inventory/<int:itemId>", methods=["PUT"])
@@ -121,15 +121,16 @@ def drop_item(itemId):
 
 @character_routes.route("/<int:charId>/energy", methods=["PUT"])
 @login_required
-def spend_energy(charId):
+def update_energy(charId):
     """
     Character has used an attack. Update character's current energy by charId.
     """
     character = Character.query.get(charId)
 
     if character:
-        energy_cost = request.get_json()["cost"]
-        character.curr_energy -= energy_cost
+        energy_change = request.get_json()["change"]
+        print("FROM BACKEND", "CHARID", charId, "ENERGY CHANGE", energy_change)
+        character.curr_energy = character.curr_energy - energy_change
         db.session.commit()
 
         return {
@@ -143,7 +144,7 @@ def spend_energy(charId):
 
 @character_routes.route("/<int:charId>/sanity", methods=["PUT"])
 @login_required
-def lose_sanity(charId):
+def update_sanity(charId):
     """
     Monster has dealt sanity damage to character. Update character sanity.
     """
@@ -151,8 +152,9 @@ def lose_sanity(charId):
     character = Character.query.get(charId)
 
     if character:
-        sanity_damage = request.get_json()["damage"]
-        character.curr_sanity -= sanity_damage
+        sanity_change = request.get_json()["change"]
+        print("FROM BACKEND", "CHARID", charId, "SANITY CHANGE", sanity_change)
+        character.curr_sanity = character.curr_sanity - sanity_change
         db.session.commit()
 
         return {
