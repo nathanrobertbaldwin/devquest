@@ -71,3 +71,21 @@ def edit_equipment(itemId):
         db.session.commit()
 
     return item.to_dict()
+
+
+@equipment_routes.route("/<int:id>", methods=["DELETE"])
+@login_required
+def delete_equipment(id):
+    """
+    Delete an equipment.
+    """
+
+    equipment = Equipment.query.get(id)
+
+    if equipment:
+        db.session.delete(equipment)
+        db.session.commit()
+
+        return {"message": "Deleted", "EquipmentId": equipmentId}
+
+    return {"message": "Error: Equipment not found. Save files are corrupted."}

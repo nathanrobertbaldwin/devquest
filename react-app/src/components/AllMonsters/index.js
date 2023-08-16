@@ -13,18 +13,18 @@ export default function AllMonsters() {
     (store) => store.gamedata.monsterTemplatesArr
   );
 
-  // useEffect(() => {
-  //   async function wrapper() {
-  //     if (_.isEmpty(monstersData)) {
-  //       dispatch(getGameDataThunk()).then(() => setIsLoaded(true));
-  //     } else {
-  //       setIsLoaded(true);
-  //     }
-  //   }
-  //   wrapper();
-  // }, [dispatch]);
+  useEffect(() => {
+    async function wrapper() {
+      if (_.isEmpty(monstersData)) {
+        dispatch(getGameDataThunk()).then(() => setIsLoaded(true));
+      } else {
+        setIsLoaded(true);
+      }
+    }
+    wrapper();
+  }, [dispatch, AllMonsters]);
 
-  // if (!isLoaded) return <></>;
+  if (!isLoaded) return <></>;
 
   return (
     <div id="all-monsters-container">

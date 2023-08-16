@@ -20,7 +20,7 @@ export default function AllEquipment() {
       }
     }
     wrapper();
-  }, [dispatch]);
+  }, [dispatch, equipmentData]);
 
   if (!isLoaded) return <></>;
   return (

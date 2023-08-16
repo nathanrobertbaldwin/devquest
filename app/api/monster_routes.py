@@ -81,21 +81,3 @@ def update_monster_hp():
         }
 
     return {"message": "Error: Monster could not be found. Game files corrupted."}
-
-
-# Pretty sure I won't need this?
-
-# @monster_routes.route("/", methods=["DELETE"])
-# @login_required
-# def monsters():
-#     """
-
-#     """
-#     monster = Monster.query.get(1)
-
-#     if monster:
-#         db.session.delete(monster)
-#         db.session.commit()
-#         return {"message": "Monster deleted."}
-
-#     return {"message": "Error: Monster could not be found. Game files corrupted."}

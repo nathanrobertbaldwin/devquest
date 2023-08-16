@@ -82,19 +82,19 @@ def edit_monster_template(monsterId):
     }
 
 
-# Pretty sure I won't need this?
+@monster_template_routes.route("/<int:id>", methods=["DELETE"])
+@login_required
+def delete_monster(id):
+    """
+    Delete a monster template.
+    """
 
-# @monster_routes.route("/", methods=["DELETE"])
-# @login_required
-# def monsters():
-#     """
+    monster_template = MonsterTemplate.query.get(id)
 
-#     """
-#     monster = Monster.query.get(1)
+    if monster_template:
+        db.session.delete(monster_template)
+        db.session.commit()
 
-#     if monster:
-#         db.session.delete(monster)
-#         db.session.commit()
-#         return {"message": "Monster deleted."}
+        return {"message": "Deleted", "monster_template": id}
 
-#     return {"message": "Error: Monster could not be found. Game files corrupted."}
+    return {"message": "Error: Equipment not found. Save files are corrupted."}
