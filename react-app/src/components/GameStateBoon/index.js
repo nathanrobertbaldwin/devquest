@@ -1,15 +1,14 @@
-import { useChangeGameState } from "../../context/GameState";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import CharacterBonusModal from "../CharacterBonusModal";
+import { useChangeGameState } from "../../context/GameState";
 import {
   addInventoryItemThunk,
   udpateCharacterSanityThunk,
   updateCharacterEnergyThunk,
 } from "../../store/character";
-
-import "./GameStateBoon.css";
 import { useState } from "react";
+import "./GameStateBoon.css";
 
 export default function GameStateBoon() {
   const dispatch = useDispatch();
@@ -87,7 +86,13 @@ export default function GameStateBoon() {
         <OpenModalButton
           className="modal_button"
           buttonText="Character"
-          modalComponent={<CharacterBonusModal stats={boon.num} />}
+          modalComponent={
+            <CharacterBonusModal
+              stats={boon.num}
+              setBoonApplied={setBoonApplied}
+              toggleGameState={toggleGameState}
+            />
+          }
         />
       </div>
     );

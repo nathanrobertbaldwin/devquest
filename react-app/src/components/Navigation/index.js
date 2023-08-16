@@ -37,7 +37,7 @@ function Navigation({ isLoaded }) {
           {sessionUser && (
             <OpenModalButton
               className="modal_button"
-              buttonText="Game Menu"
+              buttonText= "Saves Menu"
               modalComponent={<GameMenuModal />}
             />
           )}

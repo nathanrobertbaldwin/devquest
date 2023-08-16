@@ -1,6 +1,11 @@
 #game-component{
-    border: 5px solid red;
-    width: 80%;
-    height: 80%;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .8);
+    border-radius: 1em;
+    border: 2px solid rgb(44, 44, 44);
+    width: 75%;
+    height: 75%;
     margin: auto;
+    padding: 2em;
 }

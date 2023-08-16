@@ -9,10 +9,11 @@ equipments = [
         "debugging_boost": 3,
         "max_energy_boost": 25,
         "slot": "food",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/coffee.JPG",
     },
     # Equipment 2
     {
-        "name": "company swag",
+        "name": "convention-swag",
         "backend_boost": 5,
         "frontend_boost": 4,
         "algorithms_boost": 2,
@@ -20,6 +21,7 @@ equipments = [
         "debugging_boost": 5,
         "max_energy_boost": 5,
         "slot": "food",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/convention-swag.JPG",
     },
     # Equipment 3
     {
@@ -31,6 +33,7 @@ equipments = [
         "debugging_boost": 1,
         "max_energy_boost": 0,
         "slot": "gear",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/coding-helmet.JPG",
     },
     # Equipment 4
     {
@@ -42,6 +45,7 @@ equipments = [
         "debugging_boost": 0,
         "max_energy_boost": 5,
         "slot": "reference",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/color-diagram.JPG",
     },
     # Equipment 5
     {
@@ -53,6 +57,7 @@ equipments = [
         "debugging_boost": 5,
         "max_energy_boost": 0,
         "slot": "reference",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/mdn.JPG",
     },
     # Equipment 6
     {
@@ -64,6 +69,7 @@ equipments = [
         "debugging_boost": 2,
         "max_energy_boost": 15,
         "slot": "food",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/jimmy-johns-sub.JPG",
     },
     # Equipment 7
     {
@@ -75,6 +81,7 @@ equipments = [
         "debugging_boost": 5,
         "max_energy_boost": 10,
         "slot": "reference",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/chatgpt.JPG",
     },
     # Equipment 8
     {
@@ -86,6 +93,7 @@ equipments = [
         "debugging_boost": 4,
         "max_energy_boost": 0,
         "slot": "reference",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/stack-overflow-ref.JPG",
     },
     # Equipment 9
     {
@@ -97,6 +105,7 @@ equipments = [
         "debugging_boost": 2,
         "max_energy_boost": 20,
         "slot": "food",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/pizza.JPG",
     },
     # Equipment 10
     {
@@ -108,21 +117,11 @@ equipments = [
         "debugging_boost": 5,
         "max_energy_boost": 40,
         "slot": "food",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/salad.JPG",
     },
     # Equipment 11
     {
-        "name": "transition lenses",
-        "backend_boost": 5,
-        "frontend_boost": 1,
-        "algorithms_boost": 3,
-        "css_boost": 3,
-        "debugging_boost": 0,
-        "max_energy_boost": 0,
-        "slot": "gear",
-    },
-    # Equipment 12
-    {
-        "name": "blue-light glasses",
+        "name": "green-light glasses",
         "backend_boost": 1,
         "frontend_boost": 5,
         "algorithms_boost": 3,
@@ -130,8 +129,9 @@ equipments = [
         "debugging_boost": 3,
         "max_energy_boost": 0,
         "slot": "gear",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/green-light-glasses.JPG",
     },
-    # Equipment 13
+    # Equipment 12
     {
         "name": "gaming keyboard",
         "backend_boost": 1,
@@ -141,8 +141,9 @@ equipments = [
         "debugging_boost": 5,
         "max_energy_boost": 15,
         "slot": "gear",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/gaming-keyboard.JPG",
     },
-    # Equipment 14
+    # Equipment 13
     {
         "name": "gaming mouse",
         "backend_boost": 3,
@@ -152,8 +153,9 @@ equipments = [
         "debugging_boost": 1,
         "max_energy_boost": 10,
         "slot": "gear",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/game-mouse.JPG",
     },
-    # Equipment 15
+    # Equipment 14
     {
         "name": "desk pad",
         "backend_boost": 1,
@@ -163,10 +165,11 @@ equipments = [
         "debugging_boost": 8,
         "max_energy_boost": 0,
         "slot": "gear",
+        "image_url": "",
     },
-    # Equipment 16
+    # Equipment 15
     {
-        "name": "butt seat pad",
+        "name": "coding chair",
         "backend_boost": 10,
         "frontend_boost": 0,
         "algorithms_boost": 0,
@@ -174,10 +177,11 @@ equipments = [
         "debugging_boost": 0,
         "max_energy_boost": 10,
         "slot": "gear",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/coding-chair.JPG",
     },
-    # Equipment 17
+    # Equipment 16
     {
-        "name": "Senior Dev Bob",
+        "name": "senior dev",
         "backend_boost": 5,
         "frontend_boost": 1,
         "algorithms_boost": 5,
@@ -185,8 +189,9 @@ equipments = [
         "debugging_boost": 9,
         "max_energy_boost": -10,
         "slot": "reference",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/senior-dev.JPG",
     },
-    # Equipment 18
+    # Equipment 17
     {
         "name": "coding for dummies",
         "backend_boost": 2,
@@ -196,5 +201,6 @@ equipments = [
         "debugging_boost": 1,
         "max_energy_boost": 10,
         "slot": "reference",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/coding-for-dummies.JPG",
     },
 ]

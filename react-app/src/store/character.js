@@ -12,6 +12,7 @@ const ADD_INVENTORY_ITEM = "inventory_item/DROP";
 const DROP_INVENTORY_ITEM = "inventory_item/DROP";
 const UPDATE_CHARACTER_ENERGY = "character_energy/UPDATE";
 const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
+const EDIT_CHARACTER_STATS = "character_stats/EDIT";
 const DELETE_CHARACTER = "character/DELETE";
 const RESET_CHARACTER_DATA = "character_data/RESET";
 
@@ -50,6 +51,11 @@ const updateCharacterEnergy = (change) => ({
 const udpateCharacterSanity = (change) => ({
   type: UPDATE_CHARACTER_SANITY,
   data: change,
+});
+
+const editCharacterStats = (updates) => ({
+  type: EDIT_CHARACTER_STATS,
+  data: updates,
 });
 
 const deleteCharacter = () => ({
@@ -156,6 +162,20 @@ export const udpateCharacterSanityThunk =
     }
   };
 
+export const editCharacterStatsThunk =
+  (charId, updates) => async (dispatch) => {
+    const response = await fetch(`api/characters/${charId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(editCharacterStats(data));
+    }
+  };
+
 export const deleteCharacterDataThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/characters/${id}`, {
     method: "DELETE",
@@ -206,22 +226,27 @@ export default function reducer(state = initialState, action) {
       return newState;
     }
     case DROP_INVENTORY_ITEM: {
-      const itemId = action.data;
       const newState = { ...state };
+      const itemId = action.data;
       delete newState.inventory[itemId];
       return newState;
     }
     case UPDATE_CHARACTER_ENERGY: {
-      const change = action.data;
       const newState = { ...state };
+      const change = action.data;
       newState.currEnergy = Math.max(0, newState.currEnergy - change);
       return newState;
     }
     case UPDATE_CHARACTER_SANITY: {
+      const newState = { ...state };
       const change = action.data;
-      const newState = state;
       newState.currSanity = Math.max(0, newState.currSanity - change);
       return newState;
+    }
+    case EDIT_CHARACTER_STATS: {
+      const newState = { ...state };
+      const statUpdates = action.data;
+      return { ...newState, ...statUpdates };
     }
     case DELETE_CHARACTER: {
       const data = action.data;

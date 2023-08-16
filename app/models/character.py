@@ -47,6 +47,16 @@ class Character(db.Model):
             },
         }
 
+    def stat_updates_to_dict(self):
+        return {
+            "backend": self.backend,
+            "frontend": self.frontend,
+            "algorithms": self.algorithms,
+            "css": self.css,
+            "debugging": self.debugging,
+            "maxEnergy": self.max_energy,
+        }
+
     def save_data(self):
         return {
             "id": self.id,

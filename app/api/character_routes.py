@@ -85,6 +85,31 @@ def new_character():
     return {"message": "Error creating character."}, 500
 
 
+@character_routes.route("/inventory/<int:itemId>", methods=["POST"])
+@login_required
+def add_inventory_item(itemId):
+    """
+    Add an item to a character's inventory.
+    """
+
+    item = Equipment.query.get(itemId)
+
+    char_id = request.get_json()["char_id"]
+    character = Character.query.get(char_id)
+
+    if item and character:
+        new_inventory_item = Inventory(
+            character_id=char_id, equipment_id=itemId, equipped=False
+        )
+
+        db.session.add(new_inventory_item)
+        db.session.commit()
+
+        return new_inventory_item.to_dict()
+
+    return {"message": "Error adding item to inventory. Game files corrupted."}, 500
+
+
 @character_routes.route("/inventory/<int:itemId>", methods=["PUT"])
 @login_required
 def toggle_item_equip(itemId):
@@ -100,33 +125,6 @@ def toggle_item_equip(itemId):
         return {"message": "Item equip status toggled."}
 
     return {"message": "Error: Item not found in Inventory. Inventory corrupted."}, 500
-
-
-@character_routes.route("/inventory/<int:itemId>", methods=["POST"])
-@login_required
-def add_inventory_item(itemId):
-    """
-    Add an item to a character's inventory.
-    """
-
-    item = Equipment.query.get(itemId)
-
-    char_id = request.get_json()["char_id"]
-    character = Character.query.get(char_id)
-
-
-    if item and character:
-
-        new_inventory_item = Inventory(
-            character_id=char_id, equipment_id=itemId, equipped=False
-        )
-
-        db.session.add(new_inventory_item)
-        db.session.commit()
-
-        return new_inventory_item.to_dict()
-
-    return {"message": "Error adding item to inventory. Game files corrupted."}, 500
 
 
 @character_routes.route("/api/inventory/<int:itemId>/drop", methods=["DELETE"])
@@ -189,6 +187,36 @@ def update_sanity(charId):
             "character_id": charId,
             "character.currEnergy": character.curr_sanity,
         }
+
+    return {"message": "Error: Character not found. Character file is corrupted."}, 500
+
+
+@character_routes.route("/<int:charId>", methods=["PUT"])
+@login_required
+def update_character_stats(charId):
+    """
+    Update character stats after character receives a boon.
+    """
+
+    character = Character.query.get(charId)
+
+    print("HERE IS MY CHARACTER'S OLD DATA", character.to_dict())
+    if character:
+        print("VALIDATING?")
+        character_edit_data = request.get_json()
+
+        print("HERE ARE MY CHARACTER'S STAT CHANGES", character_edit_data)
+
+        character.backend = character_edit_data["backend"]
+        character.frontend = character_edit_data["frontend"]
+        character.algorithms = character_edit_data["algorithms"]
+        character.debugging = character_edit_data["debugging"]
+        character.css = character_edit_data["css"]
+        character.max_energy = character_edit_data["max_energy"]
+
+        db.session.commit()
+
+        return character.stat_updates_to_dict()
 
     return {"message": "Error: Character not found. Character file is corrupted."}, 500
 
