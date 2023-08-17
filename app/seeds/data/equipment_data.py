@@ -20,7 +20,7 @@ equipments = [
         "css_boost": 1,
         "debugging_boost": 5,
         "max_energy_boost": 5,
-        "slot": "food",
+        "slot": "gear",
         "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/convention-swag.JPG",
     },
     # Equipment 3

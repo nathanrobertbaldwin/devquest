@@ -1,0 +1,122 @@
+#char-inventory-modal-container{
+    background-image: url("https://devquest.s3.us-east-2.amazonaws.com/menus/inventory-panel.jpg");
+    width: 958px;
+    height: 922px;
+    border: 1px solid black;
+    border-radius: 1em;
+    display:grid;
+    grid-template-columns: 90px 400px 65px 50px 290px;
+    grid-template-rows: 75px 350px 80px 200px 145px;
+    grid-template-areas: 
+    "r1c1 r1c2 r1c3 r1c4 r1c5 r1c6"
+    "r2c1 charinfo r2c3 r2c4 r2c5 r2c6"
+    "r3e r3e r3e r3e r3e r3e"
+    "r4c1 inventory inventory r4c4 r4c5 r4c6"
+    "r5c1 inventory inventory r5c4 equipped r5c6"
+    "r6e r6e r6e r6e r6e r6e";
+}
+
+#char-info-container{
+    grid-area: charinfo;
+    display: grid;
+    grid-template-columns: 160px 240px;
+    grid-template-rows: 30px 1fr;
+    grid-template-areas: 
+        "name name"
+        "attributes attacks";
+}
+
+#char-info-name{
+    grid-area: name;
+}
+
+#char-info-attributes-container{
+    grid-area: attributes;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    margin-top: 1em;
+    margin-right: .5em;
+}
+
+.char-attribute{
+    display: flex;
+    justify-content: space-between;
+}
+
+#char-info-attacks-container{
+grid-area: attacks;
+display: flex;
+flex-direction: column;
+margin-top: 1em;
+margin-left: 2em;
+gap: .5em;
+} 
+
+#char-info-attack-card{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 1em;
+    background-color: rgb(248, 137, 41);
+    padding: .5em;
+    width: 85%;
+}
+
+#char-info-attack-card > span {
+    font-size: 12px;
+    color: black;
+}
+
+#char-inventory-container{
+    grid-area: inventory;
+    display: flex;
+    flex-direction: column;
+    gap: .25em;
+}
+
+.char-inventory-section{
+    display: flex;
+    gap: 1em;
+    height: 25%;
+}
+
+.char-inventory-equipment-card{
+    width: 81px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.char-inventory-item-image{
+    object-fit: cover;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    border: 1px solid rgb(248, 137, 41);;
+}
+
+#char-equipped-items-container{
+    grid-area:equipped;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+#char-inventory-equipped-items-container{
+    grid-area: equipped;
+    display: flex;
+    gap: 1em;
+}
+
+.char-inventory-equipped-gear-header{
+    width: fit-content;
+}
+
+.equipped-item-container{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5em;
+}
+

@@ -1,21 +1,31 @@
+#game-menu-container{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 1em;
+    height: 400px;
+    width: 800px;
+    background-image: url("https://devquest.s3.us-east-2.amazonaws.com/menus/save-panel.jpg");
+    background-size: 800px 400px;
+}
+
 #game-menu-panel{
     display: flex;
     flex-direction: column;
+    width: 55%;
+    margin: auto;
+    gap: 1em;
     align-items: center;
-    background-color: rgba(0, 0, 0);
-    border-radius: 1em;
-    border: 2px solid lightgray;
-    padding: 2em;
-    gap: 2em;
-    width: 100%;
-}
+} 
 
 #saved-game-container{
     display: flex;
-    gap: 3em;
     align-items: center;
+    justify-content: left;
+    gap: 1.5em;
     width: 100%;
-} 
+    padding-left: 2em;
+}
 
 #save-name-span-container{
     text-align: center;

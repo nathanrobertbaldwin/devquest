@@ -7,6 +7,7 @@
     align-items: center;
 }
 
-#monster-image-container{
-    height: 100%;
+.monster-image{
+    width: 600px;
+    height: 600px;
 }

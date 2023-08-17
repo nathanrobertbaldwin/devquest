@@ -1,6 +1,6 @@
 characters = [
     {
-        "name": "Nandalf the Grey",
+        "name": "Nandalf",
         "user_id": 1,
         "backend": 6,
         "frontend": 1,

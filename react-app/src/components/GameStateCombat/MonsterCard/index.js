@@ -4,10 +4,9 @@ export default function MonsterCard({ monster }) {
   return (
     <>
       <div id="monster-card-container">
-        <div id="monster-image-container">
-          monster image here
-          <img alt="monster" src="" />
-        </div>
+
+          <img className="monster-image" alt="monster" src={monster.imageUrl} />
+
         <div id="monster-card-hp-bar">
           <span>
             HP: {monster.currHp} / {monster.maxHp}

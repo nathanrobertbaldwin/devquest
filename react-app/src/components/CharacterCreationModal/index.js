@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { createNewCharacterThunk } from "../../store/character";
 
 import "./CharacterCreationModal.css";
-import { createNewCharacterThunk } from "../../store/character";
 
 function CharacterCreationModal() {
   const dispatch = useDispatch();
@@ -47,235 +47,210 @@ function CharacterCreationModal() {
   }
 
   return (
-    <form id="component-container">
-      <div id="header">
-        <h5>Name Your Character</h5>
-        <div className="name-field-container">
-          <input
-            className="name-input"
-            type="text"
-            placeholder="What's your name?"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        {points === 0 && attacksRemaining === 0 && (
-          <button type="submit" onClick={(e) => handleSubmit(e)}>
-            Begin Adventure!
-          </button>
-        )}
-      </div>
-      <h5 id="attributes-header">Attributes</h5>
-      <span id="points-remaining">{points} points remaining</span>
-      <div id="cc-attributes-container">
-        <div className="attribute-button-container">
-          <span>Backend: {backend}</span>
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => {
-                if (points > 0) {
-                  setBackend(backend + 1);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (backend > 0) {
-                  setBackend(backend - 1);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
+    <div id="new-character-component-container">
+      <form id="new-character-form">
+        <div id="header">
+          <h4>Name Your Character</h4>
+          <div className="name-field-container">
+            <input
+              className="name-input"
+              type="text"
+              placeholder="What's your name?"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
+          {
+            <button type="submit" onClick={(e) => handleSubmit(e)}>
+              Begin Adventure!
+            </button>
+          }
         </div>
-        <div className="attribute-button-container">
-          <span>Frontend: {frontend}</span>
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => {
-                if (points > 0) {
-                  setFrontend(frontend + 1);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (frontend > 0) {
-                  setFrontend(frontend - 1);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-        <div className="attribute-button-container">
-          <span>Algorithms: {algorithms}</span>
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => {
-                if (points > 0) {
-                  setAlgorithms(algorithms + 1);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (algorithms > 0) {
-                  setAlgorithms(algorithms - 1);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-        <div className="attribute-button-container">
-          <span>CSS: {CSS}</span>
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => {
-                if (points > 0) {
-                  setCSS(CSS + 1);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (CSS > 0) {
-                  setCSS(CSS - 1);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-        <div className="attribute-button-container">
-          <span>Debugging: {debugging}</span>
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => {
-                if (points > 0) {
-                  setDebugging(debugging + 1);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (debugging > 0) {
-                  setDebugging(debugging - 1);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-        <div className="attribute-button-container">
-          <span>Energy: {energy}</span>
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => {
-                if (points > 0) {
-                  setEnergy(energy + 10);
-                  setPoints(points - 1);
-                }
-              }}
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (energy > 0) {
-                  setEnergy(energy - 10);
-                  setPoints(points + 1);
-                }
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-      </div>
-      <h5 id="attacks-header">Chosen Attacks</h5>
-      <span id="choose-more-attacks-text">
-        Choose {attacksRemaining} more attacks
-      </span>
-      <div id="chosen-attacks">
-        {Object.entries(chosenAttacks).map(([key, value]) => {
-          return (
-            <div
-              key={key}
-              onClick={() => {
-                if (attacksRemaining < 4) {
-                  let newChosenAttacks = chosenAttacks;
-                  delete newChosenAttacks[key];
-                  setChosenAttacks(newChosenAttacks);
-                  setAttacksRemaining(attacksRemaining + 1);
-                }
-              }}
-              className="attack-card"
-            >
-              <span>Name: {value["name"]}</span>
-              <span>Power: {value["power"]}</span>
-              <span>Energy Cost: {value["energy_cost"]}</span>
-              <span>Primary Stat: {value["primary_stat"]}</span>
+        <h5 id="attributes-header">Attributes</h5>
+        <span id="points-remaining">{points} points remaining</span>
+        <div id="cc-attributes-container">
+          <div className="attribute-button-container">
+            <span>Backend: {backend}</span>
+            <div className="button-container">
+              <button
+                type="button"
+                onClick={() => {
+                  if (points > 0) {
+                    setBackend(backend + 1);
+                    setPoints(points - 1);
+                  }
+                }}
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (backend > 0) {
+                    setBackend(backend - 1);
+                    setPoints(points + 1);
+                  }
+                }}
+              >
+                -
+              </button>
             </div>
-          );
-        })}
-      </div>
-      <h5 id="choose-attacks-header">Available Attacks</h5>
-      <div id="available-attacks">
-        <div id="character-attack-cards-container">
-          {Object.entries(characterAttacks).map(([key, value]) => {
-            if (!chosenAttacks[key]) {
+          </div>
+          <div className="attribute-button-container">
+            <span>Frontend: {frontend}</span>
+            <div className="button-container">
+              <button
+                type="button"
+                onClick={() => {
+                  if (points > 0) {
+                    setFrontend(frontend + 1);
+                    setPoints(points - 1);
+                  }
+                }}
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (frontend > 0) {
+                    setFrontend(frontend - 1);
+                    setPoints(points + 1);
+                  }
+                }}
+              >
+                -
+              </button>
+            </div>
+          </div>
+          <div className="attribute-button-container">
+            <span>Algorithms: {algorithms}</span>
+            <div className="button-container">
+              <button
+                type="button"
+                onClick={() => {
+                  if (points > 0) {
+                    setAlgorithms(algorithms + 1);
+                    setPoints(points - 1);
+                  }
+                }}
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (algorithms > 0) {
+                    setAlgorithms(algorithms - 1);
+                    setPoints(points + 1);
+                  }
+                }}
+              >
+                -
+              </button>
+            </div>
+          </div>
+          <div className="attribute-button-container">
+            <span>CSS: {CSS}</span>
+            <div className="button-container">
+              <button
+                type="button"
+                onClick={() => {
+                  if (points > 0) {
+                    setCSS(CSS + 1);
+                    setPoints(points - 1);
+                  }
+                }}
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (CSS > 0) {
+                    setCSS(CSS - 1);
+                    setPoints(points + 1);
+                  }
+                }}
+              >
+                -
+              </button>
+            </div>
+          </div>
+          <div className="attribute-button-container">
+            <span>Debugging: {debugging}</span>
+            <div className="button-container">
+              <button
+                type="button"
+                onClick={() => {
+                  if (points > 0) {
+                    setDebugging(debugging + 1);
+                    setPoints(points - 1);
+                  }
+                }}
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (debugging > 0) {
+                    setDebugging(debugging - 1);
+                    setPoints(points + 1);
+                  }
+                }}
+              >
+                -
+              </button>
+            </div>
+          </div>
+          <div className="attribute-button-container">
+            <span>Energy: {energy}</span>
+            <div className="button-container">
+              <button
+                type="button"
+                onClick={() => {
+                  if (points > 0) {
+                    setEnergy(energy + 10);
+                    setPoints(points - 1);
+                  }
+                }}
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (energy > 0) {
+                    setEnergy(energy - 10);
+                    setPoints(points + 1);
+                  }
+                }}
+              >
+                -
+              </button>
+            </div>
+          </div>
+        </div>
+        <h5 id="attacks-header">Chosen Attacks</h5>
+        <span id="choose-more-attacks-text">
+          Choose {attacksRemaining} more attacks
+        </span>
+        <div id="chosen-attacks-container">
+          <div id="chosen-attacks">
+            {Object.entries(chosenAttacks).map(([key, value]) => {
               return (
                 <div
+                  className="cc-attack-card"
                   key={key}
                   onClick={() => {
-                    if (attacksRemaining > 0 && !chosenAttacks[key]) {
+                    if (attacksRemaining < 4) {
                       let newChosenAttacks = chosenAttacks;
-                      newChosenAttacks[key] = value;
+                      delete newChosenAttacks[key];
                       setChosenAttacks(newChosenAttacks);
-                      setAttacksRemaining(attacksRemaining - 1);
+                      setAttacksRemaining(attacksRemaining + 1);
                     }
                   }}
-                  className="attack-card"
                 >
                   <span>Name: {value["name"]}</span>
                   <span>Power: {value["power"]}</span>
@@ -283,12 +258,40 @@ function CharacterCreationModal() {
                   <span>Primary Stat: {value["primary_stat"]}</span>
                 </div>
               );
-            }
-            return null;
-          })}
+            })}
+          </div>
         </div>
-      </div>
-    </form>
+        <h5 id="choose-attacks-header">Available Attacks</h5>
+        <div id="available-attacks">
+          <div id="character-available-attack-cards-container">
+            {Object.entries(characterAttacks).map(([key, value]) => {
+              if (!chosenAttacks[key]) {
+                return (
+                  <div
+                    key={key}
+                    className="cc-attack-card"
+                    onClick={() => {
+                      if (attacksRemaining > 0 && !chosenAttacks[key]) {
+                        let newChosenAttacks = chosenAttacks;
+                        newChosenAttacks[key] = value;
+                        setChosenAttacks(newChosenAttacks);
+                        setAttacksRemaining(attacksRemaining - 1);
+                      }
+                    }}
+                  >
+                    <span>Name: {value["name"]}</span>
+                    <span>Power: {value["power"]}</span>
+                    <span>Energy Cost: {value["energy_cost"]}</span>
+                    <span>Primary Stat: {value["primary_stat"]}</span>
+                  </div>
+                );
+              }
+              return null;
+            })}
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
 
