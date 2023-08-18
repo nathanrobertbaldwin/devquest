@@ -8,9 +8,9 @@ import GameStateBoon from "../GameStateBoon";
 import GameStateLoss from "../GameStateLoss";
 import GameStateWin from "../GameStateWin";
 import { useGameState, useChangeGameState } from "../../context/GameState";
+import { getCharacterDataThunk } from "../../store/character";
 
 import "./Home.css";
-import { getCharacterDataThunk } from "../../store/character";
 const _ = require("lodash");
 
 export default function Home() {

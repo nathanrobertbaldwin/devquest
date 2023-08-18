@@ -8,12 +8,12 @@
     grid-template-columns: 90px 400px 65px 50px 290px;
     grid-template-rows: 75px 350px 80px 200px 145px;
     grid-template-areas: 
-    "r1c1 r1c2 r1c3 r1c4 r1c5 r1c6"
-    "r2c1 charinfo r2c3 r2c4 r2c5 r2c6"
-    "r3e r3e r3e r3e r3e r3e"
-    "r4c1 inventory inventory r4c4 r4c5 r4c6"
-    "r5c1 inventory inventory r5c4 equipped r5c6"
-    "r6e r6e r6e r6e r6e r6e";
+    ". . . . . ."
+    ". charinfo . . . ."
+    ". . . . . ."
+    ". inventory inventory . . ."
+    ". inventory inventory . equipped ."
+    ". . . . . .";
 }
 
 #char-info-container{

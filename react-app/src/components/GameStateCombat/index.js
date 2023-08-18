@@ -8,7 +8,7 @@ import { updateMonsterHpThunk } from "../../store/monster";
 import { updateCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
 import { useGameState, useChangeGameState } from "../../context/GameState";
-import "./GameStateCombat.css";
+import "./GameStateCombatv3.css";
 const _ = require("lodash");
 
 export default function GameStateCombat() {
@@ -232,27 +232,18 @@ export default function GameStateCombat() {
 
   return (
     <div id="game-state-combat-container">
-      <div id="monster-container">
-        <MonsterCard monster={monster} />
-      </div>
-      <div id="combat-log-container">
-        <h5>Combat Log</h5>
-        <div id="combat-log">
+      <div id="gsc-character-container">
+        <div id="gsc-combat-log-container">
           {combatLog.map((entry, idx) => {
             return (
-              <span key={idx} className="combat-log-entry">
-                {entry}
-              </span>
+              <div key={idx} className="combat-log-entry">
+                <span>{entry}</span>
+              </div>
             );
           })}
         </div>
-      </div>
-      <div id="character-container">
-        <div id="character-resources-image-container">
+        <div id="gsc-character-info-container">
           <div id="character-resources-container">
-            {char.currEnergy === 0 && (
-              <button onClick={() => handleEscapeCombat()}>Escape!</button>
-            )}
             <span className="character-resources-span">
               Energy: {currEnergy}/{char.maxEnergy}
             </span>
@@ -260,28 +251,28 @@ export default function GameStateCombat() {
               Sanity: {currSanity}/{char.maxSanity}
             </span>
           </div>
-          <div id="character-image-container">
-            <img alt="character" src="" />
+          <div id="character-attacks-container">
+            {charAttacks.map((attack) => {
+              return (
+                <div
+                  key={attack.id}
+                  id="character-attack-container"
+                  onClick={() => handleCharacterAttack(attack)}
+                >
+                  <CharacterAttackCard attack={attack} />
+                </div>
+              );
+            })}
+            <div id="equipped-items-container">
+              <div className="equipped-item">{equippedGear?.imgUrl}</div>
+              <div className="equipped-item">{equippedFood?.imgUrl}</div>
+              <div className="equipped-item">{equippedReference?.imgUrl}</div>
+            </div>
           </div>
         </div>
-        <div id="equipped-items-container">
-          <div className="equipped-item">{equippedGear?.imgUrl}</div>
-          <div className="equipped-item">{equippedFood?.imgUrl}</div>
-          <div className="equipped-item">{equippedReference?.imgUrl}</div>
-        </div>
-        <div id="character-attacks-container">
-          {charAttacks.map((attack) => {
-            return (
-              <div
-                key={attack.id}
-                id="character-attack-container"
-                onClick={() => handleCharacterAttack(attack)}
-              >
-                <CharacterAttackCard attack={attack} />
-              </div>
-            );
-          })}
-        </div>
+      </div>
+      <div id="monster-container">
+        <MonsterCard monster={monster} />
       </div>
     </div>
   );
