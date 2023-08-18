@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
 import { useChangeGameState } from "../../context/GameState";
@@ -11,8 +10,8 @@ import CreateNewMonsterModal from "../MonsterCreationModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
   const toggleGameState = useChangeGameState();
+  const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
   const openMenu = () => {
@@ -34,11 +33,15 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const handleLogout = async (e) => {
+  async function handleLogout(e) {
     e.preventDefault();
     toggleGameState("intro");
     dispatch(logout());
-  };
+  }
+
+  async function handleGSChange(string) {
+    toggleGameState(string);
+  }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
@@ -64,9 +67,9 @@ function ProfileButton({ user }) {
               />
             </li>
             <li>
-              <NavLink exact to="/equipment/all">
-                <button>Manage Equipment</button>
-              </NavLink>
+              <button onClick={() => handleGSChange("allequipment")}>
+                Manage Equipment
+              </button>
             </li>
             <li>
               <OpenModalButton
@@ -76,9 +79,9 @@ function ProfileButton({ user }) {
               />
             </li>
             <li>
-              <NavLink exact to="/monsters/all">
-                <button>Manage Monsters</button>
-              </NavLink>
+              <button onClick={() => handleGSChange("allmonsters")}>
+                Manage Monsters
+              </button>
             </li>
           </>
         ) : (

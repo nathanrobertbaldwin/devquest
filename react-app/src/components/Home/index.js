@@ -7,7 +7,10 @@ import GameStateRest from "../GameStateRest";
 import GameStateBoon from "../GameStateBoon";
 import GameStateLoss from "../GameStateLoss";
 import GameStateWin from "../GameStateWin";
-import { useGameState, useChangeGameState } from "../../context/GameState";
+import GameStateAllEquipment from "../GameStateAllEquipment";
+import GameStateAllMonsters from "../GameStateAllMonsters";
+
+import { useGameState } from "../../context/GameState";
 import { getCharacterDataThunk } from "../../store/character";
 
 import "./Home.css";
@@ -17,7 +20,6 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const gameState = useGameState();
-  const toggleGameState = useChangeGameState();
   const gameData = useSelector((store) => store.gamedata);
   const char = useSelector((store) => store.character);
   const [isGameDataLoaded, setIsGameDataLoaded] = useState(false);
@@ -92,6 +94,22 @@ export default function Home() {
     return (
       <div id="game-component">
         <GameStateWin />
+      </div>
+    );
+  }
+
+  if (gameState === "allequipment") {
+    return (
+      <div id="game-component">
+        <GameStateAllEquipment />
+      </div>
+    );
+  }
+
+  if (gameState === "allmonsters") {
+    return (
+      <div id="game-component">
+        <GameStateAllMonsters />
       </div>
     );
   }
