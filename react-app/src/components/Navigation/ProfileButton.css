@@ -1,0 +1,7 @@
+#profile-button-menu{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: green;
+    gap: .5em;
+}

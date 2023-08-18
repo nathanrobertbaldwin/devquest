@@ -7,6 +7,7 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import CreateNewEquipmentModal from "../EquipmentCreationModal";
 import CreateNewMonsterModal from "../MonsterCreationModal";
+import "./ProfileButton.css";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();

@@ -165,7 +165,7 @@ equipments = [
         "debugging_boost": 8,
         "max_energy_boost": 0,
         "slot": "gear",
-        "image_url": "",
+        "image_url": "https://devquest.s3.us-east-2.amazonaws.com/equipment/desk-pad.JPG",
     },
     # Equipment 15
     {

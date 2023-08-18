@@ -21,9 +21,7 @@ export default function Home() {
 
   const gameState = useGameState();
   const gameData = useSelector((store) => store.gamedata);
-  const char = useSelector((store) => store.character);
   const [isGameDataLoaded, setIsGameDataLoaded] = useState(false);
-  const [isCharLoaded, setIsCharDataLoaded] = useState(false);
 
   useEffect(() => {
     async function wrapper() {
@@ -36,19 +34,7 @@ export default function Home() {
     wrapper();
   }, [dispatch, gameData]);
 
-  useEffect(() => {
-    async function wrapper() {
-      if (_.isEmpty(char)) {
-        await dispatch(getCharacterDataThunk(1)).then(() => {
-          setIsCharDataLoaded(true);
-        });
-      }
-    }
-    wrapper();
-  });
-
   if (!isGameDataLoaded) return <></>;
-  if (!isCharLoaded) return <></>;
 
   if (gameState === "intro") {
     return (

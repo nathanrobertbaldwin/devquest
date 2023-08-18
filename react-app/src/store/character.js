@@ -134,7 +134,7 @@ export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
 
 export const updateCharacterEnergyThunk =
   (charId, change) => async (dispatch) => {
-    const response = await fetch(`api/characters/${charId}/energy`, {
+    const response = await fetch(`/api/characters/${charId}/energy`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ change }),
@@ -146,7 +146,7 @@ export const updateCharacterEnergyThunk =
 
 export const udpateCharacterSanityThunk =
   (charId, change) => async (dispatch) => {
-    const response = await fetch(`api/characters/${charId}/sanity`, {
+    const response = await fetch(`/api/characters/${charId}/sanity`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ change }),
@@ -158,7 +158,7 @@ export const udpateCharacterSanityThunk =
 
 export const editCharacterStatsThunk =
   (charId, updates) => async (dispatch) => {
-    const response = await fetch(`api/characters/${charId}`, {
+    const response = await fetch(`/api/characters/${charId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updates),

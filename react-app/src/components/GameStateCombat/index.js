@@ -7,8 +7,7 @@ import { createNewMonsterThunk } from "../../store/monster";
 import { updateMonsterHpThunk } from "../../store/monster";
 import { updateCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
-import { useGameState, useChangeGameState } from "../../context/GameState";
-import { getGameDataThunk } from "../../store/gamedata";
+import { useChangeGameState } from "../../context/GameState";
 import "./GameStateCombatv3.css";
 const _ = require("lodash");
 
@@ -60,9 +59,9 @@ export default function GameStateCombat() {
 
   // Stage based logic.
 
-  function handleStageChange(stage) {
+  async function handleStageChange(stage) {
     setStage(stage + 1);
-    dispatch(createNewMonsterThunk(makeMonster(stage)));
+    await dispatch(createNewMonsterThunk(makeMonster(stage)));
     setCombatLog([`Oh no! Another problem appeared.`]);
     setTurnCounter(1);
   }
@@ -103,7 +102,10 @@ export default function GameStateCombat() {
         const charDamage = calculateCharDamage(attack);
         dispatch(updateMonsterHpThunk(char.id, charDamage));
         if (monster.currHp <= charDamage) {
-          setCombatLog([`You defeated the ${monster.name}!`, ...combatLog]);
+          setCombatLog([
+            `You deal ${charDamage} to ${monster.name}. You defeated the ${monster.name}!`,
+            ...combatLog,
+          ]);
           setTimeout(setCombatLog, 2000, [
             `Did you think you were finished? You might go insane, but bugs never cease!`,
           ]);
@@ -112,7 +114,7 @@ export default function GameStateCombat() {
         setTimeout(setTurnCounter, 1500, turnCounter + 1);
       } else {
         setCombatLog([
-          `You are exhausted! You must rest. Escape this bug and lose 20 sanity?`,
+          `You are exhausted! You must rest. Escape this bug and lose 10 sanity?`,
           ...combatLog,
         ]);
       }
@@ -272,6 +274,7 @@ export default function GameStateCombat() {
             {charAttacks.map((attack) => {
               return (
                 <div
+                  key={attack.id}
                   className="gsc-character-attack-wrapper"
                   onClick={() => handleCharacterAttack(attack)}
                 >

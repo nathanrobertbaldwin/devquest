@@ -37,7 +37,7 @@ export default function GameStateBoon() {
       }
     );
     setBoonApplied(true);
-    setTimeout(toggleGameState, 1000, "combat");
+    // setTimeout(toggleGameState, 1000, "combat");
   }
 
   const boonOptions = [
@@ -64,13 +64,10 @@ export default function GameStateBoon() {
 
   if (boon.type === "item") {
     boonMapper = (
-      <div id="boon-item-container">
-        <h5>{boon.text}</h5>
-        <span>You found a new {equipmentArr[boon.num].slot} item!</span>
+      <div className="gsr-boon-container">
+        <h4>{boon.text}</h4>
         <span>{equipmentArr[boon.num].name}</span>
-        <div id="boon-item-image-container">
-          <img alt="new item" src={`${equipmentArr[boon.num].imageUrl}`} />
-        </div>
+        <img alt="new item" src={`${equipmentArr[boon.num].imageUrl}`} />
         <button
           onClick={() => handleAddItemToInventory(equipmentArr[boon.num])}
         >
@@ -80,8 +77,8 @@ export default function GameStateBoon() {
     );
   } else if (boon.type === "stats") {
     boonMapper = (
-      <div id="boon-stats-container">
-        <h5>{boon.text}</h5>
+      <div className="gsr-boon-container">
+        <h4>{boon.text}</h4>
         <span>You may allocate {boon.num} points to your stats!</span>
         <OpenModalButton
           className="modal_button"
@@ -98,16 +95,26 @@ export default function GameStateBoon() {
     );
   } else if (boon.type === "heal")
     boonMapper = (
-      <div id="boon-heal-container">
-        <h5>{boon.text}</h5>
-        <span>You recover {boon.num} points of energy and sanity!</span>
+      <div className="gsr-boon-container">
+        <h4>{boon.text}</h4>
+        <span>You recover {boon.num} points of energy and sanity.</span>
         <button onClick={() => handleReturnToCombat(boon.num)}>
           Return To Combat!
         </button>
       </div>
     );
 
-  if (boonApplied) return <>...Loading</>;
+  if (boonApplied)
+    return (
+      <div id="gsr-loading">
+        <h3>...Loading</h3>
+      </div>
+    );
 
-  return <div id="game-state-boon-container">{boonMapper}</div>;
+  return (
+    <div id="game-state-boon-container">
+      <div id="gsb-image-container"></div>
+      <div id="gsb-boon-mapper-container">{boonMapper}</div>
+    </div>
+  );
 }

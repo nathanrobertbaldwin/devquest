@@ -102,6 +102,10 @@ gap: .5em;
     align-content: center;
 }
 
+.char-inventory-unequipped-equipment-card{
+    cursor: pointer;
+}
+
 #char-inventory-equipped-items-container{
     grid-area: equipped;
     display: flex;

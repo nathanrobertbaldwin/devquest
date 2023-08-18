@@ -180,7 +180,9 @@ def update_sanity(charId):
     Monster has dealt sanity damage to character. Update character sanity.
     """
 
+    print("Getting here?")
     character = Character.query.get(charId)
+    
 
     if character:
         sanity_change = request.get_json()["change"]
