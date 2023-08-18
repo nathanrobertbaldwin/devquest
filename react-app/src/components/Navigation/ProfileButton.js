@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
-import { resetSaveDataThunk } from "../../store/saves";
-import { resetCharacterDataThunk } from "../../store/character";
+import { useChangeGameState } from "../../context/GameState";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -13,6 +12,7 @@ import CreateNewMonsterModal from "../MonsterCreationModal";
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+  const toggleGameState = useChangeGameState();
   const ulRef = useRef();
 
   const openMenu = () => {
@@ -34,11 +34,10 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
+    toggleGameState("intro");
     dispatch(logout());
-    dispatch(resetSaveDataThunk());
-    dispatch(resetCharacterDataThunk());
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");

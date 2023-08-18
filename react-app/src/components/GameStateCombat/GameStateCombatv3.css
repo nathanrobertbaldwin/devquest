@@ -12,8 +12,8 @@
     display: grid;
     height: 900px;
     width: 750px;
-    grid-template-columns: 110px 375px 50px 215px;
-    grid-template-rows: 110px 200px 150px 300px 140px;
+    grid-template-columns: 100px 375px 50px 225px;
+    grid-template-rows: 115px 200px 140px 300px 135px;
     grid-template-areas: 
     ". . . ."
     ". console . ."
@@ -30,11 +30,46 @@
     grid-area: console;
     display: flex;
     flex-direction: column;
+    gap: 1em;
+    margin-left: 10px;
 }
 
 #gsc-character-info-container{
     grid-area: info;
     display: flex;
+    flex-direction: column;
+    gap: .75em;
+}
+
+#gsc-character-resources-container{
+    display: flex;
+    gap: 4em;    
+}
+
+#gsc-character-attacks-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.gsc-character-attack-wrapper{
+    width: 47%;
+}
+
+.gsc-character-attack-card{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 1em;
+    background-color: rgb(248, 137, 41);
+    padding: .5em;
+    cursor: pointer;
+}
+
+.gsc-character-attack-card > span {
+    font-size: 16px;
+    color: black;
 }
 
 #monster-container{

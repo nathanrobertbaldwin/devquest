@@ -148,14 +148,20 @@ def drop_inventory_item(itemId):
 @login_required
 def update_energy(charId):
     """
-    Character has used an attack. Update character's current energy by charId.
+    Character has used an attack or rested. Update character's current energy by charId.
     """
     character = Character.query.get(charId)
 
     if character:
         energy_change = request.get_json()["change"]
-        print("FROM BACKEND", "CHARID", charId, "ENERGY CHANGE", energy_change)
-        character.curr_energy = character.curr_energy - energy_change
+
+        if energy_change > 0:
+            character.curr_energy = max(0, character.curr_energy - energy_change)
+        else:
+            character.curr_energy = min(
+                character.max_energy, character.curr_energy - energy_change
+            )
+
         db.session.commit()
 
         return {
@@ -178,8 +184,14 @@ def update_sanity(charId):
 
     if character:
         sanity_change = request.get_json()["change"]
-        print("FROM BACKEND", "CHARID", charId, "SANITY CHANGE", sanity_change)
-        character.curr_sanity = character.curr_sanity - sanity_change
+
+        if sanity_change > 0:
+            character.curr_sanity = max(0, character.curr_sanity - sanity_change)
+        else:
+            character.curr_sanity = min(
+                character.max_sanity, character.curr_sanity - sanity_change
+            )
+
         db.session.commit()
 
         return {
@@ -200,12 +212,8 @@ def update_character_stats(charId):
 
     character = Character.query.get(charId)
 
-    print("HERE IS MY CHARACTER'S OLD DATA", character.to_dict())
     if character:
-        print("VALIDATING?")
         character_edit_data = request.get_json()
-
-        print("HERE ARE MY CHARACTER'S STAT CHANGES", character_edit_data)
 
         character.backend = character_edit_data["backend"]
         character.frontend = character_edit_data["frontend"]

@@ -3,7 +3,6 @@
 const GET_USER_SAVES = "user_saves/GET";
 const GET_NEW_CHAR_SAVE = "new_character/SAVE";
 const DELETE_SAVE_FILE = "save_file/DELETE";
-const RESET_SAVE_DATA = "save_data/RESET";
 
 // ============================== ACTIONS ============================== //
 
@@ -20,11 +19,6 @@ export const getNewCharSave = (data) => ({
 export const deleteSaveFile = (save_slot) => ({
   type: DELETE_SAVE_FILE,
   data: save_slot,
-});
-
-const resetSaveData = () => ({
-  type: RESET_SAVE_DATA,
-  data: {},
 });
 
 // ============================== THUNKS =============================== //
@@ -47,10 +41,6 @@ export const deleteSaveFileThunk = (charId) => async (dispatch) => {
   }
 };
 
-export const resetSaveDataThunk = () => async (dispatch) => {
-  dispatch(resetSaveData());
-};
-
 // ============================== REDUCER ============================== //
 
 const initialState = { 1: {}, 2: {}, 3: {} };
@@ -61,10 +51,6 @@ export default function reducer(state = initialState, action) {
       const newState = { ...state };
       const userSaves = action.data;
       return { ...newState, ...userSaves };
-    }
-    case RESET_SAVE_DATA: {
-      const emptyData = action.data;
-      return { ...emptyData };
     }
     case GET_NEW_CHAR_SAVE: {
       const newState = { ...state };

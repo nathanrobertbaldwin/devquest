@@ -8,13 +8,13 @@ import { updateMonsterHpThunk } from "../../store/monster";
 import { updateCharacterEnergyThunk } from "../../store/character";
 import { udpateCharacterSanityThunk } from "../../store/character";
 import { useGameState, useChangeGameState } from "../../context/GameState";
+import { getGameDataThunk } from "../../store/gamedata";
 import "./GameStateCombatv3.css";
 const _ = require("lodash");
 
 export default function GameStateCombat() {
   const dispatch = useDispatch();
 
-  const gameState = useGameState();
   const toggleGameState = useChangeGameState();
 
   const char = useSelector((store) => store.character);
@@ -42,15 +42,15 @@ export default function GameStateCombat() {
   useEffect(() => {
     async function wrapper() {
       if (_.isEmpty(monster)) {
-        await dispatch(createNewMonsterThunk(makeMonster(stage))).then(() => {
-          setMonsterIsLoaded(true);
-        });
+        await dispatch(createNewMonsterThunk(makeMonster(stage))).then(() =>
+          setMonsterIsLoaded(true)
+        );
       } else {
         setMonsterIsLoaded(true);
       }
     }
     wrapper();
-  });
+  }, [dispatch]);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
@@ -68,6 +68,14 @@ export default function GameStateCombat() {
   }
 
   function makeMonster(currStage) {
+    console.log(
+      "WEIRD ERROR",
+      "MONSTER ARR",
+      monstersArr,
+      "INDEX",
+      Math.floor(Math.random() * monstersArr.length) - 1
+    );
+
     const monsterTemplate =
       monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
 
@@ -167,11 +175,19 @@ export default function GameStateCombat() {
   }
 
   function handleEscapeCombat() {
-    setCombatLog([
-      "You gave up defeating this problem! You lose 20 sanity. You take a moment to rest...",
-      ...combatLog,
-    ]);
-    setTimeout(toggleGameState, 2000, "rest");
+    if (char.currSanity <= 10) {
+      setCombatLog(
+        ["If you avoid this bug, you will lose your mind. You cannot escape!"],
+        ...combatLog
+      );
+    } else {
+      setCombatLog([
+        "You gave up defeating this problem! You lose 10 sanity. You take a moment to rest...",
+        ...combatLog,
+      ]);
+      dispatch(udpateCharacterSanityThunk(char.id, 10));
+      setTimeout(toggleGameState, 2000, "rest");
+    }
   }
 
   // Character attributes
@@ -243,31 +259,30 @@ export default function GameStateCombat() {
           })}
         </div>
         <div id="gsc-character-info-container">
-          <div id="character-resources-container">
-            <span className="character-resources-span">
+          <div id="gsc-character-resources-container">
+            <span className="gsc-cr-span">
               Energy: {currEnergy}/{char.maxEnergy}
             </span>
-            <span className="character-resources-span">
+            <span className="gsc-cr-span">
               Sanity: {currSanity}/{char.maxSanity}
             </span>
           </div>
-          <div id="character-attacks-container">
+          <span>Attacks</span>
+          <div id="gsc-character-attacks-container">
             {charAttacks.map((attack) => {
               return (
                 <div
-                  key={attack.id}
-                  id="character-attack-container"
+                  className="gsc-character-attack-wrapper"
                   onClick={() => handleCharacterAttack(attack)}
                 >
-                  <CharacterAttackCard attack={attack} />
+                  <CharacterAttackCard key={attack.id} attack={attack} />
                 </div>
               );
             })}
-            <div id="equipped-items-container">
-              <div className="equipped-item">{equippedGear?.imgUrl}</div>
-              <div className="equipped-item">{equippedFood?.imgUrl}</div>
-              <div className="equipped-item">{equippedReference?.imgUrl}</div>
-            </div>
+          </div>
+          <div id="gsc-character-escape">
+            <span className="gsc-cr-span">Lose 10 Sanity to </span>
+            <button onClick={() => handleEscapeCombat()}>Escape Combat</button>
           </div>
         </div>
       </div>

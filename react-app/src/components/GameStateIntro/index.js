@@ -1,8 +1,16 @@
+import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
+import GameMenuModal from "../GameMenuModal";
+import SignupFormModal from "../SignupFormModal";
+import { useChangeGameState } from "../../context/GameState";
 import "./GameStateIntro.css";
+const _ = require("lodash");
 
 export default function GameStateIntro() {
+  const sessionUser = useSelector((store) => store.session.user);
+  const toggleGameState = useChangeGameState();
+
   return (
     <div id="game-state-intro-container">
       <div id="game-state-intro-wrapper">
@@ -13,11 +21,32 @@ export default function GameStateIntro() {
           />
         </div>
         <div id="welcome-button-container">
-          <OpenModalButton
-            className="modal_button"
-            buttonText="CREATE ACCOUNT"
-            modalComponent={<LoginFormModal />}
-          />
+          {sessionUser ? (
+            <OpenModalButton
+              className="modal_button"
+              buttonText="Choose Character"
+              modalComponent={
+                <GameMenuModal toggleGameState={toggleGameState} />
+              }
+            />
+          ) : (
+            <>
+              <div id="welcome-button-container">
+                <OpenModalButton
+                  className="modal_button"
+                  buttonText="New Account"
+                  modalComponent={<SignupFormModal />}
+                />
+              </div>
+              <div id="welcome-button-container">
+                <OpenModalButton
+                  className="modal_button"
+                  buttonText="Log In"
+                  modalComponent={<LoginFormModal />}
+                />
+              </div>
+            </>
+          )}
         </div>
         <div id="welcome-text-container">
           <h1 id="welcome-h1">Welcome to DevQuest!</h1>

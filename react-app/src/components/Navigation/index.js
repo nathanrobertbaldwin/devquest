@@ -37,8 +37,10 @@ function Navigation({ isLoaded }) {
           {sessionUser && (
             <OpenModalButton
               className="modal_button"
-              buttonText= "Saves Menu"
-              modalComponent={<GameMenuModal />}
+              buttonText="Saves Menu"
+              modalComponent={
+                <GameMenuModal toggleGameState={toggleGameState} />
+              }
             />
           )}
           {isLoaded && (

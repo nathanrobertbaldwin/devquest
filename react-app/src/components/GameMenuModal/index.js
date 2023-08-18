@@ -10,7 +10,7 @@ import OpenModalButton from "../OpenModalButton";
 import CharacterCreationModal from "../CharacterCreationModal";
 import "./GameMenu.css";
 
-function GameMenuModal() {
+function GameMenuModal({ toggleGameState }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const savesData = useSelector((store) => store.saves);
   const dispatch = useDispatch();
@@ -26,11 +26,13 @@ function GameMenuModal() {
 
   const handleLoadSave = async (charId) => {
     await dispatch(getCharacterDataThunk(charId)).then(() => {
+      setTimeout(toggleGameState, 1000, "combat");
       closeModal();
     });
   };
 
   const handleDeleteSave = async (charId) => {
+    toggleGameState("intro");
     await dispatch(deleteCharacterDataThunk(charId));
   };
 

@@ -14,7 +14,6 @@ const UPDATE_CHARACTER_ENERGY = "character_energy/UPDATE";
 const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
 const EDIT_CHARACTER_STATS = "character_stats/EDIT";
 const DELETE_CHARACTER = "character/DELETE";
-const RESET_CHARACTER_DATA = "character_data/RESET";
 
 // ============================== ACTIONS ============================== //
 
@@ -60,11 +59,6 @@ const editCharacterStats = (updates) => ({
 
 const deleteCharacter = () => ({
   type: DELETE_CHARACTER,
-  data: {},
-});
-
-const resetCharacterData = () => ({
-  type: RESET_CHARACTER_DATA,
   data: {},
 });
 
@@ -191,10 +185,6 @@ export const deleteCharacterDataThunk = (id) => async (dispatch) => {
   }
 };
 
-export const resetCharacterDataThunk = () => async (dispatch) => {
-  dispatch(resetCharacterData());
-};
-
 // ============================== REDUCER ============================== //
 
 const initialState = {};
@@ -234,13 +224,27 @@ export default function reducer(state = initialState, action) {
     case UPDATE_CHARACTER_ENERGY: {
       const newState = { ...state };
       const change = action.data;
-      newState.currEnergy = Math.max(0, newState.currEnergy - change);
+      if (change > 0) {
+        newState.currEnergy = Math.max(0, newState.currEnergy - change);
+      } else {
+        newState.currEnergy = Math.min(
+          newState.maxEnergy,
+          newState.currEnergy - change
+        );
+      }
       return newState;
     }
     case UPDATE_CHARACTER_SANITY: {
       const newState = { ...state };
       const change = action.data;
-      newState.currSanity = Math.max(0, newState.currSanity - change);
+      if (change > 0) {
+        newState.currSanity = Math.max(0, newState.currSanity - change);
+      } else {
+        newState.currSanity = Math.min(
+          newState.maxSanity,
+          newState.currSanity - change
+        );
+      }
       return newState;
     }
     case EDIT_CHARACTER_STATS: {
@@ -249,10 +253,6 @@ export default function reducer(state = initialState, action) {
       return { ...newState, ...statUpdates };
     }
     case DELETE_CHARACTER: {
-      const data = action.data;
-      return { ...data };
-    }
-    case RESET_CHARACTER_DATA: {
       const data = action.data;
       return { ...data };
     }
