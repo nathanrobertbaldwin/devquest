@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import OpenModalButton from "../OpenModalButton";
-import EditEquipmentModal from "../EditEquipmentModal";
-import { deleteEquipmentByIdThunk } from "../../store/gamedata";
+import { useModal } from "../../../context/Modal";
+import OpenModalButton from "../../OpenModalButton";
+import EditEquipmentModal from "../../EditEquipmentModal";
+import { deleteEquipmentByIdThunk } from "../../../store/gamedata";
 
 import "./EquipmentCard.css";
 
@@ -23,7 +23,7 @@ export default function EquipmentCard({ item }) {
       <span>CSS Boost: {item.cssBoost}</span>
       <span>Debugging Boost: {item.debuggingBoost}</span>
       <span>Frontend Boost: {item.frontendBoost}</span>
-      <span>ImageUrl: {item.imageUrl}</span>
+      <span className="image-url-span">ImageUrl: {item.imageUrl}</span>
       <span>Max Energy Boost: {item.maxEnergyBoost}</span>
       <span>Slot: {item.slot}</span>
       <OpenModalButton

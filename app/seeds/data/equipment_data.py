@@ -1,7 +1,7 @@
 equipments = [
     # Equipment 1
     {
-        "name": "coffee",
+        "name": "Coffee",
         "backend_boost": 3,
         "frontend_boost": 1,
         "algorithms_boost": 3,
@@ -13,7 +13,7 @@ equipments = [
     },
     # Equipment 2
     {
-        "name": "convention-swag",
+        "name": "Convention Swag",
         "backend_boost": 5,
         "frontend_boost": 4,
         "algorithms_boost": 2,
@@ -25,7 +25,7 @@ equipments = [
     },
     # Equipment 3
     {
-        "name": "coding helmet",
+        "name": "Coding Helmet",
         "backend_boost": 10,
         "frontend_boost": 1,
         "algorithms_boost": 7,
@@ -37,7 +37,7 @@ equipments = [
     },
     # Equipment 4
     {
-        "name": "color diagram",
+        "name": "Color Diagram",
         "backend_boost": 0,
         "frontend_boost": 6,
         "algorithms_boost": 0,
@@ -61,7 +61,7 @@ equipments = [
     },
     # Equipment 6
     {
-        "name": "jimmy johns sub",
+        "name": "Jimmy John's",
         "backend_boost": 1,
         "frontend_boost": 1,
         "algorithms_boost": 5,
@@ -97,7 +97,7 @@ equipments = [
     },
     # Equipment 9
     {
-        "name": "pizza",
+        "name": "Pizza",
         "backend_boost": 0,
         "frontend_boost": 5,
         "algorithms_boost": 5,
@@ -109,7 +109,7 @@ equipments = [
     },
     # Equipment 10
     {
-        "name": "salad",
+        "name": "Salad",
         "backend_boost": 5,
         "frontend_boost": 1,
         "algorithms_boost": 5,
@@ -121,7 +121,7 @@ equipments = [
     },
     # Equipment 11
     {
-        "name": "green-light glasses",
+        "name": "Green-light Glasses",
         "backend_boost": 1,
         "frontend_boost": 5,
         "algorithms_boost": 3,
@@ -133,7 +133,7 @@ equipments = [
     },
     # Equipment 12
     {
-        "name": "gaming keyboard",
+        "name": "Gaming Keyboard",
         "backend_boost": 1,
         "frontend_boost": 7,
         "algorithms_boost": 1,
@@ -145,7 +145,7 @@ equipments = [
     },
     # Equipment 13
     {
-        "name": "gaming mouse",
+        "name": "Gaming Mouse",
         "backend_boost": 3,
         "frontend_boost": 6,
         "algorithms_boost": 2,
@@ -157,7 +157,7 @@ equipments = [
     },
     # Equipment 14
     {
-        "name": "desk pad",
+        "name": "Desk Pad",
         "backend_boost": 1,
         "frontend_boost": 3,
         "algorithms_boost": 4,
@@ -169,7 +169,7 @@ equipments = [
     },
     # Equipment 15
     {
-        "name": "coding chair",
+        "name": "Coding Chair",
         "backend_boost": 10,
         "frontend_boost": 0,
         "algorithms_boost": 0,
@@ -181,7 +181,7 @@ equipments = [
     },
     # Equipment 16
     {
-        "name": "senior dev",
+        "name": "Senior Dev",
         "backend_boost": 5,
         "frontend_boost": 1,
         "algorithms_boost": 5,
@@ -193,7 +193,7 @@ equipments = [
     },
     # Equipment 17
     {
-        "name": "coding for dummies",
+        "name": "Coding For Dummies",
         "backend_boost": 2,
         "frontend_boost": 3,
         "algorithms_boost": 3,

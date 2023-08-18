@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EquipmentCard from "../EquipmentCard";
-import "./AllEquipment.css";
 import { useEffect } from "react";
+import EquipmentCard from "./EquipmentCard";
 import { getGameDataThunk } from "../../store/gamedata";
+import "./AllEquipment.css";
 const _ = require("lodash");
 
 export default function AllEquipment() {

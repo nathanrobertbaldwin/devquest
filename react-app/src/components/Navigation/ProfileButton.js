@@ -60,6 +60,11 @@ function ProfileButton({ user }) {
               <button onClick={handleLogout}>Log Out</button>
             </li>
             <li>
+              <button onClick={() => handleGSChange("combat")}>
+                To Combat
+              </button>
+            </li>
+            <li>
               <OpenModalButton
                 buttonText="Create Equipment"
                 onItemClick={closeMenu}

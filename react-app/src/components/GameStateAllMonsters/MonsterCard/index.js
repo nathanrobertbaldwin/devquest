@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import OpenModalButton from "../OpenModalButton";
-import EditMonsterModal from "../EditMonsterModal";
-import { deleteMonsterTemplateByIdThunk } from "../../store/gamedata";
+import { useModal } from "../../../context/Modal";
+import OpenModalButton from "../../OpenModalButton";
+import EditMonsterModal from "../../EditMonsterModal";
+import { deleteMonsterTemplateByIdThunk } from "../../../store/gamedata";
 
 import "./MonsterCard.css";
 
