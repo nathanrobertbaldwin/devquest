@@ -72,7 +72,6 @@ export default function reducer(state = initialState, action) {
     }
     case CREATE_USER_SAVES: {
       const userSaves = action.data;
-      console.log("HERE IS THE NEW USERS STORE DATA.", userSaves);
       return { ...userSaves };
     }
     case GET_NEW_CHAR_SAVE: {

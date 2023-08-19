@@ -52,5 +52,4 @@ def create_user_save_file():
     db.session.add(new_save_file)
     db.session.commit()
 
-    print("SERVER WORKS JUST FINE!")
     return {1: {}, 2: {}, 3: {}}

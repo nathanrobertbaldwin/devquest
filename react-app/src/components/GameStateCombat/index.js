@@ -76,13 +76,6 @@ export default function GameStateCombat() {
   }
 
   function makeMonster(currStage) {
-    console.log(
-      "WEIRD ERROR",
-      "MONSTER ARR",
-      monstersArr,
-      "INDEX",
-      Math.floor(Math.random() * monstersArr.length) - 1
-    );
 
     const monsterTemplate =
       monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
