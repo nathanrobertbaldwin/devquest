@@ -1,6 +1,7 @@
 // =========================== ACTION STRINGS ============================ //
 
 const GET_USER_SAVES = "user_saves/GET";
+const CREATE_USER_SAVES = "user_SAVES/CREATE";
 const GET_NEW_CHAR_SAVE = "new_character/SAVE";
 const DELETE_SAVE_FILE = "save_file/DELETE";
 
@@ -8,6 +9,11 @@ const DELETE_SAVE_FILE = "save_file/DELETE";
 
 const getUserSaves = (data) => ({
   type: GET_USER_SAVES,
+  data: data,
+});
+
+const createUserSaves = (data) => ({
+  type: CREATE_USER_SAVES,
   data: data,
 });
 
@@ -32,8 +38,20 @@ export const getUserSavesThunk = () => async (dispatch) => {
   }
 };
 
+export const createUserSavesThunk = () => async (dispatch) => {
+  const response = await fetch("/api/userdata/saves", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(createUserSaves(data));
+  }
+};
+
 export const deleteSaveFileThunk = (charId) => async (dispatch) => {
-  const response = await fetch("/api/userdata/saves");
+  const response = await fetch(`/api/userdata/saves/${charId}`);
 
   if (response.ok) {
     const data = await response.json();
@@ -51,6 +69,11 @@ export default function reducer(state = initialState, action) {
       const newState = { ...state };
       const userSaves = action.data;
       return { ...newState, ...userSaves };
+    }
+    case CREATE_USER_SAVES: {
+      const userSaves = action.data;
+      console.log("HERE IS THE NEW USERS STORE DATA.", userSaves);
+      return { ...userSaves };
     }
     case GET_NEW_CHAR_SAVE: {
       const newState = { ...state };

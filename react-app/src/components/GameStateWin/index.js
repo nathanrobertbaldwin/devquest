@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCharacterDataThunk } from "../../store/character";
-import "./GameStateWin.css";
+
+import "../../styles/GameStateWin.css";
 
 export default function GameStateWin() {
   const dispatch = useDispatch();

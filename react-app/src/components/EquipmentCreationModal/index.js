@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createNewEquipmentThunk } from "../../store/gamedata";
 import { useModal } from "../../context/Modal";
 
-import "./EquipmentCreationModal.css";
+import "../../styles/EquipmentCreationModal.css";
 
 const _ = require("lodash");
 

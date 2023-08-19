@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCharacterDataThunk } from "../../store/character";
-import "./GameStateLoss.css";
+import "../../styles/GameStateLoss.css";
 
 export default function GameStateLoss() {
   const dispatch = useDispatch();

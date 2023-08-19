@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import OpenModalButton from "../OpenModalButton";
+
 import { getUserSavesThunk } from "../../store/saves";
 import {
   deleteCharacterDataThunk,
   getCharacterDataThunk,
 } from "../../store/character";
-import OpenModalButton from "../OpenModalButton";
 import CharacterCreationModal from "../CharacterCreationModal";
-import "./GameMenu.css";
+
+import "../../styles/GameMenu.css";
 
 function GameMenuModal({ toggleGameState }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const savesData = useSelector((store) => store.saves);
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  const savesData = useSelector((store) => store.saves);
 
   useEffect(() => {
     dispatch(getUserSavesThunk()).then(() => {

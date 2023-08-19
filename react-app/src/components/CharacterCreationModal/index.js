@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createNewCharacterThunk } from "../../store/character";
 
-import "./CharacterCreationModal.css";
+import "../../styles/CharacterCreationModal.css";
 
 function CharacterCreationModal() {
   const dispatch = useDispatch();

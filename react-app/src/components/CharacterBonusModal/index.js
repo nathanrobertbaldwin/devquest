@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { editCharacterStatsThunk } from "../../store/character";
 import { useModal } from "../../context/Modal";
-import "./CharacterBonusModal.css";
+import "../../styles/CharacterBonusModal.css";
 
 export default function CharacterBonusModal({
   stats,

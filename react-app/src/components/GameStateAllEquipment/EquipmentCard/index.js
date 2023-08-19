@@ -4,7 +4,7 @@ import OpenModalButton from "../../OpenModalButton";
 import EditEquipmentModal from "../../EditEquipmentModal";
 import { deleteEquipmentByIdThunk } from "../../../store/gamedata";
 
-import "./EquipmentCard.css";
+import "../../../styles/EquipmentCard.css";
 
 export default function EquipmentCard({ item }) {
   const dispatch = useDispatch();

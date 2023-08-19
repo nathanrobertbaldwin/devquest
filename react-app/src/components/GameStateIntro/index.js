@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
+import AccountFormsModal from "../AccountFormsModal";
 import GameMenuModal from "../GameMenuModal";
-import SignupFormModal from "../SignupFormModal";
 import { useChangeGameState } from "../../context/GameState";
-import "./GameStateIntro.css";
+
+import "../../styles/GameStateIntro.css";
+
 const _ = require("lodash");
 
 export default function GameStateIntro() {
@@ -30,22 +31,13 @@ export default function GameStateIntro() {
               }
             />
           ) : (
-            <>
-              <div id="welcome-button-container">
-                <OpenModalButton
-                  className="modal_button"
-                  buttonText="New Account"
-                  modalComponent={<SignupFormModal />}
-                />
-              </div>
-              <div id="welcome-button-container">
-                <OpenModalButton
-                  className="modal_button"
-                  buttonText="Log In"
-                  modalComponent={<LoginFormModal />}
-                />
-              </div>
-            </>
+            <div id="welcome-button-container">
+              <OpenModalButton
+                className="modal_button"
+                buttonText="Login | Signup"
+                modalComponent={<AccountFormsModal />}
+              />
+            </div>
           )}
         </div>
         <div id="welcome-text-container">

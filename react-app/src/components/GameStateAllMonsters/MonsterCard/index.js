@@ -4,7 +4,7 @@ import OpenModalButton from "../../OpenModalButton";
 import EditMonsterModal from "../../EditMonsterModal";
 import { deleteMonsterTemplateByIdThunk } from "../../../store/gamedata";
 
-import "./MonsterCard.css";
+import "../../../styles/MonsterCard.css";
 
 export default function MonsterCard({ monster }) {
   const dispatch = useDispatch();

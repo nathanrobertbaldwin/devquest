@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getGameDataThunk } from "../../store/gamedata";
+
 import GameStateIntro from "../GameStateIntro";
 import GameStateCombat from "../GameStateCombat";
 import GameStateRest from "../GameStateRest";
@@ -11,9 +11,10 @@ import GameStateAllEquipment from "../GameStateAllEquipment";
 import GameStateAllMonsters from "../GameStateAllMonsters";
 
 import { useGameState } from "../../context/GameState";
-import { getCharacterDataThunk } from "../../store/character";
+import { getGameDataThunk } from "../../store/gamedata";
 
-import "./Home.css";
+import "../../styles/Home.css";
+
 const _ = require("lodash");
 
 export default function Home() {

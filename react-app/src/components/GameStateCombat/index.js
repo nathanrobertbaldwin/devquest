@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useChangeGameState } from "../../context/GameState";
+
 import CharacterAttackCard from "./CharacterAttackCard";
 import MonsterCard from "./MonsterCard";
-import { deleteCharacterDataThunk } from "../../store/character";
-import { createNewMonsterThunk } from "../../store/monster";
-import { updateMonsterHpThunk } from "../../store/monster";
-import { updateCharacterEnergyThunk } from "../../store/character";
-import { udpateCharacterSanityThunk } from "../../store/character";
-import { useChangeGameState } from "../../context/GameState";
-import "./GameStateCombatv3.css";
+
+import {
+  deleteCharacterDataThunk,
+  udpateCharacterSanityThunk,
+  updateCharacterEnergyThunk,
+} from "../../store/character";
+
+import {
+  createNewMonsterThunk,
+  updateMonsterHpThunk,
+} from "../../store/monster";
+
+import "../../styles/GameStateCombatv3.css";
+
 const _ = require("lodash");
 
 export default function GameStateCombat() {

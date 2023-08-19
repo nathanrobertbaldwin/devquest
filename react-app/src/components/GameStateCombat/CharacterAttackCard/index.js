@@ -1,4 +1,4 @@
-import "./CharacterAttackCard.css";
+import "../../../styles/CharacterAttackCard.css";
 
 export default function CharacterAttackCard({ attack }) {
   return (

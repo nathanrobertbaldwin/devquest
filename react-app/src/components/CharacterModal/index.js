@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleInventoryItemEquipThunk } from "../../store/character";
-import "./CharacterModalv2.css";
+
+import "../../styles/CharacterModalv2.css";
+
 const _ = require("lodash");
 
 function CharacterModal() {

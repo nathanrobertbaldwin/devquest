@@ -1,14 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import OpenModalButton from "../OpenModalButton";
 import CharacterBonusModal from "../CharacterBonusModal";
 import { useChangeGameState } from "../../context/GameState";
+
 import {
   addInventoryItemThunk,
   udpateCharacterSanityThunk,
   updateCharacterEnergyThunk,
 } from "../../store/character";
-import { useState } from "react";
-import "./GameStateBoon.css";
+
+import "../../styles/GameStateBoon.css";
 
 export default function GameStateBoon() {
   const dispatch = useDispatch();

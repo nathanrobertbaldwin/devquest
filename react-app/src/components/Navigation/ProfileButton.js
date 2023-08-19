@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/session";
 import { useChangeGameState } from "../../context/GameState";
 import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import AccountFormsModal from "../AccountFormsModal";
 import CreateNewEquipmentModal from "../EquipmentCreationModal";
 import CreateNewMonsterModal from "../MonsterCreationModal";
-import "./ProfileButton.css";
+
+import "../../styles/ProfileButton.css";
+
+const _ = require("lodash");
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+
+  const char = useSelector((store) => store.character);
+
   const toggleGameState = useChangeGameState();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -60,11 +65,13 @@ function ProfileButton({ user }) {
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
-            <li>
-              <button onClick={() => handleGSChange("combat")}>
-                To Combat
-              </button>
-            </li>
+            {!_.isEmpty(char) && (
+              <li>
+                <button onClick={() => handleGSChange("combat")}>
+                  To Combat
+                </button>
+              </li>
+            )}
             <li>
               <OpenModalButton
                 buttonText="Create Equipment"
@@ -93,15 +100,9 @@ function ProfileButton({ user }) {
         ) : (
           <>
             <OpenModalButton
-              buttonText="Log In"
+              buttonText="Login | Signup"
               onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-
-            <OpenModalButton
-              buttonText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
+              modalComponent={<AccountFormsModal />}
             />
           </>
         )}

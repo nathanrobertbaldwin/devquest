@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getGameDataThunk } from "../../store/gamedata";
 import MonstersCard from "./MonsterCard";
-import "./AllMonsters.css";
+import "../../styles/AllMonsters.css";
 const _ = require("lodash");
 
 export default function AllMonsters() {
