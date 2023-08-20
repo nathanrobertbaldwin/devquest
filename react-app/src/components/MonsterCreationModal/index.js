@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createNewMonsterTemplateThunk } from "../../store/gamedata";
 import { useModal } from "../../context/Modal";
 
-import "./MonsterCreationModal.css";
+import "../../styles/MonsterCreationModal.css";
 
 const _ = require("lodash");
 

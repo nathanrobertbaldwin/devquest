@@ -1,0 +1,58 @@
+/* #game-state-boon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+#game-state-boon-container{
+    margin: auto;
+    display: grid;
+    grid-template-columns: 800px 800px;
+    grid-template-rows: 800px;
+    grid-template-areas: 
+    "picture boon";
+}
+
+#gsb-image-container{
+    grid-area: picture;
+    border-radius: 1em;
+    background-image: url("https://devquest.s3.us-east-2.amazonaws.com/splash-screens/boon.jpg");
+}
+
+#gsb-boon-mapper-container{
+    grid-area: boon;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.gsr-boon-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+
+}
+
+.gsr-boon-container > img {
+    border-radius: 1em;
+}
+
+.gsr-boon-container > h4 {
+    width: fit-content
+}
+
+#gsr-loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#gsr-loading > h3 {
+    width: fit-content;
+    height: fit-content;
+}

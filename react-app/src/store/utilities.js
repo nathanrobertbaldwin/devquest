@@ -18,4 +18,22 @@ function flattenInventory(obj) {
   return inventory;
 }
 
-module.exports = { flattenInventory };
+function flattenItem(obj) {
+  const newItem = {};
+
+  newItem.id = obj["item"].id;
+  newItem.equipped = obj["item"].equipped;
+  newItem.imageUrl = obj["item"].imageUrl;
+  newItem.name = obj["item"].name;
+  newItem.slot = obj["item"].slot;
+  newItem.algorithmsBoost = obj["item"].algorithmsBoost;
+  newItem.backendBoost = obj["item"].backendBoost;
+  newItem.frontendBoost = obj["item"].frontendBoost;
+  newItem.cssBoost = obj["item"].cssBoost;
+  newItem.debuggingBoost = obj["item"].debuggingBoost;
+  newItem.maxEnergyBoost = obj["item"].maxEnergyBoost;
+
+  return newItem;
+}
+
+module.exports = { flattenInventory, flattenItem };

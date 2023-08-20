@@ -51,7 +51,7 @@ def create_monster_template():
 
         return new_monster_template.to_dict()
 
-    return {"message": "Error while creating new monster."}
+    return {"message": "Could not create new monster template."}, 500
 
 
 @monster_template_routes.route("/<int:monsterId>", methods=["PUT"])
@@ -78,8 +78,8 @@ def edit_monster_template(monsterId):
         return monster_template.to_dict()
 
     return {
-        "message": "Error: Monster Template could not be found. Game files corrupted."
-    }
+        "message": "Monster Template could not be found. Game files corrupted."
+    }, 500
 
 
 @monster_template_routes.route("/<int:id>", methods=["DELETE"])
@@ -97,4 +97,4 @@ def delete_monster_template(id):
 
         return {"message": "Deleted", "monster_template": id}
 
-    return {"message": "Error: Equipment not found. Save files are corrupted."}
+    return {"message": "Equipment not found. Save files are corrupted."}, 500

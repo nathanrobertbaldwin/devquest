@@ -1,6 +1,6 @@
 // ============================== IMPORTS ================================ //
 
-import { flattenInventory } from "./utilities";
+import { flattenInventory, flattenItem } from "./utilities";
 import { deleteSaveFile, getNewCharSave } from "./saves";
 
 // =========================== ACTION STRINGS ============================ //
@@ -12,8 +12,8 @@ const ADD_INVENTORY_ITEM = "inventory_item/DROP";
 const DROP_INVENTORY_ITEM = "inventory_item/DROP";
 const UPDATE_CHARACTER_ENERGY = "character_energy/UPDATE";
 const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
+const EDIT_CHARACTER_STATS = "character_stats/EDIT";
 const DELETE_CHARACTER = "character/DELETE";
-const RESET_CHARACTER_DATA = "character_data/RESET";
 
 // ============================== ACTIONS ============================== //
 
@@ -52,13 +52,13 @@ const udpateCharacterSanity = (change) => ({
   data: change,
 });
 
-const deleteCharacter = () => ({
-  type: DELETE_CHARACTER,
-  data: {},
+const editCharacterStats = (updates) => ({
+  type: EDIT_CHARACTER_STATS,
+  data: updates,
 });
 
-const resetCharacterData = () => ({
-  type: RESET_CHARACTER_DATA,
+const deleteCharacter = () => ({
+  type: DELETE_CHARACTER,
   data: {},
 });
 
@@ -111,11 +111,13 @@ export const addInventoryItemThunk = (charId, itemId) => async (dispatch) => {
   const response = await fetch(`/api/characters/inventory/${itemId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ charId }),
+    body: JSON.stringify({ char_id: charId }),
   });
 
   if (response.ok) {
-    dispatch(dropInventoryItem(itemId));
+    const data = await response.json();
+    const newInventoryItem = flattenItem(data);
+    dispatch(addInventoryItem(newInventoryItem));
   }
 };
 
@@ -132,7 +134,7 @@ export const dropInventoryItemThunk = (itemId) => async (dispatch) => {
 
 export const updateCharacterEnergyThunk =
   (charId, change) => async (dispatch) => {
-    const response = await fetch(`api/characters/${charId}/energy`, {
+    const response = await fetch(`/api/characters/${charId}/energy`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ change }),
@@ -144,13 +146,27 @@ export const updateCharacterEnergyThunk =
 
 export const udpateCharacterSanityThunk =
   (charId, change) => async (dispatch) => {
-    const response = await fetch(`api/characters/${charId}/sanity`, {
+    const response = await fetch(`/api/characters/${charId}/sanity`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ change }),
     });
     if (response.ok) {
       dispatch(udpateCharacterSanity(change));
+    }
+  };
+
+export const editCharacterStatsThunk =
+  (charId, updates) => async (dispatch) => {
+    const response = await fetch(`/api/characters/${charId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(editCharacterStats(data));
     }
   };
 
@@ -169,10 +185,6 @@ export const deleteCharacterDataThunk = (id) => async (dispatch) => {
   }
 };
 
-export const resetCharacterDataThunk = () => async (dispatch) => {
-  dispatch(resetCharacterData());
-};
-
 // ============================== REDUCER ============================== //
 
 const initialState = {};
@@ -180,43 +192,67 @@ const initialState = {};
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_CHARACTER_DATA: {
+      const newState = { ...state };
       const character = action.data;
-      return { ...state, ...character };
+      return { ...newState, ...character };
     }
     case CREATE_NEW_CHARACTER: {
+      const newState = { ...state };
       const character = action.data;
-      return { ...state, ...character };
+      return { ...newState, ...character };
     }
     case TOGGLE_INVENTORY_ITEM_EQUIP: {
-      const itemId = action.data;
       const newState = { ...state };
+      const itemId = action.data;
       newState.inventory[itemId].equipped =
         !newState.inventory[itemId].equipped;
       return newState;
     }
-    case DROP_INVENTORY_ITEM: {
-      const itemId = action.data;
+    case ADD_INVENTORY_ITEM: {
       const newState = { ...state };
+      const newInventoryItem = action.data;
+      const idx = newInventoryItem.id;
+      newState.inventory[idx] = newInventoryItem;
+      return newState;
+    }
+    case DROP_INVENTORY_ITEM: {
+      const newState = { ...state };
+      const itemId = action.data;
       delete newState.inventory[itemId];
       return newState;
     }
     case UPDATE_CHARACTER_ENERGY: {
-      const change = action.data;
       const newState = { ...state };
-      newState.currEnergy = Math.max(0, newState.currEnergy - change);
+      const change = action.data;
+      if (change > 0) {
+        newState.currEnergy = Math.max(0, newState.currEnergy - change);
+      } else {
+        newState.currEnergy = Math.min(
+          newState.maxEnergy,
+          newState.currEnergy - change
+        );
+      }
       return newState;
     }
     case UPDATE_CHARACTER_SANITY: {
+      const newState = { ...state };
       const change = action.data;
-      const newState = state;
-      newState.currSanity = Math.max(0, newState.currSanity - change);
+      if (change > 0) {
+        newState.currSanity = Math.max(0, newState.currSanity - change);
+      } else {
+        newState.currSanity = Math.min(
+          newState.maxSanity,
+          newState.currSanity - change
+        );
+      }
       return newState;
     }
-    case DELETE_CHARACTER: {
-      const data = action.data;
-      return { ...data };
+    case EDIT_CHARACTER_STATS: {
+      const newState = { ...state };
+      const statUpdates = action.data;
+      return { ...newState, ...statUpdates };
     }
-    case RESET_CHARACTER_DATA: {
+    case DELETE_CHARACTER: {
       const data = action.data;
       return { ...data };
     }

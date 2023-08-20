@@ -5,20 +5,23 @@ import OpenModalButton from "../OpenModalButton";
 import ProfileButton from "./ProfileButton";
 import GameMenuModal from "../GameMenuModal";
 import CharacterModal from "../CharacterModal";
-import { useGameState, useChangeGameState } from "../../context/GameState";
+import { useChangeGameState } from "../../context/GameState";
 const _ = require("lodash");
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
   const character = useSelector((state) => state.character);
-  const gameState = useGameState();
   const toggleGameState = useChangeGameState();
 
   return (
     <div id="navigation-component-container">
       <div id="navigation-container">
         <NavLink exact to="/">
-          Home
+          <img
+            alt="logo"
+            src="https://devquest.s3.us-east-2.amazonaws.com/logos/logo-small.png"
+            style={{ height: "50px" }}
+          />
         </NavLink>
         <button onClick={() => toggleGameState("intro")}>Intro</button>
         <button onClick={() => toggleGameState("combat")}>Combat</button>
@@ -37,8 +40,10 @@ function Navigation({ isLoaded }) {
           {sessionUser && (
             <OpenModalButton
               className="modal_button"
-              buttonText="Game Menu"
-              modalComponent={<GameMenuModal />}
+              buttonText="Saves Menu"
+              modalComponent={
+                <GameMenuModal toggleGameState={toggleGameState} />
+              }
             />
           )}
           {isLoaded && (

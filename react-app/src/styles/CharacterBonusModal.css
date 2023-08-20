@@ -1,0 +1,20 @@
+#edit-character-attributes-container{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    background-color: rgb(60, 60, 60);
+    padding: .5em;
+    border-radius: .5em;
+    gap: 1em;
+    text-align: center;
+}
+
+.edit-character-field-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-character-button-container{
+    display: flex;
+}

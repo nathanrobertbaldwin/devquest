@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import OpenModalButton from "../OpenModalButton";
+
 import { getUserSavesThunk } from "../../store/saves";
 import {
   deleteCharacterDataThunk,
   getCharacterDataThunk,
 } from "../../store/character";
-import OpenModalButton from "../OpenModalButton";
 import CharacterCreationModal from "../CharacterCreationModal";
-import "./GameMenu.css";
 
-function GameMenuModal() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const savesData = useSelector((store) => store.saves);
+import "../../styles/GameMenu.css";
+
+function GameMenuModal({ toggleGameState }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  const savesData = useSelector((store) => store.saves);
 
   useEffect(() => {
     dispatch(getUserSavesThunk()).then(() => {
@@ -26,11 +29,13 @@ function GameMenuModal() {
 
   const handleLoadSave = async (charId) => {
     await dispatch(getCharacterDataThunk(charId)).then(() => {
+      setTimeout(toggleGameState, 1000, "combat");
       closeModal();
     });
   };
 
   const handleDeleteSave = async (charId) => {
+    toggleGameState("intro");
     await dispatch(deleteCharacterDataThunk(charId));
   };
 
@@ -39,13 +44,13 @@ function GameMenuModal() {
   const savesArr = Object.values(savesData);
 
   return (
-    <div id="game-menu-panel">
-      <div id="game-menu-component-container">
-        <h5>Load A Save File or Create a New Game</h5>
+    <div id="game-menu-container">
+      <div id="game-menu-panel">
+        <h5 id="game-menu-header">Load A Save File or Create a New Game</h5>
         {savesArr.map((save, idx) => {
           return (
             <div id="saved-game-container" key={idx}>
-              <span>Save Slot {idx + 1}</span>
+              <span>Slot {idx + 1}</span>
               {save.name ? (
                 <>
                   <button onClick={() => handleLoadSave(save.id)}>

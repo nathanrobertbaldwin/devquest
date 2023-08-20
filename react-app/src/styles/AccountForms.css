@@ -1,0 +1,78 @@
+#account-forms-component{
+    width: 800px;
+    height: 694px;
+    background-image: url("https://devquest.s3.us-east-2.amazonaws.com/menus/login-panel.jpg");
+    display: flex;
+    justify-content: center;
+    border-radius: 1em;
+}
+
+#account-forms-container{
+    display: flex;
+    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    ". ."
+    "login signup"
+    ". .";
+}
+
+#login-form-container{
+    grid-area: login;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgb(248, 137, 41);
+    padding-right: 1em;
+}
+
+
+#login-form{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+#login-form-buttons-container{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1em;
+}
+
+#login-form label {
+    font-size: 16px;
+}
+
+#login-form input {
+    margin-bottom: 1em;
+}
+
+
+#sign-up-form-container{
+    grid-area: signup;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+}
+
+#sign-up-form{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+#sign-up-form label {
+    font-size: 16px;
+}
+
+#sign-up-form-buttons-container{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1em;
+}
+
+#sign-up-form input {
+    margin-bottom: 1em;
+}
+

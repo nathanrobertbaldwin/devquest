@@ -1,16 +1,12 @@
-import "./CharacterAttackCard.css";
+import "../../../styles/CharacterAttackCard.css";
 
 export default function CharacterAttackCard({ attack }) {
   return (
-    <div id="attack-card-container">
-      <h5>{attack.name}</h5>
-      <span className="attack-card-span">
-        Energy Cost: {attack.energyCost}
-      </span>
-      <span className="attack-card-span">Attack Power: {attack.power}</span>
-      <span className="attack-card-span">
-        Primary Stat: {attack.primaryStat}
-      </span>
+    <div className="gsc-character-attack-card">
+      <span>{attack.name}</span>
+      <span>Energy Cost: {attack.energyCost}</span>
+      <span>Attack Power: {attack.power}</span>
+      <span>Main Stat: {attack.primaryStat}</span>
     </div>
   );
 }

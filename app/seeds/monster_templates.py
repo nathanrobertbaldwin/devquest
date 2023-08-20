@@ -10,6 +10,7 @@ def seed_monster_templates():
             name=monster["name"],
             hp=monster["hp"],
             weakness=monster["weakness"],
+            image_url=monster["image_url"],
         )
 
         db.session.add(new_monster)

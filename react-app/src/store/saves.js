@@ -1,14 +1,19 @@
 // =========================== ACTION STRINGS ============================ //
 
 const GET_USER_SAVES = "user_saves/GET";
+const CREATE_USER_SAVES = "user_SAVES/CREATE";
 const GET_NEW_CHAR_SAVE = "new_character/SAVE";
 const DELETE_SAVE_FILE = "save_file/DELETE";
-const RESET_SAVE_DATA = "save_data/RESET";
 
 // ============================== ACTIONS ============================== //
 
 const getUserSaves = (data) => ({
   type: GET_USER_SAVES,
+  data: data,
+});
+
+const createUserSaves = (data) => ({
+  type: CREATE_USER_SAVES,
   data: data,
 });
 
@@ -22,11 +27,6 @@ export const deleteSaveFile = (save_slot) => ({
   data: save_slot,
 });
 
-const resetSaveData = () => ({
-  type: RESET_SAVE_DATA,
-  data: {},
-});
-
 // ============================== THUNKS =============================== //
 
 export const getUserSavesThunk = () => async (dispatch) => {
@@ -38,17 +38,25 @@ export const getUserSavesThunk = () => async (dispatch) => {
   }
 };
 
+export const createUserSavesThunk = () => async (dispatch) => {
+  const response = await fetch("/api/userdata/saves", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(createUserSaves(data));
+  }
+};
+
 export const deleteSaveFileThunk = (charId) => async (dispatch) => {
-  const response = await fetch("/api/userdata/saves");
+  const response = await fetch(`/api/userdata/saves/${charId}`);
 
   if (response.ok) {
     const data = await response.json();
     dispatch(getUserSaves(data));
   }
-};
-
-export const resetSaveDataThunk = () => async (dispatch) => {
-  dispatch(resetSaveData());
 };
 
 // ============================== REDUCER ============================== //
@@ -62,9 +70,9 @@ export default function reducer(state = initialState, action) {
       const userSaves = action.data;
       return { ...newState, ...userSaves };
     }
-    case RESET_SAVE_DATA: {
-      const emptyData = action.data;
-      return { ...emptyData };
+    case CREATE_USER_SAVES: {
+      const userSaves = action.data;
+      return { ...userSaves };
     }
     case GET_NEW_CHAR_SAVE: {
       const newState = { ...state };

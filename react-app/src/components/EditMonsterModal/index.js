@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editMonsterTemplateByIdThunk } from "../../store/gamedata";
 import { useModal } from "../../context/Modal";
 
-import "./EditMonsterModal.css";
+import "../../styles/EditMonsterModal.css";
 
 const _ = require("lodash");
 
