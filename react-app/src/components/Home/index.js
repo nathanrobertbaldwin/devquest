@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getGameDataThunk } from "../../store/gamedata";
+
 import GameStateIntro from "../GameStateIntro";
 import GameStateCombat from "../GameStateCombat";
 import GameStateRest from "../GameStateRest";
 import GameStateBoon from "../GameStateBoon";
 import GameStateLoss from "../GameStateLoss";
 import GameStateWin from "../GameStateWin";
-import { useGameState, useChangeGameState } from "../../context/GameState";
+import GameStateAllEquipment from "../GameStateAllEquipment";
+import GameStateAllMonsters from "../GameStateAllMonsters";
 
-import "./Home.css";
-import { getCharacterDataThunk } from "../../store/character";
+import { useGameState } from "../../context/GameState";
+import { getGameDataThunk } from "../../store/gamedata";
+
+import "../../styles/Home.css";
+
 const _ = require("lodash");
 
 export default function Home() {
   const dispatch = useDispatch();
 
   const gameState = useGameState();
-  const toggleGameState = useChangeGameState();
   const gameData = useSelector((store) => store.gamedata);
-  const char = useSelector((store) => store.character);
   const [isGameDataLoaded, setIsGameDataLoaded] = useState(false);
-  const [isCharLoaded, setIsCharDataLoaded] = useState(false);
 
   useEffect(() => {
     async function wrapper() {
@@ -34,19 +35,7 @@ export default function Home() {
     wrapper();
   }, [dispatch, gameData]);
 
-  useEffect(() => {
-    async function wrapper() {
-      if (_.isEmpty(char)) {
-        await dispatch(getCharacterDataThunk(1)).then(() => {
-          setIsCharDataLoaded(true);
-        });
-      }
-    }
-    wrapper();
-  });
-
   if (!isGameDataLoaded) return <></>;
-  if (!isCharLoaded) return <></>;
 
   if (gameState === "intro") {
     return (
@@ -92,6 +81,22 @@ export default function Home() {
     return (
       <div id="game-component">
         <GameStateWin />
+      </div>
+    );
+  }
+
+  if (gameState === "allequipment") {
+    return (
+      <div id="game-component">
+        <GameStateAllEquipment />
+      </div>
+    );
+  }
+
+  if (gameState === "allmonsters") {
+    return (
+      <div id="game-component">
+        <GameStateAllMonsters />
       </div>
     );
   }

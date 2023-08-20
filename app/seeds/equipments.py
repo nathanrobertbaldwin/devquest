@@ -15,6 +15,7 @@ def seed_equipments():
             debugging_boost=equipment["debugging_boost"],
             max_energy_boost=equipment["max_energy_boost"],
             slot=equipment["slot"],
+            image_url=equipment["image_url"],
         )
 
         db.session.add(new_equipment)

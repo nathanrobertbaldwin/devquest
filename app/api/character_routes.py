@@ -85,24 +85,7 @@ def new_character():
     return {"message": "Error creating character."}, 500
 
 
-@character_routes.route("/inventory/<int:itemId>", methods=["PUT"])
-@login_required
-def toggle_item_equip(itemId):
-    """
-    Toggle the equip status for an item in a character's inventory.
-    """
-
-    item = Inventory.query.get(itemId)
-
-    if item:
-        item.equipped = not item.equipped
-        db.session.commit()
-        return {"message": "Item equip status toggled."}
-
-    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}, 500
-
-
-@character_routes.route("/api/inventory/<int:itemId>", methods=["POST"])
+@character_routes.route("/inventory/<int:itemId>", methods=["POST"])
 @login_required
 def add_inventory_item(itemId):
     """
@@ -127,6 +110,23 @@ def add_inventory_item(itemId):
     return {"message": "Error adding item to inventory. Game files corrupted."}, 500
 
 
+@character_routes.route("/inventory/<int:itemId>", methods=["PUT"])
+@login_required
+def toggle_item_equip(itemId):
+    """
+    Toggle the equip status for an item in a character's inventory.
+    """
+
+    item = Inventory.query.get(itemId)
+
+    if item:
+        item.equipped = not item.equipped
+        db.session.commit()
+        return {"message": "Item equip status toggled."}
+
+    return {"message": "Error: Item not found in Inventory. Inventory corrupted."}, 500
+
+
 @character_routes.route("/api/inventory/<int:itemId>/drop", methods=["DELETE"])
 @login_required
 def drop_inventory_item(itemId):
@@ -148,14 +148,20 @@ def drop_inventory_item(itemId):
 @login_required
 def update_energy(charId):
     """
-    Character has used an attack. Update character's current energy by charId.
+    Character has used an attack or rested. Update character's current energy by charId.
     """
     character = Character.query.get(charId)
 
     if character:
         energy_change = request.get_json()["change"]
-        print("FROM BACKEND", "CHARID", charId, "ENERGY CHANGE", energy_change)
-        character.curr_energy = character.curr_energy - energy_change
+
+        if energy_change > 0:
+            character.curr_energy = max(0, character.curr_energy - energy_change)
+        else:
+            character.curr_energy = min(
+                character.max_energy, character.curr_energy - energy_change
+            )
+
         db.session.commit()
 
         return {
@@ -174,12 +180,20 @@ def update_sanity(charId):
     Monster has dealt sanity damage to character. Update character sanity.
     """
 
+    print("Getting here?")
     character = Character.query.get(charId)
+    
 
     if character:
         sanity_change = request.get_json()["change"]
-        print("FROM BACKEND", "CHARID", charId, "SANITY CHANGE", sanity_change)
-        character.curr_sanity = character.curr_sanity - sanity_change
+
+        if sanity_change > 0:
+            character.curr_sanity = max(0, character.curr_sanity - sanity_change)
+        else:
+            character.curr_sanity = min(
+                character.max_sanity, character.curr_sanity - sanity_change
+            )
+
         db.session.commit()
 
         return {
@@ -187,6 +201,32 @@ def update_sanity(charId):
             "character_id": charId,
             "character.currEnergy": character.curr_sanity,
         }
+
+    return {"message": "Error: Character not found. Character file is corrupted."}, 500
+
+
+@character_routes.route("/<int:charId>", methods=["PUT"])
+@login_required
+def update_character_stats(charId):
+    """
+    Update character stats after character receives a boon.
+    """
+
+    character = Character.query.get(charId)
+
+    if character:
+        character_edit_data = request.get_json()
+
+        character.backend = character_edit_data["backend"]
+        character.frontend = character_edit_data["frontend"]
+        character.algorithms = character_edit_data["algorithms"]
+        character.debugging = character_edit_data["debugging"]
+        character.css = character_edit_data["css"]
+        character.max_energy = character_edit_data["max_energy"]
+
+        db.session.commit()
+
+        return character.stat_updates_to_dict()
 
     return {"message": "Error: Character not found. Character file is corrupted."}, 500
 

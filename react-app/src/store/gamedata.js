@@ -121,7 +121,6 @@ export const editMonsterTemplateByIdThunk = (id, data) => async (dispatch) => {
 };
 
 export const deleteMonsterTemplateByIdThunk = (id) => async (dispatch) => {
-  console.log("HITTING DELETE MONSTER THUNK?");
   const response = await fetch(`/api/monstertemplates/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

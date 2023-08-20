@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from app.models import Save, Character
+from app.models import db, Save, Character
 from .utilities import normalizer
 from flask_login import login_required, current_user
 
@@ -33,3 +33,23 @@ def saves_data():
         return return_package
 
     return {"message": "Unable to find save file. Game files corrupted."}, 500
+
+
+@user_data_routes.route("/saves", methods=["POST"])
+@login_required
+def create_user_save_file():
+    """
+    Create a users save file.
+    """
+
+    new_save_file = Save(
+        user_id=current_user.id,
+        slot_one=None,
+        slot_two=None,
+        slot_three=None,
+    )
+
+    db.session.add(new_save_file)
+    db.session.commit()
+
+    return {1: {}, 2: {}, 3: {}}

@@ -1,0 +1,19 @@
+.item-card-container{
+    display: flex;
+    flex-direction: column;
+    width: 325px;
+    height: 400px;
+    background-color: rgb(159, 159, 159);
+    border: 2px solid rgb(78, 78, 78);
+    border-radius: .5em;
+    padding: 1em;
+    justify-content: space-between;
+}
+
+.item-card-container > h6 {
+    color: rgb(0, 0, 0);
+}
+
+.item-card-container > span {
+    color: black
+}

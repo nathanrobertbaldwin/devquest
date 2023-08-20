@@ -1,17 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/session";
-import { resetSaveDataThunk } from "../../store/saves";
-import { resetCharacterDataThunk } from "../../store/character";
+import { useChangeGameState } from "../../context/GameState";
 import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import AccountFormsModal from "../AccountFormsModal";
 import CreateNewEquipmentModal from "../EquipmentCreationModal";
 import CreateNewMonsterModal from "../MonsterCreationModal";
 
+import "../../styles/ProfileButton.css";
+
+const _ = require("lodash");
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+
+  const char = useSelector((store) => store.character);
+
+  const toggleGameState = useChangeGameState();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -34,12 +39,15 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const handleLogout = (e) => {
+  async function handleLogout(e) {
     e.preventDefault();
+    toggleGameState("intro");
     dispatch(logout());
-    dispatch(resetSaveDataThunk());
-    dispatch(resetCharacterDataThunk());
-  };
+  }
+
+  async function handleGSChange(string) {
+    toggleGameState(string);
+  }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
@@ -57,6 +65,13 @@ function ProfileButton({ user }) {
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
+            {!_.isEmpty(char) && (
+              <li>
+                <button onClick={() => handleGSChange("combat")}>
+                  To Combat
+                </button>
+              </li>
+            )}
             <li>
               <OpenModalButton
                 buttonText="Create Equipment"
@@ -65,9 +80,9 @@ function ProfileButton({ user }) {
               />
             </li>
             <li>
-              <NavLink exact to="/equipment/all">
-                <button>Manage Equipment</button>
-              </NavLink>
+              <button onClick={() => handleGSChange("allequipment")}>
+                Manage Equipment
+              </button>
             </li>
             <li>
               <OpenModalButton
@@ -77,23 +92,17 @@ function ProfileButton({ user }) {
               />
             </li>
             <li>
-              <NavLink exact to="/monsters/all">
-                <button>Manage Monsters</button>
-              </NavLink>
+              <button onClick={() => handleGSChange("allmonsters")}>
+                Manage Monsters
+              </button>
             </li>
           </>
         ) : (
           <>
             <OpenModalButton
-              buttonText="Log In"
+              buttonText="Login | Signup"
               onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-
-            <OpenModalButton
-              buttonText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
+              modalComponent={<AccountFormsModal />}
             />
           </>
         )}

@@ -1,3 +1,3 @@
 export default function Error() {
-  return <>Error will go here</>;
+  return <>Routing Error! Click the logo to go back.</>;
 }
