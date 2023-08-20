@@ -41,8 +41,8 @@ export default function CharacterBonusModal({
     };
     await dispatch(editCharacterStatsThunk(char.id, editedCharacterData));
     setBoonApplied(true);
-    closeModal();
     setTimeout(toggleGameState, 1000, "combat");
+    closeModal();
   }
 
   return (

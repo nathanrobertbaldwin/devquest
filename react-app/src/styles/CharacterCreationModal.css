@@ -16,9 +16,10 @@
     height: 100%;
     padding: 2em;
     grid-template-columns: 2fr 3fr 3fr;
-    grid-template-rows: 50px 50px 50px 625px;
+    grid-template-rows: 50px 33px 33px 34px 625px;
     grid-template-areas: 
     "header header header"
+    "errors errors errors"
     "attributesheader chosenattacksheader availableattacksheader"
     "attributestext chosenattackstext availableattackstext"
     "attributes chosenattacks availableattacks";
@@ -148,7 +149,8 @@
     margin-right: 1em;
 }
 
-span{
-    font-size: 12px;
+#character-creation-errors{
+    grid-area: errors;
+    display: flex;
+    justify-content: center;
 }
-
