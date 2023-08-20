@@ -20,17 +20,6 @@ class Equipment(db.Model):
     slot = db.Column(db.Enum(*slots, name="slot_enum"), nullable=False)
     image_url = db.Column(db.String(255), nullable=True)
     
-#     {
-#     "name": "Test",
-#     "backend_boost": 10,
-#     "frontend_boost": 0,
-#     "algorithms_boost": 0,
-#     "css_boost": 0,
-#     "debugging_boost": 0,
-#     "max_energy_boost": 0,
-#     "slot": "gear",
-#     "image_url": "asdf.jpg",
-# }
 
     def to_dict(self):
         return {
