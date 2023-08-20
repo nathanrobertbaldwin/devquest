@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createNewCharacterThunk } from "../../store/character";
+import { useModal } from "../../context/Modal";
 
 import "../../styles/CharacterCreationModal.css";
 
-function CharacterCreationModal() {
+const _ = require("lodash");
+
+function CharacterCreationModal({ toggleGameState }) {
   const dispatch = useDispatch();
+  const { closeModal } = useModal();
+
   const sessionUser = useSelector((store) => store.session.user);
+  const characterAttacks = useSelector((store) => {
+    return store.gamedata.characterAttacks;
+  });
+
   const [name, setName] = useState("");
   const [backend, setBackend] = useState(5);
   const [frontend, setFrontend] = useState(5);
@@ -15,36 +24,72 @@ function CharacterCreationModal() {
   const [debugging, setDebugging] = useState(5);
   const [energy, setEnergy] = useState(50);
   const [points, setPoints] = useState(10);
-
   const [attacksRemaining, setAttacksRemaining] = useState(4);
   const [chosenAttacks, setChosenAttacks] = useState({});
 
-  const characterAttacks = useSelector((store) => {
-    return store.gamedata.characterAttacks;
-  });
+  const [validationErrors, setValidationErrors] = useState({});
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  useEffect(() => {
+    _checkForErrors();
+  }, [name, points, chosenAttacks]);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setHasSubmitted(true);
 
-    const attacks = [...Object.values(chosenAttacks)];
+    if (_.isEmpty(validationErrors)) {
+      const attacks = Object.values(chosenAttacks);
 
-    const newCharacterData = {
-      name,
-      user_id: sessionUser.id,
-      backend,
-      frontend,
-      algorithms,
-      css: CSS,
-      debugging,
-      energy,
-      attack_one: attacks[0].id,
-      attack_two: attacks[1].id,
-      attack_three: attacks[2].id,
-      attack_four: attacks[3].id,
-    };
+      const newCharacterData = {
+        name,
+        user_id: sessionUser.id,
+        backend,
+        frontend,
+        algorithms,
+        css: CSS,
+        debugging,
+        energy,
+        attack_one: attacks[0].id,
+        attack_two: attacks[1].id,
+        attack_three: attacks[2].id,
+        attack_four: attacks[3].id,
+      };
 
-    await dispatch(createNewCharacterThunk(newCharacterData));
+      await dispatch(createNewCharacterThunk(newCharacterData));
+      _reset();
+      toggleGameState("combat");
+      closeModal();
+    }
   }
+
+  function _checkForErrors() {
+    const errors = {};
+    if (!name || name.length < 4 || name.length > 10)
+      errors.name = "Enter name between 4 and 10 characters. ";
+    if (points > 0) errors.points = "You must spend all points. ";
+    if (Object.values(chosenAttacks).length != 4)
+      errors.chosenAttacks = "Choose 4 attacks. ";
+    setValidationErrors(errors);
+  }
+
+  function _reset() {
+    setName("");
+    setBackend(5);
+    setFrontend(5);
+    setAlgorithms(5);
+    setCSS(5);
+    setDebugging(5);
+    setEnergy(50);
+    setPoints(10);
+    setAttacksRemaining(4);
+    setChosenAttacks({});
+
+    setValidationErrors({});
+    setHasSubmitted(false);
+  }
+
+  console.log(points, chosenAttacks);
 
   return (
     <div id="new-character-component-container">
@@ -60,11 +105,20 @@ function CharacterCreationModal() {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          {
-            <button type="submit" onClick={(e) => handleSubmit(e)}>
-              Begin Adventure!
-            </button>
-          }
+          <button type="submit" onClick={(e) => handleSubmit(e)}>
+            Begin!
+          </button>
+        </div>
+        <div id="character-creation-errors">
+          {!_.isEmpty(validationErrors) &&
+            hasSubmitted &&
+            Object.values(validationErrors).map((error, idx) => {
+              return (
+                <span key={idx} className="error-message">
+                  Error: {error}
+                </span>
+              );
+            })}
         </div>
         <h5 id="attributes-header">Attributes</h5>
         <span id="points-remaining">{points} points remaining</span>

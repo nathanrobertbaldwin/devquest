@@ -66,8 +66,10 @@ function GameMenuModal({ toggleGameState }) {
               ) : (
                 <OpenModalButton
                   className="modal_button"
-                  buttonText="Character"
-                  modalComponent={<CharacterCreationModal />}
+                  buttonText="New Game"
+                  modalComponent={
+                    <CharacterCreationModal toggleGameState={toggleGameState} />
+                  }
                 />
               )}
             </div>
