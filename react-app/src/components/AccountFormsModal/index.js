@@ -75,7 +75,7 @@ export default function AccountFormsModal() {
             </ul>
             <label>Email</label>
             <input
-              type="text"
+              type="email"
               value={emailLIF}
               onChange={(e) => setEmailLIF(e.target.value)}
               required
@@ -109,7 +109,7 @@ export default function AccountFormsModal() {
             </ul>
             <label>Email</label>
             <input
-              type="text"
+              type="email"
               value={emailSUF}
               onChange={(e) => setEmailSUF(e.target.value)}
               required

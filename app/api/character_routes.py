@@ -56,8 +56,11 @@ def new_character():
         new_character.attacks.append(attack_three)
         new_character.attacks.append(attack_four)
 
+        db.session.commit()
+
         user_saves = Save.query.filter_by(user_id=data["user_id"]).first()
         inspector = inspect(Save)
+
         save_slot = None
 
         for column in inspector.columns:
@@ -65,8 +68,8 @@ def new_character():
             column_value = getattr(user_saves, column_name)
             slot_mapper = {"slot_one": 1, "slot_two": 2, "slot_three": 3}
 
-            if column_name in slot_mapper and column_value == charId:
-                setattr(user_saves, column_name, None)
+            if column_name in slot_mapper and column_value == None:
+                setattr(user_saves, column_name, new_character.id)
                 save_slot = slot_mapper[column_name]
                 break
 
@@ -182,7 +185,6 @@ def update_sanity(charId):
 
     print("Getting here?")
     character = Character.query.get(charId)
-    
 
     if character:
         sanity_change = request.get_json()["change"]

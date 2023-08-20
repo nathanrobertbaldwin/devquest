@@ -50,7 +50,8 @@ export default function GameStateCombat() {
   useEffect(() => {
     async function wrapper() {
       if (_.isEmpty(monster)) {
-        await dispatch(createNewMonsterThunk(makeMonster(stage))).then(() =>
+        const monster = makeMonster(stage);
+        await dispatch(createNewMonsterThunk(monster)).then(() =>
           setMonsterIsLoaded(true)
         );
       } else {
@@ -76,7 +77,6 @@ export default function GameStateCombat() {
   }
 
   function makeMonster(currStage) {
-
     const monsterTemplate =
       monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
 
