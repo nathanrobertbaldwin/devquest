@@ -10,12 +10,11 @@ class Monster(db.Model):
         __table_args__ = {"schema": SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
+    
     character_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("characters.id"))
     )
-    character_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("characters.id"))
-    )
+    
     name = db.Column(db.String(50), nullable=False)
     max_hp = db.Column(db.Integer, nullable=False)
     curr_hp = db.Column(db.Integer, nullable=False)

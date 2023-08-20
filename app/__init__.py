@@ -76,7 +76,7 @@ def inject_csrf_token(response):
 @app.route("/api/docs")
 def api_help():
     """
-    Returns all API routes and their doc strings
+    Returns all API routes and their doc strings.
     """
     acceptable_methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     route_list = {
