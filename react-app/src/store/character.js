@@ -171,6 +171,7 @@ export const editCharacterStatsThunk =
   };
 
 export const deleteCharacterDataThunk = (id) => async (dispatch) => {
+  console.log("FROM THUNK,", id);
   const response = await fetch(`/api/characters/${id}`, {
     method: "DELETE",
     headers: {

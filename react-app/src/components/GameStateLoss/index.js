@@ -11,11 +11,11 @@ export default function GameStateLoss() {
 
   useEffect(() => {
     setTimeout(setIsEvolved, 2000, true);
-  });
+  }, []);
 
   useEffect(() => {
     dispatch(deleteCharacterDataThunk(char.id));
-  });
+  }, []);
 
   return (
     <div id="game-state-loss-screen-container">

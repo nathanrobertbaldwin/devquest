@@ -89,8 +89,6 @@ function CharacterCreationModal({ toggleGameState }) {
     setHasSubmitted(false);
   }
 
-  console.log(points, chosenAttacks);
-
   return (
     <div id="new-character-component-container">
       <form id="new-character-form">
