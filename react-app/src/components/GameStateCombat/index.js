@@ -80,6 +80,12 @@ export default function GameStateCombat() {
     const monsterTemplate =
       monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
 
+    console.log(
+      "WEIRD BUG STILL HAPPENING:",
+      monstersArr,
+      "IDX,",
+      Math.floor(Math.random() * (monstersArr.length - 1))
+    );
     const hp = Math.ceil(monsterTemplate.hp * (currStage * 1.2));
 
     const monster = {
@@ -119,6 +125,7 @@ export default function GameStateCombat() {
           `You are exhausted! You must rest. Escape this bug and lose 10 sanity?`,
           ...combatLog,
         ]);
+        setTimeout(setTurnCounter, 1500, turnCounter + 1);
       }
     }
   }
