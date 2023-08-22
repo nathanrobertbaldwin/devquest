@@ -59,7 +59,7 @@ export default function GameStateCombat() {
       }
     }
     wrapper();
-  }, [dispatch]);
+  }, [dispatch, makeMonster, stage]);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
