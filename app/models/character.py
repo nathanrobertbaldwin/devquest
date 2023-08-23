@@ -10,6 +10,7 @@ class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    stage = db.Column(db.Integer, nullable=False)
     backend = db.Column(db.Integer, nullable=False)
     frontend = db.Column(db.Integer, nullable=False)
     algorithms = db.Column(db.Integer, nullable=False)
@@ -31,6 +32,7 @@ class Character(db.Model):
             "id": self.id,
             "name": self.name,
             "user_id": self.user_id,
+            "stage": self.stage,
             "backend": self.backend,
             "frontend": self.frontend,
             "algorithms": self.algorithms,

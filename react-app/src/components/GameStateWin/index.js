@@ -14,7 +14,6 @@ export default function GameStateWin() {
   }, []);
 
   useEffect(() => {
-    console.log("FROM USEEFFECT", char.id);
     dispatch(deleteCharacterDataThunk(char.id));
   }, []);
 

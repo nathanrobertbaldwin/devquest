@@ -9,6 +9,7 @@ def seed_characters():
         new_character = Character(
             name=character["name"],
             user_id=character["user_id"],
+            stage=character["stage"],
             backend=character["backend"],
             frontend=character["frontend"],
             algorithms=character["algorithms"],

@@ -9,6 +9,7 @@ import {
   deleteCharacterDataThunk,
   udpateCharacterSanityThunk,
   updateCharacterEnergyThunk,
+  udpateCharacterStageThunk,
 } from "../../store/character";
 
 import {
@@ -26,6 +27,7 @@ export default function GameStateCombat() {
   const toggleGameState = useChangeGameState();
 
   const char = useSelector((store) => store.character);
+  const stage = useSelector((store) => store.character.stage);
   const charAttacks = useSelector((store) => store.character.attacks);
   const inventory = useSelector((store) => store.character.inventory);
 
@@ -40,7 +42,6 @@ export default function GameStateCombat() {
     (store) => store.gamedata.monsterAttacksArr
   );
 
-  const [stage, setStage] = useState(1);
   const [turnCounter, setTurnCounter] = useState(1);
   const [clicked, setClicked] = useState(false);
   const [combatLog, setCombatLog] = useState([]);
@@ -59,7 +60,7 @@ export default function GameStateCombat() {
       }
     }
     wrapper();
-  }, [dispatch, makeMonster, stage]);
+  }, []);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
@@ -69,24 +70,26 @@ export default function GameStateCombat() {
 
   // Stage based logic.
 
-  async function handleStageChange(stage) {
-    setStage(stage + 1);
-    await dispatch(createNewMonsterThunk(makeMonster(stage)));
-    setCombatLog([`Oh no! Another problem appeared.`]);
+  async function handleStageChange(change) {
+    const newStage = await dispatch(udpateCharacterStageThunk(char.id, change));
+    await dispatch(createNewMonsterThunk(makeMonster(newStage)));
+    if (newStage === 10) {
+      setCombatLog([`It's the last hurdle, the Capstone Project!`]);
+    } else {
+      setCombatLog([`Oh no! Another problem appeared.`]);
+    }
     setTurnCounter(1);
   }
 
   function makeMonster(currStage) {
-    const monsterTemplate =
-      monstersArr[Math.floor(Math.random() * monstersArr.length) - 1];
+    let monsterTemplate;
 
-    console.log(
-      "WEIRD BUG STILL HAPPENING:",
-      monstersArr,
-      "IDX,",
-      Math.floor(Math.random() * (monstersArr.length - 1))
-    );
-    const hp = Math.ceil(monsterTemplate.hp * (currStage * 1.2));
+    if (currStage === 10) monsterTemplate = monstersArr[monstersArr.length - 1];
+    else
+      monsterTemplate =
+        monstersArr[Math.floor(Math.random() * (monstersArr.length - 1))];
+
+    const hp = Math.ceil(monsterTemplate.hp * (currStage * 0.1));
 
     const monster = {
       name: monsterTemplate["name"],
@@ -110,23 +113,30 @@ export default function GameStateCombat() {
         const charDamage = calculateCharDamage(attack);
         dispatch(updateMonsterHpThunk(char.id, charDamage));
         if (monster.currHp <= charDamage) {
-          setCombatLog([
-            `You deal ${charDamage} to ${monster.name}. You defeated the ${monster.name}!`,
-            ...combatLog,
-          ]);
-          setTimeout(setCombatLog, 2000, [
-            `Did you think you were finished? You might go insane, but bugs never cease!`,
-          ]);
-          setTimeout(handleStageChange, 4000, stage);
+          if (stage === 10) {
+            setCombatLog([
+              `You deal ${charDamage} to ${monster.name}. You've defeated the Capstone Project!`,
+            ]);
+            setTimeout(toggleGameState, 2000, "win");
+            return;
+          } else {
+            setCombatLog([
+              `You deal ${charDamage} to ${monster.name}. You defeated the ${monster.name}!`,
+              ...combatLog,
+            ]);
+            setTimeout(setCombatLog, 2000, [
+              `Did you think you were finished? You might go insane, but bugs never cease!`,
+            ]);
+            setTimeout(handleStageChange, 4000, 1);
+          }
         }
-        setTimeout(setTurnCounter, 1500, turnCounter + 1);
       } else {
         setCombatLog([
           `You are exhausted! You must rest. Escape this bug and lose 10 sanity?`,
           ...combatLog,
         ]);
-        setTimeout(setTurnCounter, 1500, turnCounter + 1);
       }
+      setTimeout(setTurnCounter, 1500, turnCounter + 1);
     }
   }
 
