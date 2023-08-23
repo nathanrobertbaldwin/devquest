@@ -72,30 +72,34 @@ function ProfileButton({ user }) {
                 </button>
               </li>
             )}
-            <li>
-              <OpenModalButton
-                buttonText="Create Equipment"
-                onItemClick={closeMenu}
-                modalComponent={<CreateNewEquipmentModal />}
-              />
-            </li>
-            <li>
-              <button onClick={() => handleGSChange("allequipment")}>
-                Manage Equipment
-              </button>
-            </li>
-            <li>
-              <OpenModalButton
-                buttonText="Create Monster"
-                onItemClick={closeMenu}
-                modalComponent={<CreateNewMonsterModal />}
-              />
-            </li>
-            <li>
-              <button onClick={() => handleGSChange("allmonsters")}>
-                Manage Monsters
-              </button>
-            </li>
+            {user.admin && (
+              <div>
+                <li>
+                  <OpenModalButton
+                    buttonText="Create Equipment"
+                    onItemClick={closeMenu}
+                    modalComponent={<CreateNewEquipmentModal />}
+                  />
+                </li>
+                <li>
+                  <button onClick={() => handleGSChange("allequipment")}>
+                    Manage Equipment
+                  </button>
+                </li>
+                <li>
+                  <OpenModalButton
+                    buttonText="Create Monster"
+                    onItemClick={closeMenu}
+                    modalComponent={<CreateNewMonsterModal />}
+                  />
+                </li>
+                <li>
+                  <button onClick={() => handleGSChange("allmonsters")}>
+                    Manage Monsters
+                  </button>
+                </li>
+              </div>
+            )}
           </>
         ) : (
           <>

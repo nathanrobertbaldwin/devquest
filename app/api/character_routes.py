@@ -207,6 +207,30 @@ def update_sanity(charId):
     return {"message": "Error: Character not found. Character file is corrupted."}, 500
 
 
+@character_routes.route("/<int:charId>/stage", methods=["PUT"])
+@login_required
+def update_stage(charId):
+    """
+    Update character stage.
+    """
+    character = Character.query.get(charId)
+
+    if character:
+        stage_change = request.get_json()["change"]
+
+        character.stage = character.stage + stage_change
+
+        db.session.commit()
+
+        return {
+            "message": "Updated character.stage",
+            "character_id": charId,
+            "stage": character.stage,
+        }
+
+    return {"message": "Error: Character not found. Character file is corrupted."}, 500
+
+
 @character_routes.route("/<int:charId>", methods=["PUT"])
 @login_required
 def update_character_stats(charId):

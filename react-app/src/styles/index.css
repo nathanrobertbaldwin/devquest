@@ -33,6 +33,11 @@ canvas {
     z-index: 1;
 }
 
+#navigation-admin-control-buttons{
+    display: flex;
+    gap: 4em;
+}
+
 #navigation-container{
     display: flex;
     align-items: center;
@@ -79,9 +84,14 @@ canvas {
 #footer-links{
     display: flex;
     align-items: center;
-    gap: 2em;
+    gap: 4em;
     margin: 0px;
     padding: 0px;
+}
+
+#footer-links a {
+    text-decoration: none;
+    color: white;
 }
 
 ul{

@@ -12,6 +12,7 @@ const ADD_INVENTORY_ITEM = "inventory_item/DROP";
 const DROP_INVENTORY_ITEM = "inventory_item/DROP";
 const UPDATE_CHARACTER_ENERGY = "character_energy/UPDATE";
 const UPDATE_CHARACTER_SANITY = "character_sanity/UPDATE";
+const UPDATE_CHARACTER_STAGE = "character_stage/UPDATE";
 const EDIT_CHARACTER_STATS = "character_stats/EDIT";
 const DELETE_CHARACTER = "character/DELETE";
 
@@ -49,6 +50,11 @@ const updateCharacterEnergy = (change) => ({
 
 const udpateCharacterSanity = (change) => ({
   type: UPDATE_CHARACTER_SANITY,
+  data: change,
+});
+
+const udpateCharacterStage = (change) => ({
+  type: UPDATE_CHARACTER_STAGE,
   data: change,
 });
 
@@ -156,6 +162,20 @@ export const udpateCharacterSanityThunk =
     }
   };
 
+export const udpateCharacterStageThunk =
+  (charId, change) => async (dispatch) => {
+    const response = await fetch(`/api/characters/${charId}/stage`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ change }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(udpateCharacterStage(data.stage));
+      return data.stage;
+    }
+  };
+
 export const editCharacterStatsThunk =
   (charId, updates) => async (dispatch) => {
     const response = await fetch(`/api/characters/${charId}`, {
@@ -246,6 +266,11 @@ export default function reducer(state = initialState, action) {
         );
       }
       return newState;
+    }
+    case UPDATE_CHARACTER_STAGE: {
+      const newState = { ...state };
+      newState.stage = action.data;
+      return { ...newState };
     }
     case EDIT_CHARACTER_STATS: {
       const newState = { ...state };
