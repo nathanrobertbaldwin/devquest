@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useChangeGameState } from "../../context/GameState";
+import { useChangeGameState, useGameState } from "../../context/GameState";
 
 import CharacterAttackCard from "./CharacterAttackCard";
 import MonsterCard from "./MonsterCard";
@@ -50,14 +50,10 @@ export default function GameStateCombat() {
 
   useEffect(() => {
     async function wrapper() {
-      if (_.isEmpty(monster)) {
-        const monster = makeMonster(stage);
-        await dispatch(createNewMonsterThunk(monster)).then(() =>
-          setMonsterIsLoaded(true)
-        );
-      } else {
-        setMonsterIsLoaded(true);
-      }
+      const monster = makeMonster(stage);
+      await dispatch(createNewMonsterThunk(monster)).then(() =>
+        setMonsterIsLoaded(true)
+      );
     }
     wrapper();
   }, []);
@@ -72,13 +68,17 @@ export default function GameStateCombat() {
 
   async function handleStageChange(change) {
     const newStage = await dispatch(udpateCharacterStageThunk(char.id, change));
-    await dispatch(createNewMonsterThunk(makeMonster(newStage)));
-    if (newStage === 10) {
-      setCombatLog([`It's the last hurdle, the Capstone Project!`]);
+    if (newStage % 2 === 0) {
+      toggleGameState("boon");
     } else {
-      setCombatLog([`Oh no! Another problem appeared.`]);
+      await dispatch(createNewMonsterThunk(makeMonster(newStage)));
+      if (newStage === 10) {
+        setCombatLog([`It's the last hurdle, the Capstone Project!`]);
+      } else {
+        setCombatLog([`Oh no! Another problem appeared.`]);
+      }
+      setTurnCounter(1);
     }
-    setTurnCounter(1);
   }
 
   function makeMonster(currStage) {
@@ -124,10 +124,12 @@ export default function GameStateCombat() {
               `You deal ${charDamage} to ${monster.name}. You defeated the ${monster.name}!`,
               ...combatLog,
             ]);
-            setTimeout(setCombatLog, 2000, [
-              `Did you think you were finished? You might go insane, but bugs never cease!`,
-            ]);
-            setTimeout(handleStageChange, 4000, 1);
+            if (stage % 2 === 0) {
+              setTimeout(setCombatLog, 2000, [
+                `Did you think you were finished? You might go insane, but bugs never cease!`,
+              ]);
+            }
+            setTimeout(handleStageChange, 3000, 1);
           }
         }
       } else {

@@ -33,6 +33,11 @@ canvas {
     z-index: 1;
 }
 
+#navigation-admin-control-buttons{
+    display: flex;
+    gap: 4em;
+}
+
 #navigation-container{
     display: flex;
     align-items: center;

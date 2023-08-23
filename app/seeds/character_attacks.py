@@ -6,6 +6,8 @@ from .data.characters_data import characters
 # Adds a demo user, you can add other users here if you want
 def seed_character_attacks():
     nandalf = Character.query.get(1)
+    orpheus = Character.query.get(2)
+
     build_a_database = Attack.query.get(1)
     build_a_component = Attack.query.get(4)
     console_log = Attack.query.get(5)
@@ -15,6 +17,11 @@ def seed_character_attacks():
     nandalf.attacks.append(build_a_component)
     nandalf.attacks.append(console_log)
     nandalf.attacks.append(write_code)
+
+    orpheus.attacks.append(build_a_database)
+    orpheus.attacks.append(build_a_component)
+    orpheus.attacks.append(console_log)
+    orpheus.attacks.append(write_code)
 
     db.session.commit()
 
