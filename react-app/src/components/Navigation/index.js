@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+
 import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import ProfileButton from "./ProfileButton";
@@ -16,13 +16,13 @@ function Navigation({ isLoaded }) {
   return (
     <div id="navigation-component-container">
       <div id="navigation-container">
-        <NavLink exact to="/">
-          <img
-            alt="logo"
-            src="https://devquest.s3.us-east-2.amazonaws.com/logos/logo-small.png"
-            style={{ height: "50px" }}
-          />
-        </NavLink>
+        <img
+          alt="logo"
+          onClick={() => toggleGameState("intro")}
+          src="https://devquest.s3.us-east-2.amazonaws.com/logos/logo-small.png"
+          style={{ height: "50px", cursor: "pointer"}}
+        />
+
         {sessionUser?.admin && (
           <div id="navigation-admin-control-buttons">
             <button onClick={() => toggleGameState("intro")}>Intro</button>

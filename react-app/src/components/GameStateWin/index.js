@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCharacterDataThunk } from "../../store/character";
+import { useChangeGameState } from "../../context/GameState";
 
 import "../../styles/GameStateWin.css";
 
 export default function GameStateWin() {
   const dispatch = useDispatch();
+  const toggleGameState = useChangeGameState();
   const char = useSelector((store) => store.character);
   const [isEvolved, setIsEvolved] = useState(false);
 
@@ -28,6 +30,7 @@ export default function GameStateWin() {
             src="https://devquest.s3.us-east-2.amazonaws.com/splash-screens/win.jpg"
           />
           <h4>You evolve into a Fullstack Engineer!</h4>
+          <button onClick={() => toggleGameState("intro")}>Return Home</button>
         </>
       )}
     </div>
