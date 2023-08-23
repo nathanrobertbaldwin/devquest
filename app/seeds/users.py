@@ -10,6 +10,7 @@ def seed_users():
     )
 
     db.session.add(demo)
+    db.session.add(orpheus)
     db.session.commit()
 
 

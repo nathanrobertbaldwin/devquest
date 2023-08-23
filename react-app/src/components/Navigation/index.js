@@ -23,12 +23,16 @@ function Navigation({ isLoaded }) {
             style={{ height: "50px" }}
           />
         </NavLink>
-        <button onClick={() => toggleGameState("intro")}>Intro</button>
-        <button onClick={() => toggleGameState("combat")}>Combat</button>
-        <button onClick={() => toggleGameState("rest")}>Rest</button>
-        <button onClick={() => toggleGameState("boon")}>Boon</button>
-        <button onClick={() => toggleGameState("win")}>Win</button>
-        <button onClick={() => toggleGameState("loss")}>Loss</button>
+        {sessionUser?.admin && (
+          <div id="navigation-admin-control-buttons">
+            <button onClick={() => toggleGameState("intro")}>Intro</button>
+            <button onClick={() => toggleGameState("combat")}>Combat</button>
+            <button onClick={() => toggleGameState("rest")}>Rest</button>
+            <button onClick={() => toggleGameState("boon")}>Boon</button>
+            <button onClick={() => toggleGameState("win")}>Win</button>
+            <button onClick={() => toggleGameState("loss")}>Loss</button>
+          </div>
+        )}
         <ul id="navigation-links-container">
           {!_.isEmpty(character) && sessionUser && (
             <OpenModalButton

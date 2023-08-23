@@ -39,7 +39,7 @@ export default function GameStateBoon() {
       }
     );
     setBoonApplied(true);
-    // setTimeout(toggleGameState, 1000, "combat");
+    setTimeout(toggleGameState, 1000, "combat");
   }
 
   const boonOptions = [
