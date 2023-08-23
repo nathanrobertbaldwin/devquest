@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 3c3869a6ba88
+Revision ID: 0d26d604606f
 Revises: 
-Create Date: 2023-08-20 16:13:10.011752
+Create Date: 2023-08-23 10:13:28.872416
 
 """
 from alembic import op
@@ -13,8 +13,9 @@ import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
+
 # revision identifiers, used by Alembic.
-revision = "3c3869a6ba88"
+revision = "0d26d604606f"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -92,6 +93,7 @@ def upgrade():
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("username", sa.String(length=40), nullable=False),
         sa.Column("email", sa.String(length=255), nullable=False),
+        sa.Column("admin", sa.Boolean(), nullable=False),
         sa.Column("hashed_password", sa.String(length=255), nullable=False),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("email"),
@@ -102,6 +104,7 @@ def upgrade():
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(length=40), nullable=False),
         sa.Column("user_id", sa.Integer(), nullable=True),
+        sa.Column("stage", sa.Integer(), nullable=False),
         sa.Column("backend", sa.Integer(), nullable=False),
         sa.Column("frontend", sa.Integer(), nullable=False),
         sa.Column("algorithms", sa.Integer(), nullable=False),

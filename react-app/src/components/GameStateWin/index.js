@@ -11,11 +11,11 @@ export default function GameStateWin() {
 
   useEffect(() => {
     setTimeout(setIsEvolved, 2000, true);
-  });
+  }, []);
 
   useEffect(() => {
     dispatch(deleteCharacterDataThunk(char.id));
-  });
+  }, []);
 
   return (
     <div id="game-state-win-screen-container">

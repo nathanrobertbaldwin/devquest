@@ -68,7 +68,7 @@ function CharacterCreationModal({ toggleGameState }) {
     if (!name || name.length < 4 || name.length > 10)
       errors.name = "Enter name between 4 and 10 characters. ";
     if (points > 0) errors.points = "You must spend all points. ";
-    if (Object.values(chosenAttacks).length != 4)
+    if (Object.values(chosenAttacks).length !== 4)
       errors.chosenAttacks = "Choose 4 attacks. ";
     setValidationErrors(errors);
   }
@@ -88,8 +88,6 @@ function CharacterCreationModal({ toggleGameState }) {
     setValidationErrors({});
     setHasSubmitted(false);
   }
-
-  console.log(points, chosenAttacks);
 
   return (
     <div id="new-character-component-container">

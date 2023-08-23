@@ -6,8 +6,6 @@ import { useChangeGameState } from "../../context/GameState";
 
 import "../../styles/GameStateIntro.css";
 
-const _ = require("lodash");
-
 export default function GameStateIntro() {
   const sessionUser = useSelector((store) => store.session.user);
   const toggleGameState = useChangeGameState();

@@ -22,7 +22,7 @@ export default function AllMonsters() {
       }
     }
     wrapper();
-  }, [dispatch, AllMonsters]);
+  }, [dispatch, monstersData]);
 
   if (!isLoaded) return <></>;
 
