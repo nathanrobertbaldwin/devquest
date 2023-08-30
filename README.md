@@ -4,6 +4,8 @@ DevQuest is capstone project submission for the App Academy bootcamp program. In
 
 LINKS
 
+Getting Started: https://github.com/nathanrobertbaldwin/devquest/wiki/Getting-Started
+
 Database / Routes: https://github.com/nathanrobertbaldwin/devquest/wiki/Database-and-Routes
 
 Features List: https://github.com/nathanrobertbaldwin/devquest/wiki/MVP-Feature-List
