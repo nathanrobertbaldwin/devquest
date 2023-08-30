@@ -1,6 +1,6 @@
 WELCOME TO DEVQUEST
 
-DevQuest is capstone project submission for the App Academy bootcamp program. In DevQuest, you create a fledgeling software engineer character. Over the course of the game, you will fight turn-based battles against monsters (programming bugs), collect equipment (programming necessities like Coffee), and gain permanent bonuses to your character like stat boosts to you "Debugging" ability. Your goal is to survive all encounters, including the final "Capstone Project" monster In order to graduate and become a Fullstack Engineer!
+DevQuest is a web app built using Flask, React, and Redux as a game engine. In DevQuest, you create a fledgeling software engineer character. Over the course of the game, you will fight turn-based battles against monsters (programming bugs), collect equipment (programming necessities like coffee), and gain permanent bonuses to your character like stat boosts to you "debugging" ability. Your goal is to survive all ten encounters, including the final "Capstone Project" monster, in order to graduate and become a Fullstack Engineer!
 
 LINKS
 
