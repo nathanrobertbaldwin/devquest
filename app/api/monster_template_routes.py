@@ -31,7 +31,7 @@ def all_monsters():
 @login_required
 def create_monster_template():
     """
-    Post a monster the monster template table.
+    Create a new monster template.
     """
     form = MonsterTemplateForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
