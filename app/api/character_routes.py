@@ -151,7 +151,7 @@ def drop_inventory_item(itemId):
 @login_required
 def update_energy(charId):
     """
-    Character has used an attack or rested. Update character's current energy by charId.
+    Update character's current energy by charId.
     """
     character = Character.query.get(charId)
 
@@ -180,7 +180,7 @@ def update_energy(charId):
 @login_required
 def update_sanity(charId):
     """
-    Monster has dealt sanity damage to character. Update character sanity.
+    Update character sanity by charId.
     """
 
     print("Getting here?")
