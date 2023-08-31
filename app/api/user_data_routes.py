@@ -29,6 +29,7 @@ def saves_data():
             char_three = Character.query.get(user_save_file.slot_three).save_data()
 
         return_package = {1: char_one, 2: char_two, 3: char_three}
+        print("USER SAVE DATA", return_package)
 
         return return_package
 

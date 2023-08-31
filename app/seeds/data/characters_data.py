@@ -1,8 +1,8 @@
 characters = [
     {
         "name": "Nandalf",
-        "user_id": 1,
-        "stage": 7,
+        "user_id": 2,
+        "stage": 8,
         "backend": 6,
         "frontend": 1,
         "algorithms": 7,

@@ -6,7 +6,12 @@ from .data.saves_data import saved_games
 # Adds a demo user, you can add other users here if you want
 def seed_saves():
     for game in saved_games:
-        new_save = Save(user_id=game["user_id"], slot_one=game["slot_one"])
+        new_save = Save(
+            user_id=game["user_id"],
+            slot_one=game["slot_one"],
+            slot_two=game["slot_two"],
+            slot_three=game["slot_three"],
+        )
 
         db.session.add(new_save)
 
