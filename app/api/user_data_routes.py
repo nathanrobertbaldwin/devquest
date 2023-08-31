@@ -10,7 +10,7 @@ user_data_routes = Blueprint("user_data_routes", __name__)
 @login_required
 def saves_data():
     """
-    Query to load all the saves for a user.
+    Get all saves for a user.
     """
     user_save_file = Save.query.filter(Save.user_id == current_user.id).first()
 
