@@ -20,7 +20,7 @@ export default function CreateNewEquipmentModal() {
   const [maxEnergyBoost, setMaxEnergyBoost] = useState(0);
   const [slot, setSlot] = useState("gear");
   const [imageUrl, setImageUrl] = useState("");
-  const [points, setPoints] = useState(10);
+  const [points, setPoints] = useState(15);
 
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);

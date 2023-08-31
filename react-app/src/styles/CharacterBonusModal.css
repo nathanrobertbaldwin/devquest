@@ -1,11 +1,13 @@
 #edit-character-attributes-container{
     display: flex;
     flex-direction: column;
-    width: 200px;
-    background-color: rgb(60, 60, 60);
-    padding: .5em;
-    border-radius: .5em;
-    gap: 1em;
+    width: 250px;
+    background-image: url("https://devquest.s3.us-east-2.amazonaws.com/menus/character-update.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 4em;
+    border-radius: 1em;
+    gap: .75em;
     text-align: center;
 }
 
