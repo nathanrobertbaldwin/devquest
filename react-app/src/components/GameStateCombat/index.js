@@ -56,7 +56,7 @@ export default function GameStateCombat() {
       );
     }
     wrapper();
-  }, []);
+  }, [stage]);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
