@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleInventoryItemEquipThunk } from "../../store/character";
+import { useModal } from "../../context/Modal";
 
 import "../../styles/CharacterModalv2.css";
 
@@ -8,9 +9,14 @@ const _ = require("lodash");
 
 function CharacterModal() {
   const dispatch = useDispatch();
+  const { closeModal } = useModal();
   const char = useSelector((store) => store.character);
   const inventory = useSelector((store) => store.character.inventory);
   const attacks = useSelector((store) => store.character.attacks);
+
+  function handlePanelClose() {
+    closeModal();
+  }
 
   const [equippedGear, setEquippedGear] = useState(() =>
     Object.values(inventory).find(
@@ -68,6 +74,9 @@ function CharacterModal() {
 
   return (
     <div id="char-inventory-modal-container">
+      <div id="char-panel-close">
+        <button onClick={() => handlePanelClose()}>X</button>
+      </div>
       <div id="char-info-container">
         <h3 id="char-info-name">{char.name}</h3>
         <div id="char-info-attributes-container">

@@ -63,6 +63,10 @@
     width: 130px;
 }
 
+.deactivated{
+    background-color: rgb(107, 107, 107);
+}
+
 .option-item-container:hover{
     cursor: pointer;
 }

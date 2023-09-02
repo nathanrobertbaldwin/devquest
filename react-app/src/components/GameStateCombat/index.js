@@ -281,6 +281,9 @@ export default function GameStateCombat() {
             );
           })}
         </div>
+        <div id="gsc-character-stage-container">
+          <span id="gsc-csc-stage">Stage: {stage}</span>
+        </div>
         <div id="gsc-character-info-container">
           <div id="gsc-character-resources-container">
             <span className="gsc-cr-span">

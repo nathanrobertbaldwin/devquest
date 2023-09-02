@@ -41,22 +41,19 @@ export default function GameStateRest() {
     {
       name: "Take A Break",
       energyChange: 20,
-      sanityChange: 10,
-      totalTurnCost: 4,
+      sanityChange: -5,
     },
     {
       name: "Drink Coffee",
-      energyChange: 20,
-      sanityChange: -5,
-      totalTurnCost: 1,
+      energyChange: 10,
+      sanityChange: 0,
     },
-    { name: "Nap", energyChange: 30, sanityChange: -30, totalTurnCost: 16 },
-    { name: "Eat Food", energyChange: 20, sanityChange: 10, totalTurnCost: 8 },
+    { name: "Nap", energyChange: 30, sanityChange: -10 },
+    { name: "Go Running", energyChange: -20, sanityChange: 20 },
     {
       name: "Sleep",
       energyChange: 80,
-      sanityChange: -20,
-      totalTurnCost: 20,
+      sanityChange: -30,
     },
   ];
 
@@ -86,20 +83,36 @@ export default function GameStateRest() {
           <h5>Each choice has a different effect.</h5>
           <div id="rest-options-container">
             {restOptions.map((option, idx) => {
-              return (
-                <div
-                  key={idx}
-                  onClick={() => handleRestOption(char.id, option)}
-                  className="option-item-container"
-                >
-                  <h6>{option.name}</h6>
-                  <ul>
-                    <li>Energy Change: {option.energyChange}</li>
-                    <li>Sanity Change: {option.sanityChange}</li>
-                    <li>TotalTurnCost: {option.totalTurnCost}</li>
-                  </ul>
-                </div>
-              );
+              if (Math.abs(option.sanityChange) < currSanity) {
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => handleRestOption(char.id, option)}
+                    className="option-item-container"
+                  >
+                    <h6>{option.name}</h6>
+                    <ul>
+                      <li>Energy Change: {option.energyChange}</li>
+                      <li>Sanity Change: {option.sanityChange}</li>
+                      <li>TotalTurnCost: {option.totalTurnCost}</li>
+                    </ul>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={idx}
+                    className="option-item-container deactivated"
+                  >
+                    <h6>{option.name}</h6>
+                    <ul>
+                      <li>Energy Change: {option.energyChange}</li>
+                      <li>Sanity Change: {option.sanityChange}</li>
+                      <li>TotalTurnCost: {option.totalTurnCost}</li>
+                    </ul>
+                  </div>
+                );
+              }
             })}
           </div>
         </div>

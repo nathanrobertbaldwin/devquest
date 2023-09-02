@@ -37,7 +37,7 @@ function Navigation({ isLoaded }) {
           {!_.isEmpty(character) && sessionUser && (
             <OpenModalButton
               className="modal_button"
-              buttonText="Character"
+              buttonText="Inventory"
               modalComponent={<CharacterModal />}
             />
           )}

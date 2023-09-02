@@ -8,12 +8,17 @@
     grid-template-columns: 90px 400px 65px 50px 290px;
     grid-template-rows: 75px 350px 80px 200px 145px;
     grid-template-areas: 
-    ". . . . . ."
+    ". . . . . close"
     ". charinfo . . . ."
     ". . . . . ."
     ". inventory inventory . . ."
     ". inventory inventory . equipped ."
     ". . . . . .";
+}
+
+#char-panel-close{
+    grid-area: close;
+    text-align: right;
 }
 
 #char-info-container{
