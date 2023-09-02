@@ -27,6 +27,8 @@ class Character(db.Model):
 
     inventory = db.relationship("Inventory", cascade="all, delete-orphan")
 
+    monster = db.relationship("Monster", cascade="all, delete-orphan")
+
     def to_dict(self):
         return {
             "id": self.id,
