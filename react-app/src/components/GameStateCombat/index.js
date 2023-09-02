@@ -56,7 +56,7 @@ export default function GameStateCombat() {
       );
     }
     wrapper();
-  }, []);
+  }, [stage]);
 
   useEffect(() => {
     if (turnCounter % 2 === 0) {
@@ -280,6 +280,9 @@ export default function GameStateCombat() {
               </div>
             );
           })}
+        </div>
+        <div id="gsc-character-stage-container">
+          <span id="gsc-csc-stage">Stage: {stage}</span>
         </div>
         <div id="gsc-character-info-container">
           <div id="gsc-character-resources-container">
