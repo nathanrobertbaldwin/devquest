@@ -64,6 +64,14 @@ export default function GameStateCombat() {
     }
   }, [turnCounter]);
 
+  useEffect(() => {
+    if (stage === 1) {
+      setCombatLog([
+        `Welcome! Your journey to become a Full-Stack Engineer begins here! Use your chosen attacks to defeat bugs.`,
+      ]);
+    }
+  });
+
   // Stage based logic.
 
   async function handleStageChange(change) {
@@ -89,7 +97,7 @@ export default function GameStateCombat() {
       monsterTemplate =
         monstersArr[Math.floor(Math.random() * (monstersArr.length - 1))];
 
-    const hp = Math.ceil(monsterTemplate.hp * (currStage * 0.1));
+    const hp = Math.ceil(monsterTemplate.hp * (stage * 0.5));
 
     const monster = {
       name: monsterTemplate["name"],
@@ -282,7 +290,9 @@ export default function GameStateCombat() {
           })}
         </div>
         <div id="gsc-character-stage-container">
-          <span id="gsc-csc-stage">{char.name}, Stage: {stage}</span>
+          <span id="gsc-csc-stage">
+            {char.name}, Stage: {stage}
+          </span>
         </div>
         <div id="gsc-character-info-container">
           <div id="gsc-character-resources-container">

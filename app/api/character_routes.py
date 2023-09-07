@@ -31,8 +31,8 @@ def new_character():
     if form.validate_on_submit():
         data = form.data
         new_character = Character(
-            name=data["name"],
             user_id=data["user_id"],
+            name=data["name"],
             backend=data["backend"],
             frontend=data["frontend"],
             algorithms=data["algorithms"],
@@ -42,6 +42,7 @@ def new_character():
             max_energy=data["energy"],
             curr_sanity=100,
             max_sanity=100,
+            stage=1,
         )
 
         db.session.add(new_character)
