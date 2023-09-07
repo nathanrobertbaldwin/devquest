@@ -282,7 +282,7 @@ export default function GameStateCombat() {
           })}
         </div>
         <div id="gsc-character-stage-container">
-          <span id="gsc-csc-stage">Stage: {stage}</span>
+          <span id="gsc-csc-stage">{char.name}, Stage: {stage}</span>
         </div>
         <div id="gsc-character-info-container">
           <div id="gsc-character-resources-container">
