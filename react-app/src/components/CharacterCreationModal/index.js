@@ -138,7 +138,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (backend > 0) {
+                  if (backend > 1) {
                     setBackend(backend - 1);
                     setPoints(points + 1);
                   }
@@ -165,7 +165,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (frontend > 0) {
+                  if (frontend > 1) {
                     setFrontend(frontend - 1);
                     setPoints(points + 1);
                   }
@@ -181,7 +181,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (points > 0) {
+                  if (points > 1) {
                     setAlgorithms(algorithms + 1);
                     setPoints(points - 1);
                   }
@@ -192,7 +192,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (algorithms > 0) {
+                  if (algorithms > 1) {
                     setAlgorithms(algorithms - 1);
                     setPoints(points + 1);
                   }
@@ -208,7 +208,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (points > 0) {
+                  if (points > 1) {
                     setCSS(CSS + 1);
                     setPoints(points - 1);
                   }
@@ -219,7 +219,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (CSS > 0) {
+                  if (CSS > 1) {
                     setCSS(CSS - 1);
                     setPoints(points + 1);
                   }
@@ -246,7 +246,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (debugging > 0) {
+                  if (debugging > 1) {
                     setDebugging(debugging - 1);
                     setPoints(points + 1);
                   }
@@ -273,7 +273,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (energy > 0) {
+                  if (energy > 10) {
                     setEnergy(energy - 10);
                     setPoints(points + 1);
                   }
@@ -306,8 +306,8 @@ function CharacterCreationModal({ toggleGameState }) {
                 >
                   <span>Name: {value["name"]}</span>
                   <span>Power: {value["power"]}</span>
-                  <span>Energy Cost: {value["energy_cost"]}</span>
-                  <span>Primary Stat: {value["primary_stat"]}</span>
+                  <span>Energy Cost: {value["energyCost"]}</span>
+                  <span>Primary Stat: {value["primaryStat"]}</span>
                 </div>
               );
             })}
@@ -333,8 +333,8 @@ function CharacterCreationModal({ toggleGameState }) {
                   >
                     <span>Name: {value["name"]}</span>
                     <span>Power: {value["power"]}</span>
-                    <span>Energy Cost: {value["energy_cost"]}</span>
-                    <span>Primary Stat: {value["primary_stat"]}</span>
+                    <span>Energy Cost: {value["energyCost"]}</span>
+                    <span>Primary Stat: {value["primaryStat"]}</span>
                   </div>
                 );
               }
