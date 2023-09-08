@@ -90,6 +90,7 @@ export default function AccountFormsModal() {
             <div id="login-form-buttons-container">
               <button type="submit">Log In</button>
               <button
+                type="button"
                 onClick={() => {
                   demoLogin();
                 }}
