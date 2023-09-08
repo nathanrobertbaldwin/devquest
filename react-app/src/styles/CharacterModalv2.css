@@ -1,4 +1,4 @@
-#char-inventory-modal-container{
+#char-panel-modal-container{
     background-image: url("https://devquest.s3.us-east-2.amazonaws.com/menus/inventory-panel.jpg");
     width: 958px;
     height: 922px;
@@ -16,12 +16,12 @@
     ". . . . . .";
 }
 
-#char-panel-close{
+#panel-close{
     grid-area: close;
     text-align: right;
 }
 
-#char-info-container{
+#panel-info-container{
     grid-area: charinfo;
     display: grid;
     grid-template-columns: 160px 240px;
@@ -31,11 +31,11 @@
         "attributes attacks";
 }
 
-#char-info-name{
+#info-name{
     grid-area: name;
 }
 
-#char-info-attributes-container{
+#info-attributes-container{
     grid-area: attributes;
     display: flex;
     flex-direction: column;
@@ -44,12 +44,12 @@
     margin-right: .5em;
 }
 
-.char-attribute{
+.info-attribute{
     display: flex;
     justify-content: space-between;
 }
 
-#char-info-attacks-container{
+#info-attacks-container{
 grid-area: attacks;
 display: flex;
 flex-direction: column;
@@ -58,7 +58,7 @@ margin-left: 2em;
 gap: .5em;
 } 
 
-#char-info-attack-card{
+.attack-card{
     display: flex;
     flex-direction: column;
     border: 1px solid rgb(0, 0, 0);
@@ -68,37 +68,24 @@ gap: .5em;
     width: 85%;
 }
 
-#char-info-attack-card > span {
+.attack-card > span {
     font-size: 12px;
     color: black;
 }
 
-#char-inventory-container{
+#inventory-container{
     grid-area: inventory;
     display: flex;
     flex-direction: column;
     gap: .25em;
 }
 
-.char-inventory-section{
+.inventory-section{
     display: flex;
     gap: 1em;
     height: 25%;
 }
 
-.char-inventory-equipment-card{
-    width: 81px;
-    height: 100%;
-    cursor: pointer;
-}
-
-.char-inventory-item-image{
-    object-fit: cover;
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    border: 1px solid rgb(248, 137, 41);;
-}
 
 #char-equipped-items-container{
     grid-area:equipped;
@@ -107,9 +94,14 @@ gap: .5em;
     align-content: center;
 }
 
-.char-inventory-unequipped-equipment-card{
-    cursor: pointer;
+.item-image{
+    object-fit: cover;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    border: 1px solid rgb(248, 137, 41);;
 }
+
 
 #char-inventory-equipped-items-container{
     grid-area: equipped;
@@ -117,7 +109,35 @@ gap: .5em;
     gap: 1em;
 }
 
-.char-inventory-equipped-gear-header{
+.item-card{
+    cursor: pointer;
+    position: relative;
+}
+
+.item-stats{
+    flex-direction: column;
+    position: absolute;
+    top: 0px;
+    left: 90px;
+    width: 140px;
+    z-index: 1;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 1em;
+    background-color: rgb(248, 137, 41);
+    padding: .5em;
+    gap: .25em;
+}
+
+.item-stats > span {
+    font-size: 12px;
+    color: black;
+}
+
+.hidden{
+    display: none;
+}
+
+.equipped-gear-header{
     width: fit-content;
 }
 
