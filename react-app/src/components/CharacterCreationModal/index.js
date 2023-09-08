@@ -34,6 +34,8 @@ function CharacterCreationModal({ toggleGameState }) {
     _checkForErrors();
   }, [name, points, chosenAttacks]);
 
+  console.log(attacksRemaining);
+
   async function handleSubmit(e) {
     e.preventDefault();
     setHasSubmitted(true);
