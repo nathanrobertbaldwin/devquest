@@ -34,8 +34,6 @@ function CharacterCreationModal({ toggleGameState }) {
     _checkForErrors();
   }, [name, points, chosenAttacks]);
 
-  console.log(attacksRemaining);
-
   async function handleSubmit(e) {
     e.preventDefault();
     setHasSubmitted(true);
@@ -70,8 +68,7 @@ function CharacterCreationModal({ toggleGameState }) {
     if (!name || name.length < 4 || name.length > 10)
       errors.name = "Enter name between 4 and 10 characters. ";
     if (points > 0) errors.points = "You must spend all points. ";
-    if (Object.values(chosenAttacks).length !== 4)
-      errors.chosenAttacks = "Choose 4 attacks. ";
+    if (attacksRemaining > 0) errors.chosenAttacks = "Choose 4 attacks. ";
     setValidationErrors(errors);
   }
 
