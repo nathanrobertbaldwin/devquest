@@ -19,12 +19,12 @@
 } 
 
 #saved-game-container{
-    display: flex;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 60px 115px 100px 130px;
     align-items: center;
     justify-content: left;
-    gap: 1.5em;
-    width: 100%;
-    padding-left: 2em;
+    gap: .75em;
 }
 
 #save-name-span-container{
