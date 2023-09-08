@@ -14,7 +14,7 @@ canvas {
     margin: 0px !important;
     padding: 0px !important;
     display: grid;
-    color: lightgray;
+    color: rgb(231, 231, 231);
     grid-template-rows: 62px 1fr 62px;
     grid-template-areas:
     "header"
