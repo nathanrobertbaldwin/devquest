@@ -67,10 +67,10 @@ export default function GameStateCombat() {
   useEffect(() => {
     if (stage === 1) {
       setCombatLog([
-        `Welcome! Your journey to become a Full-Stack Engineer begins here! Use your chosen attacks to defeat bugs.`,
+        `Welcome! Your journey to become a Full-Stack Engineer begins here! Use attacks to defeat bugs. Manage your items in your inventory.`,
       ]);
     }
-  });
+  }, []);
 
   // Stage based logic.
 
