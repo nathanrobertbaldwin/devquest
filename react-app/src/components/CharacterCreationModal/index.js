@@ -24,11 +24,12 @@ function CharacterCreationModal({ toggleGameState }) {
   const [debugging, setDebugging] = useState(5);
   const [energy, setEnergy] = useState(50);
   const [points, setPoints] = useState(10);
-  const [attacksRemaining, setAttacksRemaining] = useState(4);
   const [chosenAttacks, setChosenAttacks] = useState({});
 
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  let chosenAttacksLength = Object.values(chosenAttacks).length;
 
   useEffect(() => {
     _checkForErrors();
@@ -65,10 +66,12 @@ function CharacterCreationModal({ toggleGameState }) {
 
   function _checkForErrors() {
     const errors = {};
-    if (!name || name.length < 4 || name.length > 10)
-      errors.name = "Enter name between 4 and 10 characters. ";
-    if (points > 0) errors.points = "You must spend all points. ";
-    if (attacksRemaining > 0) errors.chosenAttacks = "Choose 4 attacks. ";
+    if (name.length < 4 || name.length > 10)
+      errors.name = "Error: Enter name between 4 and 10 characters. ";
+    if (points > 0) errors.points = "Error: You must spend all points. ";
+    if (chosenAttacksLength !== 4) {
+      errors.chosenAttacks = "Error: Choose 4 attacks. ";
+    }
     setValidationErrors(errors);
   }
 
@@ -81,16 +84,11 @@ function CharacterCreationModal({ toggleGameState }) {
     setDebugging(5);
     setEnergy(50);
     setPoints(10);
-    setAttacksRemaining(4);
     setChosenAttacks({});
 
     setValidationErrors({});
     setHasSubmitted(false);
   }
-
-  console.log("Attacks Remaining:", attacksRemaining);
-  console.log("Chosen Attacks:", chosenAttacks);
-  console.log("Points", points);
 
   return (
     <div id="new-character-component-container">
@@ -113,9 +111,9 @@ function CharacterCreationModal({ toggleGameState }) {
             hasSubmitted &&
             Object.values(validationErrors).map((error, idx) => {
               return (
-                <span key={idx} className="error-message">
-                  Error: {error}
-                </span>
+                <pre key={idx} className="error-message">
+                  {error}
+                </pre>
               );
             })}
         </div>
@@ -287,7 +285,7 @@ function CharacterCreationModal({ toggleGameState }) {
         </div>
         <h5 id="attacks-header">Chosen Attacks</h5>
         <span id="choose-more-attacks-text">
-          Choose {attacksRemaining} more attacks
+          Choose {4 - chosenAttacksLength} more attacks
         </span>
         <div id="chosen-attacks-container">
           <div id="chosen-attacks">
@@ -297,12 +295,8 @@ function CharacterCreationModal({ toggleGameState }) {
                   className="cc-attack-card"
                   key={key}
                   onClick={() => {
-                    if (attacksRemaining < 4) {
-                      let newChosenAttacks = chosenAttacks;
-                      delete newChosenAttacks[key];
-                      setChosenAttacks(newChosenAttacks);
-                      setAttacksRemaining(attacksRemaining + 1);
-                    }
+                    delete chosenAttacks[key];
+                    setChosenAttacks({ ...chosenAttacks });
                   }}
                 >
                   <span>Name: {value["name"]}</span>
@@ -324,11 +318,11 @@ function CharacterCreationModal({ toggleGameState }) {
                     key={key}
                     className="cc-attack-card"
                     onClick={() => {
-                      if (attacksRemaining > 0 && !chosenAttacks[key]) {
-                        let newChosenAttacks = chosenAttacks;
-                        newChosenAttacks[key] = value;
-                        setChosenAttacks(newChosenAttacks);
-                        setAttacksRemaining(attacksRemaining - 1);
+                      if (chosenAttacksLength < 4) {
+                        setChosenAttacks({
+                          ...chosenAttacks,
+                          [key]: characterAttacks[key],
+                        });
                       }
                     }}
                   >
