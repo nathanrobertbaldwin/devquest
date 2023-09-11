@@ -180,7 +180,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (points > 1) {
+                  if (points > 0) {
                     setAlgorithms(algorithms + 1);
                     setPoints(points - 1);
                   }
@@ -207,7 +207,7 @@ function CharacterCreationModal({ toggleGameState }) {
               <button
                 type="button"
                 onClick={() => {
-                  if (points > 1) {
+                  if (points > 0) {
                     setCSS(CSS + 1);
                     setPoints(points - 1);
                   }
