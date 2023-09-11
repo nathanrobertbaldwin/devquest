@@ -30,7 +30,6 @@ export default function GameStateCombat() {
   const stage = useSelector((store) => store.character.stage);
   const charAttacks = useSelector((store) => store.character.attacks);
   const inventory = useSelector((store) => store.character.inventory);
-
   const currEnergy = useSelector((store) => store.character.currEnergy);
   const currSanity = useSelector((store) => store.character.currSanity);
 
