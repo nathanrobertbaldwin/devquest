@@ -94,7 +94,7 @@ function CharacterCreationModal({ toggleGameState }) {
 
   return (
     <div id="new-character-component-container">
-      <form id="new-character-form">
+      <form id="new-character-form" onSubmit={(e) => handleSubmit(e)}>
         <div id="header">
           <h4>Name Your Character</h4>
           <div className="name-field-container">
@@ -106,9 +106,7 @@ function CharacterCreationModal({ toggleGameState }) {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <button type="submit" onClick={(e) => handleSubmit(e)}>
-            Begin!
-          </button>
+          <button type="submit">Begin!</button>
         </div>
         <div id="character-creation-errors">
           {!_.isEmpty(validationErrors) &&
